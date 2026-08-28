@@ -57,7 +57,7 @@ export function ContactForm() {
           담당 플래너가 영업일 기준 1일 내에 연락드립니다.
         </p>
         {state.message?.includes("개발 모드") && (
-          <p className="label mt-4 !text-ink-500">{state.message}</p>
+          <p className="label mt-4 text-ink-500!">{state.message}</p>
         )}
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link href="/">

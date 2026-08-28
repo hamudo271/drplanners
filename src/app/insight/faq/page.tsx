@@ -21,9 +21,7 @@ export default function Page() {
             {GROUPS.map((g, i) => (
               <span
                 key={g}
-                className={`block border-b border-ink-900/10 px-5 py-3.5 text-sm last:border-0 ${
-                  i === 0 ? "bg-cream-50 font-medium" : "text-ink-500"
-                }`}
+                className={`block border-b border-ink-900/10 px-5 py-3.5 text-sm last:border-0 ${ i === 0 ? "bg-cream-50 font-medium" : "text-ink-500" }`}
               >
                 {g}
               </span>

@@ -13,9 +13,7 @@ export function InsightTabs({ current }: { current: string }) {
           <Link
             key={c.href}
             href={c.href}
-            className={`shrink-0 py-4 text-sm ${
-              c.href === current ? "border-b-2 border-ink-900" : "text-ink-500"
-            }`}
+            className={`shrink-0 py-4 text-sm ${ c.href === current ? "border-b-2 border-ink-900" : "text-ink-500" }`}
           >
             {c.label}
           </Link>
@@ -47,9 +45,7 @@ export function ListTemplate({
             {["전체", "브랜딩", "마케팅", "메디컬 AI"].map((f, i) => (
               <span
                 key={f}
-                className={`border px-4 py-2 text-xs ${
-                  i === 0 ? "border-ink-900 bg-forest-800 text-white" : "border-ink-900/15 text-ink-500"
-                }`}
+                className={`border px-4 py-2 text-xs ${ i === 0 ? "border-ink-900 bg-forest-800 text-white" : "border-ink-900/15 text-ink-500" }`}
               >
                 {f}
               </span>
@@ -68,7 +64,7 @@ export function ListTemplate({
               <Media
                 label="썸네일"
                 ratio="aspect-[16/10]"
-                className="!border-0 !border-b"
+                className="border-b!"
                 src={cardImage(i)}
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
@@ -86,9 +82,7 @@ export function ListTemplate({
           {["‹", "1", "2", "3", "4", "›"].map((p, i) => (
             <span
               key={p + i}
-              className={`flex h-9 w-9 items-center justify-center border text-xs ${
-                p === "1" ? "border-ink-900 bg-forest-800 text-white" : "border-ink-900/15 text-ink-500"
-              }`}
+              className={`flex h-9 w-9 items-center justify-center border text-xs ${ p === "1" ? "border-ink-900 bg-forest-800 text-white" : "border-ink-900/15 text-ink-500" }`}
             >
               {p}
             </span>
@@ -171,7 +165,7 @@ export function ArticleTemplate({
                 <Media
                   label="썸네일"
                   ratio="aspect-[16/10]"
-                  className="!border-0 !border-b"
+                  className="border-b!"
                   src={cardImage(i + 4)}
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />

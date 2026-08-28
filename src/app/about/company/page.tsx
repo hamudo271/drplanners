@@ -18,11 +18,16 @@ export default function Page() {
       <Section no="01" label="Organization">
         <h2 className="text-2xl font-light md:text-3xl">조직</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-4">
-          {["전략", "브랜딩", "퍼포먼스", "메디컬 AI"].map((t) => (
+          {[
+            { t: "전략", d: "진단과 플래닝 — 병원의 계획을 세우고 지킵니다." },
+            { t: "브랜딩", d: "콘텐츠·디자인·영상 — 병원의 톤을 만듭니다." },
+            { t: "퍼포먼스", d: "광고·데이터 — 예산이 예약이 되게 합니다." },
+            { t: "메디컬 AI", d: "검색·AI 노출 — 발견되는 구조를 만듭니다." },
+          ].map(({ t, d }) => (
             <div key={t} className="border border-ink-900/15 p-6">
-              <Media label="팀 이미지" ratio="aspect-square" className="!border-0" />
+              <Media label="팀 이미지" ratio="aspect-square" className="" />
               <p className="mt-4 text-base font-medium">{t} 팀</p>
-              <TextLines n={2} className="mt-3" />
+              <p className="prose-ko mt-2 text-sm text-ink-500">{d}</p>
             </div>
           ))}
         </div>

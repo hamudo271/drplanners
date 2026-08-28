@@ -23,11 +23,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-        overHero
-          ? "bg-transparent text-cream-100"
-          : "border-b border-ink-900/10 bg-cream-100/95 text-ink-900 backdrop-blur"
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${ overHero ? "bg-transparent text-cream-100" : "border-b border-ink-900/10 bg-cream-100/95 text-ink-900 backdrop-blur" }`}
     >
       <div className="mx-auto flex h-20 w-full max-w-[1280px] items-center gap-6 px-6 md:h-24 md:px-10 lg:px-14">
         <Link href="/" className="shrink-0" aria-label="닥터플래너스 홈">
@@ -80,11 +76,7 @@ export function Header() {
 
         <Link
           href={NAV_CTA.href}
-          className={`ml-auto hidden shrink-0 border px-6 py-3 text-xs tracking-[0.08em] transition-colors duration-300 lg:ml-6 lg:block ${
-            overHero
-              ? "border-cream-100/45 hover:border-cream-100"
-              : "border-forest-800 bg-forest-800 text-cream-100 hover:bg-forest-700"
-          }`}
+          className={`ml-auto hidden shrink-0 border px-6 py-3 text-xs tracking-[0.08em] transition-colors duration-300 lg:ml-6 lg:block ${ overHero ? "border-cream-100/45 hover:border-cream-100" : "border-forest-800 bg-forest-800 text-cream-100 hover:bg-forest-700" }`}
         >
           {NAV_CTA.label}
         </Link>

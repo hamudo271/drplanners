@@ -209,11 +209,7 @@ export function CircleArrow({
 }) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
-        dark
-          ? "border-cream-100/40 text-cream-100 group-hover:bg-cream-100 group-hover:text-forest-900"
-          : "border-ink-900/30 text-ink-900 group-hover:bg-ink-900 group-hover:text-cream-100"
-      }`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${ dark ? "border-cream-100/40 text-cream-100 group-hover:bg-cream-100 group-hover:text-forest-900" : "border-ink-900/30 text-ink-900 group-hover:bg-ink-900 group-hover:text-cream-100" }`}
       style={{ width: size, height: size }}
       aria-hidden
     >

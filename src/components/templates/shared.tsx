@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { Container, Media, Button, Section } from "@/components/ui";
+import Image from "next/image";
+import { Container, Media, Button } from "@/components/ui";
+import { CTA_BAND } from "@/config/images";
 import { NAV } from "@/config/nav";
 
 /** 하위 페이지 공통 상단 — 브레드크럼 + 타이틀 */
@@ -44,31 +46,48 @@ export function PageHero({
   );
 }
 
-/** 하위 페이지 공통 하단 CTA */
+/** 하위 페이지 공통 하단 CTA — 풀블리드 사진 밴드 */
 export function CtaBand() {
   return (
-    <Section tone="forest">
-      <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-        <div>
-          <p className="text-2xl leading-snug font-light md:text-3xl">
-            우리 병원에 맞는 계획이 궁금하신가요?
-          </p>
-          <p className="mt-3 text-sm text-white/60">
-            5분 진단으로 현재 위치부터 확인해보세요.
-          </p>
-        </div>
-        <div className="flex shrink-0 gap-3">
-          <Link href="/diagnosis">
-            <Button className="!border-white !bg-white !text-ink-900">병원 진단 시작하기</Button>
-          </Link>
-          <Link href="/contact">
-            <Button variant="outline" className="!border-white/40 !text-white">
-              문의하기
-            </Button>
-          </Link>
-        </div>
+    <section className="relative flex min-h-[380px] items-center md:min-h-[440px]">
+      <div className="veil-soft absolute inset-0">
+        <Image
+          src={CTA_BAND}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
       </div>
-    </Section>
+      <Container className="relative py-20">
+        <div
+          className="flex flex-col items-start justify-between gap-10 text-cream-100 lg:flex-row lg:items-end"
+          data-reveal
+        >
+          <div>
+            <p className="label label-on-dark">Next step</p>
+            <p className="display-ko mt-6 text-2xl leading-snug md:text-3xl lg:text-[2.25rem]">
+              우리 병원에 맞는 계획이
+              <br />
+              궁금하신가요?
+            </p>
+            <p className="prose-ko mt-5 text-sm text-cream-100/70">
+              5분 진단으로 현재 위치부터 확인해보세요.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-3">
+            <Link href="/diagnosis">
+              <Button className="border-cream-100! bg-cream-100! text-forest-900!">
+                병원 진단 시작하기
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button variant="light">문의하기</Button>
+            </Link>
+          </div>
+        </div>
+      </Container>
+    </section>
   );
 }
 

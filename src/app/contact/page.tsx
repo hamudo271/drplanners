@@ -1,6 +1,7 @@
 import { Section, Media, IconBox, Button } from "@/components/ui";
 import { PageHero } from "@/components/templates/shared";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { CONTACT_HERO, cardImage } from "@/config/images";
 
 export const metadata = {
   title: "CONTACT — 닥터플래너스",
@@ -14,6 +15,8 @@ export default function Page() {
         crumbs={[{ label: "contact" }]}
         title="CONTACT"
         lead="병원 상황을 알려주시면 담당 플래너가 직접 검토 후 연락드립니다."
+        mediaLabel="컨택트 키비주얼"
+        mediaSrc={CONTACT_HERO}
       />
 
       <Section no="01" label="Inquiry">
@@ -48,6 +51,12 @@ export default function Page() {
               </a>
             </div>
 
+            <Media
+              label="오시는 길 이미지"
+              ratio="aspect-[4/3]"
+              src={cardImage(6)}
+              sizes="(max-width: 1024px) 100vw, 33vw"
+            />
             <Media label="지도 임베드 자리" ratio="aspect-square" />
           </aside>
         </div>

@@ -404,11 +404,7 @@ export function Insight() {
           {C.INSIGHT.tabs.map((t, i) => (
             <span
               key={t}
-              className={`pb-3.5 text-sm ${
-                i === 0
-                  ? "border-b border-ink-900 text-ink-900"
-                  : "text-ink-400"
-              }`}
+              className={`pb-3.5 text-sm ${ i === 0 ? "border-b border-ink-900 text-ink-900" : "text-ink-400" }`}
             >
               {t}
             </span>

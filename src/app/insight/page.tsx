@@ -22,7 +22,7 @@ export default function Page() {
           <Media
             label="대표 아티클 이미지"
             ratio="aspect-[4/3]"
-            className="!border-0"
+            className=""
             src={INSIGHT.featured}
             sizes="(max-width: 768px) 100vw, 50vw"
           />

@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Container, IconBox, TextLines, Button } from "@/components/ui";
+import { Container, IconBox, Button } from "@/components/ui";
 import { DIAGNOSIS } from "@/content/home";
+import { DIAGNOSIS_QUESTIONS } from "@/content/diagnosis";
 
 /**
  * 템플릿 3 — 단계형 진단 플로우.
@@ -78,21 +79,19 @@ export function DiagnosisFlow() {
               <p className="label">
                 {String(current).padStart(2, "0")} — {QUESTION_STEPS[current - 1]}
               </p>
-              <h2 className="mt-4 text-xl leading-snug font-medium md:text-2xl">
-                {QUESTION_STEPS[current - 1]}에 대한 질문이 이 자리에 들어갑니다.
+              <h2 className="display-ko mt-4 text-xl leading-snug md:text-2xl">
+                {DIAGNOSIS_QUESTIONS[current - 1].q}
               </h2>
-              <TextLines n={1} className="mt-4" />
 
               <div className="mt-8 space-y-3">
-                {["보기 A", "보기 B", "보기 C", "보기 D"].map((o) => (
+                {DIAGNOSIS_QUESTIONS[current - 1].options.map((o) => (
                   <button
                     key={o}
                     onClick={() => setStep(step + 1)}
-                    className="flex w-full items-center gap-4 border border-ink-900/15 px-5 py-4 text-left hover:bg-cream-50"
+                    className="flex w-full items-center gap-4 border border-ink-900/15 px-5 py-4 text-left transition-colors hover:border-forest-800 hover:bg-cream-100"
                   >
-                    <span className="h-4 w-4 shrink-0 rounded-full border border-ink-900/15" />
-                    <span className="label">{o}</span>
-                    <span className="h-3 flex-1 rounded-sm bg-ink-900/8" />
+                    <span className="h-4 w-4 shrink-0 rounded-full border border-ink-900/25" />
+                    <span className="prose-ko text-sm text-ink-700">{o}</span>
                   </button>
                 ))}
               </div>

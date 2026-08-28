@@ -36,9 +36,7 @@ export default function Page() {
           {["‹", "1", "2", "3", "›"].map((p, i) => (
             <span
               key={p + i}
-              className={`flex h-9 w-9 items-center justify-center border text-xs ${
-                p === "1" ? "border-ink-900 bg-forest-800 text-white" : "border-ink-900/15 text-ink-500"
-              }`}
+              className={`flex h-9 w-9 items-center justify-center border text-xs ${ p === "1" ? "border-ink-900 bg-forest-800 text-white" : "border-ink-900/15 text-ink-500" }`}
             >
               {p}
             </span>

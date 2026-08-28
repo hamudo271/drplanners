@@ -80,3 +80,28 @@ const CARD_POOL = [
 
 /** 목록/관련글 카드 — 인덱스로 순환 */
 export const cardImage = (i: number) => CARD_POOL[i % CARD_POOL.length];
+
+/* ── 하단 CTA 밴드 (거의 모든 하위 페이지에 노출) ── */
+export const CTA_BAND = img(14);   // 손 + 브로슈어 — 다른 슬롯과 겹치지 않는 유일 이미지
+
+/* ── 진단 · 컨택트 ─────────────────────────────── */
+export const DIAGNOSIS_HERO = img(19);  // 그린 스테이지 + 올리브 가지
+export const CONTACT_HERO = img(13);    // 크림 봉투 + 박스
+
+/* ── 반복 슬롯 피커 ─────────────────────────────
+   같은 페이지 안에서 이미지가 겹치지 않도록 오프셋을 벌려둡니다. */
+const CARD_IMAGES = [
+  img(8), img(9), img(10), img(12), img(13), img(19), img(21), img(22),
+  img(23), img(24), img(25), img(27), img(30), img(32), img(34),
+];
+
+/** 솔루션 상세 01 — "이런 병원에 필요합니다" 카드 3장 */
+export const whoImage = (href: string, i: number) =>
+  pick(CARD_IMAGES, href, 2 + i * 5);
+
+/** 솔루션 허브 — 하위 솔루션 카드 */
+export const hubCard = (href: string, i: number) =>
+  pick(CARD_IMAGES, href, 7 + i * 3);
+
+/** 솔루션 상세 03 — 프로세스 뒤 풀블리드 밴드 */
+export const detailBand = (href: string) => pick(WIDE_POOL, href, 6);
