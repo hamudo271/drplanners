@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Railway / 배포
+/dist
+
+# 내부 시안 — public/에 있으면 배포 시 외부 노출되므로 커밋 제외
+/public/3415.png
+/public/image 2.png

@@ -1,26 +1,136 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ═══════════════════════════════════════════════════════════
+   DR.PLANERS — 시안 기반 디자인 토큰
+   Deep forest ↔ cream 교대, brass 액센트, 라이트 웨이트 대형 타이포.
+   ═══════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Forest — 브랜드 필드 */
+  --color-forest-950: #0C1610;
+  --color-forest-900: #101E16;
+  --color-forest-800: #172C20;
+  --color-forest-700: #1E3828;
+  --color-forest-600: #2A4B36;
+
+  /* Cream — 읽기 필드 */
+  --color-cream-50:  #FBFAF6;
+  --color-cream-100: #F3F0E9;
+  --color-cream-200: #E9E4D9;
+  --color-cream-300: #D8D1C2;
+
+  /* Brass — 유일한 액센트 */
+  --color-brass-600: #8E7645;
+  --color-brass-500: #A98F5F;
+  --color-brass-400: #C9B183;
+
+  /* Ink */
+  --color-ink-900: #16231B;
+  --color-ink-700: #33423A;
+  --color-ink-500: #6E7A72;
+  --color-ink-400: #939C95;
+
+  --font-sans: var(--font-jost), var(--font-noto-kr), -apple-system,
+    BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  --font-serif: var(--font-cormorant), var(--font-noto-kr), Georgia, serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream-100);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-break: keep-all;          /* 한글 어절 단위 줄바꿈 */
+  overflow-wrap: break-word;
+}
+
+::selection { background: var(--color-forest-800); color: var(--color-cream-100); }
+:focus-visible { outline: 2px solid var(--color-brass-500); outline-offset: 3px; }
+
+/* ── 섹션 라벨: "02 ── PROBLEM" ─────────────────── */
+.label {
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-500);
+}
+.label-on-dark { color: color-mix(in srgb, var(--color-cream-100) 55%, transparent); }
+
+/* ── 디스플레이 타이포 ──────────────────────────── */
+.display-en {                     /* A SANCTUARY FOR DOCTORS. */
+  font-weight: 200;
+  line-height: 1.06;
+  letter-spacing: 0.045em;
+}
+.display-ko {                     /* 진료가 끝나도 하루는 끝나지 않습니다. */
+  font-weight: 300;
+  line-height: 1.32;
+  letter-spacing: -0.015em;
+}
+.display-serif {                  /* We plan. You practice. */
+  font-family: var(--font-serif);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+}
+
+/* 표 형식 숫자 — 시각·지표·단계·날짜 */
+.tnum { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+
+.prose-ko { line-height: 1.9; font-weight: 300; }
+
+/* ── 풀블리드 사진 밴드 위 그라디언트 ─────────────
+   사진이 어두워도 텍스트 쪽은 확실히 눌러줍니다. */
+.veil-left::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(10, 20, 14, 0.86) 0%,
+    rgba(10, 20, 14, 0.62) 38%,
+    rgba(10, 20, 14, 0.22) 70%,
+    rgba(10, 20, 14, 0.34) 100%
+  );
+}
+.veil-soft::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(10, 20, 14, 0.7) 0%,
+    rgba(10, 20, 14, 0.4) 55%,
+    rgba(10, 20, 14, 0.15) 100%
+  );
+}
+
+/* ── 브라스 헤어라인 아이콘 프레임 ──────────────── */
+.brass-rule { background: var(--color-brass-500); }
+
+/* ── 스크롤 진입 리빌 (JS 없으면 그냥 보임) ─────── */
+[data-reveal] { opacity: 1; }
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 1s var(--ease-out-soft),
+    transform 1s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html.js [data-reveal].is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html.js [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
