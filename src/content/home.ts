@@ -2,7 +2,8 @@
 
 export const HERO = {
   title: ["A SANCTUARY", "FOR DOCTORS."],
-  body: ["진료에 집중하세요.", "그 밖의 성장은 우리가 설계합니다."],
+  body: ["병원은 더 성장하고,", "원장님은 더 여유롭게."],
+  services: "Branding · Marketing · Operation · Growth",
   cta: "Meet Dr.Planers",
 };
 
@@ -88,7 +89,7 @@ export const SOLUTIONS = {
 
 export const REST = {
   title: ["진료가 끝나면,", "정말 퇴근하세요."],
-  sub: "The rest is ours.",
+  sub: "DOCTOR, TAKE A REST. WE PLAN THE GROWTH.",
 };
 
 export const WORKS = {

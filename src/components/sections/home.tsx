@@ -48,7 +48,9 @@ export function Hero() {
             ))}
           </p>
 
-          <Link href="/about/philosophy" className="group mt-14 inline-flex items-center gap-5">
+          <p className="label label-on-dark mt-9">{C.HERO.services}</p>
+
+          <Link href="/about/philosophy" className="group mt-12 inline-flex items-center gap-5">
             <CircleArrow size={46} dark />
             <span className="text-sm tracking-[0.06em] text-cream-100">
               {C.HERO.cta}

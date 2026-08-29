@@ -1,45 +1,69 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Container, Media, Button } from "@/components/ui";
-import { CTA_BAND } from "@/config/images";
+import { Container, Button } from "@/components/ui";
+import { CTA_BAND, DEFAULT_PAGE_HERO } from "@/config/images";
 import { NAV } from "@/config/nav";
 
-/** 하위 페이지 공통 상단 — 브레드크럼 + 타이틀 */
+/** 하위 페이지 공통 상단 — 메인과 같은 풀블리드 다크 히어로 */
 export function PageHero({
   crumbs,
   title,
   lead,
-  mediaLabel,
   mediaSrc,
 }: {
   crumbs: { label: string; href?: string }[];
   title: string;
   lead?: string;
+  /** 배경 이미지 라벨 — 배경으로 흡수되어 더 이상 표시되지 않습니다 */
   mediaLabel?: string;
   mediaSrc?: string;
 }) {
+  const src = mediaSrc ?? DEFAULT_PAGE_HERO;
+  const isEn = /^[A-Za-z0-9 .·&|-]+$/.test(title);
   return (
-    <section className="border-b border-ink-900/10 bg-cream-50 pt-20 md:pt-24">
-      <Container className="py-14 md:py-20">
-        <nav className="label flex flex-wrap items-center gap-2">
-          <Link href="/">HOME</Link>
+    <section className="relative flex min-h-[400px] items-end md:min-h-[480px]">
+      <div className="veil-left absolute inset-0">
+        <Image src={src} alt="" fill priority sizes="100vw" className="object-cover" />
+      </div>
+      <Container className="relative pt-36 pb-14 md:pt-44 md:pb-20">
+        <nav
+          className="label label-on-dark flex flex-wrap items-center gap-2.5"
+          aria-label="breadcrumb"
+          data-reveal
+        >
+          <Link href="/" className="transition-colors hover:text-cream-100">
+            HOME
+          </Link>
           {crumbs.map((c) => (
-            <span key={c.label} className="flex items-center gap-2">
-              <span>/</span>
-              {c.href ? <Link href={c.href}>{c.label}</Link> : <span>{c.label}</span>}
+            <span key={c.label} className="flex items-center gap-2.5">
+              <span aria-hidden>/</span>
+              {c.href ? (
+                <Link href={c.href} className="transition-colors hover:text-cream-100">
+                  {c.label}
+                </Link>
+              ) : (
+                <span className="text-cream-100/85">{c.label}</span>
+              )}
             </span>
           ))}
         </nav>
-        <h1 className="mt-6 text-3xl leading-tight font-light md:text-[46px]">{title}</h1>
-        {lead && <p className="mt-5 max-w-xl text-sm leading-relaxed text-ink-500">{lead}</p>}
-        {mediaLabel && (
-          <Media
-            label={mediaLabel}
-            ratio="aspect-[21/9]"
-            className="mt-10"
-            src={mediaSrc}
-            sizes="(max-width: 1240px) 100vw, 1160px"
-          />
+        <h1
+          className={`mt-7 text-cream-100 ${
+            isEn
+              ? "display-en text-[2.25rem] md:text-[3rem] lg:text-[3.5rem]"
+              : "display-ko text-[1.875rem] md:text-[2.5rem] lg:text-[3rem]"
+          }`}
+          data-reveal
+        >
+          {title}
+        </h1>
+        {lead && (
+          <p
+            className="prose-ko mt-6 max-w-2xl text-sm text-cream-100/75 md:text-base"
+            data-reveal
+          >
+            {lead}
+          </p>
         )}
       </Container>
     </section>

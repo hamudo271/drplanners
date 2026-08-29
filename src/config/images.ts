@@ -105,3 +105,6 @@ export const hubCard = (href: string, i: number) =>
 
 /** 솔루션 상세 03 — 프로세스 뒤 풀블리드 밴드 */
 export const detailBand = (href: string) => pick(WIDE_POOL, href, 6);
+
+/** PageHero 기본 배경 — mediaSrc를 넘기지 않는 서브페이지용 */
+export const DEFAULT_PAGE_HERO = img(32);   // 짙은 잎사귀

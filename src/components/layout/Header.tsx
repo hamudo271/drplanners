@@ -10,9 +10,16 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [lastPath, setLastPath] = useState(pathname);
 
-  /** 메인은 어두운 히어로 위에 얹히므로 상단에서 투명 + 밝은 로고 */
-  const overHero = pathname === "/" && !scrolled && !open;
+  // 라우트가 바뀌면 모바일 메뉴를 닫습니다 (렌더 중 상태 조정 패턴)
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
+    setOpen(false);
+  }
+
+  /** 모든 페이지가 다크 히어로로 시작하므로, 상단에서는 투명 + 밝은 로고 */
+  const overHero = !scrolled && !open;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);

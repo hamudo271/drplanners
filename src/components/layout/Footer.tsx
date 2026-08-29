@@ -34,9 +34,9 @@ export function Footer() {
               className="h-12 w-auto md:h-14"
             />
             <p className="prose-ko mt-7 text-sm text-cream-100/55">
-              원장님의 성장을 설계하는
+              병원은 더 성장하고,
               <br />
-              의료 마케팅 파트너입니다.
+              원장님은 더 여유롭게.
             </p>
           </div>
 

@@ -30,9 +30,9 @@ const notoKr = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "닥터플래너스 — A SANCTUARY FOR DOCTORS",
+  title: "닥터플래너스 | Medical Growth Partner",
   description:
-    "진료에 집중하세요. 그 밖의 성장은 우리가 설계합니다. 병원 브랜딩·마케팅·메디컬 AI를 하나의 계획으로 설계하는 닥터플래너스.",
+    "A SANCTUARY FOR DOCTORS — 병원은 더 성장하고, 원장님은 더 여유롭게. 병의원 브랜딩·마케팅·운영·성장을 설계합니다.",
 };
 
 export default function RootLayout({
