@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Section, Media, TextLines } from "@/components/ui";
 import { PageHero, CtaBand, findHub } from "./shared";
 import { INSIGHT, cardImage } from "@/config/images";
+import { ARTICLES, type Article } from "@/content/articles";
 
 /** 인사이트 4개 탭 — nav.ts에서 파생 */
 export function InsightTabs({ current }: { current: string }) {
@@ -57,15 +58,33 @@ export function ListTemplate({
           </span>
         </div>
 
-        {/* 카드 그리드 */}
+        {/* 카드 그리드 — 실제 글 먼저, 나머지는 더미 자리 */}
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 9 }).map((_, i) => (
-            <Link key={i} href={`${href}/sample-post`} className="border border-ink-900/15">
+          {ARTICLES.filter((a) => a.list === href).map((a, i) => (
+            <Link key={a.slug} href={`${href}/${a.slug}`} className="border border-ink-900/15 bg-cream-50">
               <Media
                 label="썸네일"
                 ratio="aspect-[16/10]"
                 className="border-b!"
                 src={cardImage(i)}
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+              <div className="p-5">
+                <p className="label tnum">
+                  {a.category} · {a.date}
+                </p>
+                <p className="display-ko mt-3 text-base">{a.title}</p>
+                <p className="prose-ko mt-3 line-clamp-2 text-sm text-ink-500">{a.excerpt}</p>
+              </div>
+            </Link>
+          ))}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <Link key={i} href={`${href}/sample-post`} className="border border-ink-900/15">
+              <Media
+                label="썸네일"
+                ratio="aspect-[16/10]"
+                className="border-b!"
+                src={cardImage(i + 2)}
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
               <div className="p-5">
@@ -174,6 +193,105 @@ export function ArticleTemplate({
                 </div>
               </Link>
             ))}
+          </div>
+        </Section>
+      </article>
+      <CtaBand />
+    </>
+  );
+}
+
+
+/* ── 실제 아티클 뷰 — content/articles.ts 기반 ─────────── */
+export function RealArticle({ article }: { article: Article }) {
+  return (
+    <>
+      <article>
+        <PageHero
+          crumbs={[
+            { label: "메디컬 칼럼", href: "/insight" },
+            { label: article.category, href: article.list },
+            { label: article.title },
+          ]}
+          title={article.title}
+        />
+
+        <Section>
+          <div className="mx-auto max-w-[720px]">
+            <div className="label flex items-center justify-between border-b border-ink-900/15 pb-5">
+              <span className="tnum">
+                {article.category} · {article.date}
+              </span>
+              <span>DR.PLANERS</span>
+            </div>
+
+            <Media
+              label="대표 이미지"
+              ratio="aspect-[16/9]"
+              className="mt-10"
+              src={INSIGHT.articleHero}
+              sizes="(max-width: 760px) 100vw, 720px"
+            />
+
+            <div className="mt-12">
+              {article.blocks.map((b, i) => {
+                switch (b.t) {
+                  case "h2":
+                    return (
+                      <h2
+                        key={i}
+                        className="display-ko mt-16 mb-6 text-xl md:text-2xl"
+                      >
+                        {b.text}
+                      </h2>
+                    );
+                  case "h3":
+                    return (
+                      <h3
+                        key={i}
+                        className="mt-10 mb-3 text-base font-medium tracking-wide text-ink-900"
+                      >
+                        {b.text}
+                      </h3>
+                    );
+                  case "lead":
+                    return (
+                      <p
+                        key={i}
+                        className="display-ko my-8 text-lg text-ink-900 md:text-xl"
+                      >
+                        {b.text}
+                      </p>
+                    );
+                  case "quote":
+                    return (
+                      <blockquote
+                        key={i}
+                        className="display-ko my-8 border-l-2 border-brass-500 pl-6 text-lg text-ink-700"
+                      >
+                        “{b.text}”
+                      </blockquote>
+                    );
+                  case "ul":
+                    return (
+                      <ul key={i} className="my-5 space-y-2.5 pl-1">
+                        {b.items.map((it) => (
+                          <li key={it} className="prose-ko flex gap-3 text-[0.9375rem] text-ink-700">
+                            <span className="mt-[0.7em] h-1 w-1 shrink-0 rounded-full bg-brass-500" />
+                            {it}
+                          </li>
+                        ))}
+                      </ul>
+                    );
+                  default:
+                    return (
+                      <p key={i} className="prose-ko mb-5 text-[0.9375rem] text-ink-700">
+                        {b.text}
+                      </p>
+                    );
+                }
+              })}
+            </div>
           </div>
         </Section>
       </article>

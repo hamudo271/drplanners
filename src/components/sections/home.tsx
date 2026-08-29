@@ -73,6 +73,7 @@ export function Problem() {
               </span>
             ))}
           </H2>
+          <p className="prose-ko mt-6 max-w-md text-sm text-ink-500">{C.PROBLEM.lead}</p>
           <Media
             label="야근하는 원장 이미지"
             ratio="aspect-[16/10]"
@@ -149,7 +150,10 @@ export function Philosophy() {
               </span>
             ))}
           </p>
-          <p className="label label-on-dark mt-16">{C.PHILOSOPHY.formula}</p>
+          <p className="display-serif mt-12 text-xl text-brass-400 md:text-2xl">
+            “{C.PHILOSOPHY.quote}”
+          </p>
+          <p className="label label-on-dark mt-12">{C.PHILOSOPHY.formula}</p>
         </div>
       </Container>
     </section>
@@ -416,7 +420,7 @@ export function Insight() {
         {C.INSIGHT.cards.map((c, i) => (
           <Link
             key={c.title}
-            href="/insight/column"
+            href={c.href}
             className="group bg-cream-50"
             data-reveal
             style={{ "--reveal-delay": `${i * 120}ms` } as React.CSSProperties}
@@ -468,7 +472,7 @@ export function ClosingCta() {
             <div className="mb-8 flex items-center gap-4">
               <span className="label label-on-dark">10</span>
               <span className="h-px w-8 bg-cream-100/30" aria-hidden />
-              <span className="label label-on-dark">Contact</span>
+              <span className="label label-on-dark">{C.CTA.eyebrow}</span>
             </div>
             <h2 className="display-ko text-[1.625rem] md:text-[2.25rem] lg:text-[2.625rem]">
               {C.CTA.title.map((l) => (

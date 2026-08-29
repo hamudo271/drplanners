@@ -3,6 +3,7 @@ import { Section, Media, TextLines } from "@/components/ui";
 import { PageHero, CtaBand, findHub } from "@/components/templates/shared";
 import { InsightTabs } from "@/components/templates/Insight";
 import { HUB_HERO, INSIGHT } from "@/config/images";
+import { ARTICLES } from "@/content/articles";
 
 export default function Page() {
   const hub = findHub("/insight");
@@ -18,7 +19,10 @@ export default function Page() {
       <InsightTabs current="/insight" />
 
       <Section no="01" label="Featured">
-        <Link href="/insight/column/sample-post" className="grid gap-8 border border-ink-900/15 md:grid-cols-2">
+        <Link
+          href={`/insight/column/${ARTICLES[0].slug}`}
+          className="grid gap-8 border border-ink-900/15 md:grid-cols-2"
+        >
           <Media
             label="대표 아티클 이미지"
             ratio="aspect-[4/3]"
@@ -27,11 +31,11 @@ export default function Page() {
             sizes="(max-width: 768px) 100vw, 50vw"
           />
           <div className="flex flex-col justify-center p-8">
-            <p className="label">Medical Column · 2026.05.20</p>
-            <p className="mt-4 text-2xl leading-snug font-light">
-              대표 아티클 제목이 이 자리에 들어갑니다.
+            <p className="label tnum">
+              {ARTICLES[0].category} · {ARTICLES[0].date}
             </p>
-            <TextLines n={3} className="mt-5" />
+            <p className="display-ko mt-4 text-2xl leading-snug">{ARTICLES[0].title}</p>
+            <p className="prose-ko mt-5 text-sm text-ink-500">{ARTICLES[0].excerpt}</p>
             <span className="label mt-8">읽어보기 →</span>
           </div>
         </Link>

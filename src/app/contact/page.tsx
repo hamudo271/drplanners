@@ -39,6 +39,14 @@ export default function Page() {
               </div>
             </div>
 
+            <div className="border border-ink-900/15 bg-forest-800 p-6 text-cream-100">
+              <p className="label label-on-dark">신규 수주 안내</p>
+              <p className="prose-ko mt-3 text-sm text-cream-100/85">
+                닥터플래너스는 월 최대 4개 병원만 새로 맡습니다. 동일 상권의
+                동일 진료과는 중복해서 맡지 않습니다.
+              </p>
+            </div>
+
             <div className="border border-ink-900/15 p-6">
               <p className="label">진단부터 시작하기</p>
               <p className="mt-3 text-sm leading-relaxed">

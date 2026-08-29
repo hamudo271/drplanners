@@ -867,18 +867,47 @@ export const SOLUTIONS: Record<string, SolutionContent> = {
    ══════════════════════════════════════════════════════ */
 export type HubContent = {
   lead: string;
-  process: { title: string; body: string }[];
+  /** 프로세스 섹션 제목 (기본: 진행 방식) */
+  processTitle?: string;
+  process: { title: string; body: string; you?: string }[];
   casesNote: string;
 };
 
 export const HUBS: Record<string, HubContent> = {
   "/signature": {
-    lead: "닥터플래너스의 방식은 하나입니다 — 한 병원을 위한 하나의 계획. 원장님의 단계에 맞춰 퍼스널·개원·그로스 세 가지로 나뉩니다.",
+    lead: "닥터플래너스는 회사 이름 그대로, 6단계 DR.PLAN 프로세스로 움직입니다. 대부분의 대행사는 실행부터 시작하지만, 저희는 진단부터 시작합니다 — 그리고 여섯 단계를 전부 더해도 원장님이 움직이실 시간은 채 10분이 되지 않습니다.",
+    processTitle: "DR.PLAN 프로세스",
     process: [
-      { title: "상담 · 진단", body: "지금 어느 단계에 있는지부터 확인합니다." },
-      { title: "전략 설계", body: "단계에 맞는 플래닝을 하나의 계획으로 만듭니다." },
-      { title: "실행", body: "계획대로 실행하며 원장님의 시간을 지킵니다." },
-      { title: "리포트 · 관리", body: "매달 숫자로 결과를 확인하고 조정합니다." },
+      {
+        title: "D — Diagnose 진단",
+        body: "진료과의 객단가·재진 주기·상권·경쟁 밀도, 그리고 플레이스·블로그까지 병원의 현재 자산을 실사합니다.",
+        you: "원장님이 하실 일 — 없습니다",
+      },
+      {
+        title: "R — Research 탐색",
+        body: "환자가 무엇이 불안해 검색하는지, 어떤 문장에 안심하고 예약하는지. 환자의 검색 심리를 탐색합니다.",
+        you: "원장님이 하실 일 — 없습니다",
+      },
+      {
+        title: "P — Prescribe 처방",
+        body: "목표 매출에서 거꾸로 계산합니다. 필요 신환 수 → 예약 문의 수 → 유입 수 → 콘텐츠·광고량. 이 숫자가 KPI가 됩니다.",
+        you: "원장님이 하실 일 — 결과 확인, 1분",
+      },
+      {
+        title: "L — Launch 실행",
+        body: "채널별 역할을 나누고, 기획 단계에서 의료광고심의 기준부터 적용해 실행합니다. 진행 상황은 주 단위로 공유합니다.",
+        you: "원장님이 하실 일 — 없습니다",
+      },
+      {
+        title: "A — Analyze 해석",
+        body: "노출이 아니라 전환 경로를 봅니다. 신환 1명이 실제로 얼마에 만들어졌는지까지 계산해 ‘이래서 올랐습니다’로 보고합니다.",
+        you: "원장님이 하실 일 — 보고받기",
+      },
+      {
+        title: "N — Next 진화",
+        body: "죽일 것, 키울 것, 새로 붙일 것을 정하고 예산 재배분을 제안합니다. 다음 달의 결정이 달라집니다.",
+        you: "원장님이 하실 일 — 승인",
+      },
     ],
     casesNote: "공개 가능한 사례부터 순차적으로 게재할 예정입니다.",
   },

@@ -49,8 +49,12 @@ export function SolutionHub({ href }: { href: string }) {
       </Section>
 
       <Section no="02" label="Process" tone="paper">
-        <H2>진행 방식</H2>
-        <div className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-4">
+        <H2>{c?.processTitle ?? "진행 방식"}</H2>
+        <div
+          className={`mt-12 grid gap-px border-t border-l border-ink-900/12 ${
+            (c?.process.length ?? 4) > 4 ? "sm:grid-cols-2 lg:grid-cols-3" : "md:grid-cols-4"
+          }`}
+        >
           {(c?.process ?? [
             { title: "상담 · 진단", body: "" },
             { title: "전략 설계", body: "" },
@@ -67,6 +71,9 @@ export function SolutionHub({ href }: { href: string }) {
               <p className="display-ko mt-4 text-lg">{step.title}</p>
               {step.body && (
                 <p className="prose-ko mt-3 text-sm text-ink-500">{step.body}</p>
+              )}
+              {step.you && (
+                <p className="label mt-5 text-brass-600!">{step.you}</p>
               )}
             </div>
           ))}
