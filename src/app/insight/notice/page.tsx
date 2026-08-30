@@ -1,3 +1,11 @@
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "공지사항",
+  description: "닥터플래너스의 서비스 변경, 운영 일정, 정책 안내를 게시합니다.",
+  path: "/insight/notice",
+});
+
 import Link from "next/link";
 import { Section, BrassIcon, Button } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";

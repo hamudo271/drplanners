@@ -1,3 +1,11 @@
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "우리의 철학",
+  description: "성과가 안 나는 이유는 실행력 부족이 아니라 아무도 방향을 결정하지 않았기 때문입니다. 대행사 안과 밖을 모두 겪고 세운 원칙을 정리했습니다.",
+  path: "/about/philosophy",
+});
+
 import { Section, Media, IconBox, Container, H2 } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { PHILOSOPHY, WHY } from "@/content/home";

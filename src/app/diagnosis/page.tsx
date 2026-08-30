@@ -1,3 +1,11 @@
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "메디컬 진단 시스템",
+  description: "5가지 항목으로 지금 병원의 위치를 진단합니다. 브랜드·검색·콘텐츠·광고·AI 검색, 약 3분. 담당 플래너가 직접 읽고 회신드립니다.",
+  path: "/diagnosis",
+});
+
 import Image from "next/image";
 import { DiagnosisFlow } from "@/components/templates/DiagnosisFlow";
 import { PageHero } from "@/components/templates/shared";
@@ -5,11 +13,6 @@ import { DIAGNOSIS_HERO, detailBand, whoImage } from "@/config/images";
 import { Section, Container, Media, BrassIcon, H2 } from "@/components/ui";
 import { DIAGNOSIS_QUESTIONS } from "@/content/diagnosis";
 
-export const metadata = {
-  title: "메디컬 진단 시스템 — 닥터플래너스",
-  description:
-    "5가지 항목으로 지금 병원의 위치를 진단합니다. 브랜드·검색·콘텐츠·광고·AI 검색, 약 3분.",
-};
 
 /** 진단 항목별 왜 보는지 */
 const AREAS = [

@@ -1,3 +1,12 @@
+import { pageMeta, JsonLd, faqJsonLd } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "자주 묻는 질문",
+  description:
+    "계약 기간, 월 4개 병원 수주 기준, 리포트 방식, 의료광고심의 처리까지 — 원장님들이 가장 많이 묻는 질문에 답합니다.",
+  path: "/insight/faq",
+});
+
 import { Section } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { InsightTabs } from "@/components/templates/Insight";
@@ -43,6 +52,7 @@ const FAQS = [
 export default function Page() {
   return (
     <>
+      <JsonLd data={faqJsonLd(FAQS)} />
       <PageHero
         crumbs={[{ label: "메디컬 칼럼", href: "/insight" }, { label: "FAQ" }]}
         title="자주 묻는 질문"

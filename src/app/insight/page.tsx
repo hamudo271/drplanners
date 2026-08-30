@@ -1,3 +1,11 @@
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "메디컬 칼럼",
+  description: "병원 마케팅을 바라보는 관점과 실무 기록. 플레이스 최적화, 의료광고 심의, 리포트 읽는 법까지 현장에서 검증한 내용만 정리합니다.",
+  path: "/insight",
+});
+
 import Link from "next/link";
 import { Section, Media, H2 } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";

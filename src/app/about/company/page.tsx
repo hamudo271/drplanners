@@ -1,3 +1,11 @@
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "회사소개",
+  description: "닥터플래너스의 조직과 연혁, 오시는 길을 안내합니다. 대행사 시절과 직접 검증의 시간을 거쳐 2026년 설립했습니다.",
+  path: "/about/company",
+});
+
 import Link from "next/link";
 import { Section, Media, BrassIcon, Button, H2 } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";

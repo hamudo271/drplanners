@@ -1,3 +1,11 @@
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "회사 소개",
+  description: "블로그 몇 건, 광고 소재 몇 개를 채우는 회사가 아닙니다. 무엇을 하고 무엇을 하지 않을지 정하고, 결과를 숫자로 설명하는 일까지가 저희 몫입니다.",
+  path: "/about",
+});
+
 import Link from "next/link";
 import { Section, Media, BrassIcon, H2 } from "@/components/ui";
 import { PageHero, CtaBand, findHub } from "@/components/templates/shared";

@@ -1,12 +1,16 @@
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "CONTACT",
+  description: "병원 상황을 알려주시면 담당 플래너가 직접 검토 후 연락드립니다. 월 최대 4개 병원만 새로 맡습니다.",
+  path: "/contact",
+});
+
 import { Section, Media, BrassIcon, Button } from "@/components/ui";
 import { PageHero } from "@/components/templates/shared";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { CONTACT_HERO, cardImage } from "@/config/images";
 
-export const metadata = {
-  title: "CONTACT — 닥터플래너스",
-  description: "병원 상황을 알려주시면 담당 플래너가 직접 검토 후 연락드립니다.",
-};
 
 export default function Page() {
   return (

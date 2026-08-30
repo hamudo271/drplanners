@@ -1,3 +1,11 @@
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({
+  title: "사이트맵",
+  description: "닥터플래너스 전체 페이지 목록입니다.",
+  path: "/sitemap-view",
+});
+
 import Link from "next/link";
 import { Section } from "@/components/ui";
 import { PageHero } from "@/components/templates/shared";
