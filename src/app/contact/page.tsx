@@ -1,4 +1,4 @@
-import { Section, Media, IconBox, Button } from "@/components/ui";
+import { Section, Media, BrassIcon, Button } from "@/components/ui";
 import { PageHero } from "@/components/templates/shared";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { CONTACT_HERO, cardImage } from "@/config/images";
@@ -26,13 +26,17 @@ export default function Page() {
           <aside className="space-y-8">
             <div className="border border-ink-900/15 p-6">
               <p className="label">바로 연락</p>
-              <div className="mt-5 space-y-4">
-                {["대표번호", "이메일", "카카오톡 채널"].map((k) => (
-                  <div key={k} className="flex items-center gap-3">
-                    <IconBox size={32} />
+              <div className="mt-5 space-y-5">
+                {[
+                  { k: "대표번호", v: "문의 폼으로 남겨주시면 연락드립니다" },
+                  { k: "이메일", v: "아래 폼이 담당자 메일로 바로 전달됩니다" },
+                  { k: "응답 시간", v: "영업일 기준 1일 내 회신" },
+                ].map((c) => (
+                  <div key={c.k} className="flex items-start gap-3">
+                    <BrassIcon size={28} />
                     <div className="flex-1">
-                      <p className="label">{k}</p>
-                      <p className="mt-1.5 h-3 w-2/3 rounded-sm bg-ink-900/8" />
+                      <p className="label">{c.k}</p>
+                      <p className="prose-ko mt-1.5 text-sm text-ink-500">{c.v}</p>
                     </div>
                   </div>
                 ))}

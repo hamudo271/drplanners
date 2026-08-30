@@ -92,51 +92,45 @@ export const REST = {
   sub: "DOCTOR, TAKE A REST. WE PLAN THE GROWTH.",
 };
 
+/**
+ * 07 WORKS — 실제 사례 수치를 받기 전까지의 구성.
+ * ⚠️ 지어낸 성과 수치는 넣지 않습니다. 실제 데이터가 확보되면
+ *    cases에 { tag, headline, chips, metrics }를 채우고
+ *    Works 컴포넌트의 사례 카드 분기를 사용하면 됩니다.
+ */
 export const WORKS = {
-  title: "PLANNED BY DR.PLANERS.",
-  more: "전체 사례 보기",
-  cases: [
+  title: "HOW WE PLAN.",
+  lead: "사례는 계약 병원의 동의를 받은 뒤 순차적으로 공개합니다. 대신 저희가 어떤 순서로 일하는지를 먼저 보여드립니다.",
+  more: "진단부터 시작하기",
+  /** 실제 사례가 준비되면 여기에 채웁니다 */
+  cases: [] as {
+    tag: string;
+    headline: string;
+    chips: string[];
+    metrics: { label: string; value: string }[];
+  }[],
+  /** 사례 대신 보여주는 접근 방식 3단 */
+  approach: [
     {
-      tag: "DERMATOLOGY / SEO",
-      headline: "검색에서 밀려나던 병원을 설계하다.",
-      chips: ["SEO", "AEO"],
-      metrics: [
-        { label: "유입 증가", value: "231%" },
-        { label: "예약 전환", value: "187%" },
-      ],
+      no: "01",
+      tag: "BEFORE",
+      title: "지금 어디가 막혀 있는지",
+      body: "유입이 없는 병원과, 유입은 있는데 예약으로 이어지지 않는 병원은 처방이 완전히 다릅니다. 채널·전환·재방문 중 어디가 병목인지부터 찾습니다.",
     },
     {
-      tag: "BRANDING / CONTENT",
-      headline: "원장의 진료 철학을 하나의 브랜드로.",
-      chips: ["Branding", "Content"],
-      metrics: [
-        { label: "브랜드 검색량", value: "310%" },
-        { label: "신규 환자", value: "159%" },
-      ],
+      no: "02",
+      tag: "STRATEGY",
+      title: "목표에서 거꾸로 계산",
+      body: "목표 매출 → 필요 신환 수 → 예약 문의 수 → 유입 수. 여기서 나온 숫자가 KPI가 됩니다. ‘열심히 하겠습니다’로 시작하지 않습니다.",
     },
     {
-      tag: "AI / SEARCH",
-      headline: "검색 이후의 검색을 준비하다.",
-      chips: ["AI", "GEO"],
-      metrics: [
-        { label: "AI 노출 점유", value: "270%" },
-        { label: "문의 전환", value: "145%" },
-      ],
+      no: "03",
+      tag: "RESULT",
+      title: "숫자를 해석해서 보고",
+      body: "노출이 아니라 전환 경로를 봅니다. 신환 1명이 실제로 얼마에 만들어졌는지까지 계산해 ‘이래서 올랐습니다’로 설명합니다.",
     },
   ],
-  flow: ["Before", "Strategy", "Result"],
-};
-
-export const STANDARDS = {
-  title: ["저희는 모든 병원을", "받지 않습니다."],
-  body: "휴식은 대량생산할 수 없습니다. 한 원장님께 드리는 쉼의 무게를 지키기 위해, 저희가 동시에 감당하는 병원 수에는 명확한 한계가 있습니다.",
-  rules: [
-    "월 최대 4개 병원만 새로 맡습니다",
-    "동일 상권의 동일 진료과는 중복해서 맡지 않습니다",
-    "3개월 미만 단발성 계약은 지양합니다",
-    "의료광고심의 기준을 지키지 않는 방향과는 협업하지 않습니다",
-    "방향 결정권을 위임해주시는 곳과만 협업합니다",
-  ],
+  note: "공개 가능한 사례가 준비되는 대로 이 자리에 게재합니다.",
 };
 
 export const DIAGNOSIS = {
@@ -151,24 +145,25 @@ export const INSIGHT = {
   title: "THINKING FOR DOCTORS.",
   tabs: ["Medical Column", "Insight", "FAQ"],
   more: "전체 보기",
+  /** 실제 아티클 3건 — content/articles.ts와 slug가 일치해야 합니다 */
   cards: [
     {
-      cat: "Medical Column",
+      cat: "칼럼",
       date: "2026.08.29",
       title: "왜 닥터플래너스일까?",
       href: "/insight/column/why-drplanners",
     },
     {
-      cat: "Insight",
-      date: "2026.05.13",
-      title: "AI 시대, 병원이 준비해야 할 검색의 형태.",
-      href: "/insight/column",
+      cat: "칼럼",
+      date: "2026.08.22",
+      title: "플레이스 순위는 왜 안 오를까요?",
+      href: "/insight/column/place-ranking-basics",
     },
     {
-      cat: "FAQ",
-      date: "2026.05.06",
-      title: "블로그 운영, 꼭 해야 할까요?",
-      href: "/insight/faq",
+      cat: "칼럼",
+      date: "2026.08.15",
+      title: "의료광고 심의, 어디까지 받아야 하나요?",
+      href: "/insight/column/medical-ad-review-basics",
     },
   ],
 };

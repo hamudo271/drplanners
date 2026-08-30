@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Section, Media, TextLines } from "@/components/ui";
+import { Section, Media, TextLines, BrassIcon, Button } from "@/components/ui";
 import { PageHero, CtaBand, findHub } from "./shared";
 import { INSIGHT, cardImage } from "@/config/images";
 import { ARTICLES, type Article } from "@/content/articles";
@@ -40,73 +40,68 @@ export function ListTemplate({
       <InsightTabs current={href} />
 
       <Section>
-        {/* 검색 + 정렬 */}
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex gap-2">
-            {["전체", "브랜딩", "마케팅", "메디컬 AI"].map((f, i) => (
-              <span
-                key={f}
-                className={`border px-4 py-2 text-xs ${ i === 0 ? "border-ink-900 bg-forest-800 text-white" : "border-ink-900/15 text-ink-500" }`}
+        {(() => {
+          const posts = ARTICLES.filter((a) => a.list === href);
+          if (posts.length === 0) {
+            return (
+              <div
+                className="flex flex-col items-center border border-ink-900/15 bg-cream-50 px-8 py-24 text-center"
+                data-reveal
               >
-                {f}
-              </span>
-            ))}
-          </div>
-          <span className="flex w-full max-w-[260px] items-center justify-between border border-ink-900/15 px-4 py-2">
-            <span className="label">검색어 입력</span>
-            <span className="label">⌕</span>
-          </span>
-        </div>
-
-        {/* 카드 그리드 — 실제 글 먼저, 나머지는 더미 자리 */}
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {ARTICLES.filter((a) => a.list === href).map((a, i) => (
-            <Link key={a.slug} href={`${href}/${a.slug}`} className="border border-ink-900/15 bg-cream-50">
-              <Media
-                label="썸네일"
-                ratio="aspect-[16/10]"
-                className="border-b!"
-                src={cardImage(i)}
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-              <div className="p-5">
-                <p className="label tnum">
-                  {a.category} · {a.date}
+                <BrassIcon size={44} />
+                <p className="display-ko mt-8 text-lg md:text-xl">
+                  첫 글을 준비하고 있습니다.
                 </p>
-                <p className="display-ko mt-3 text-base">{a.title}</p>
-                <p className="prose-ko mt-3 line-clamp-2 text-sm text-ink-500">{a.excerpt}</p>
+                <p className="prose-ko mt-4 max-w-md text-sm text-ink-500">
+                  병원 마케팅 현장에서 검증한 내용만 정리해 올립니다.
+                  먼저 발행된 칼럼부터 읽어보세요.
+                </p>
+                <Link href="/insight/column" className="mt-9">
+                  <Button variant="outline">칼럼 보러 가기</Button>
+                </Link>
               </div>
-            </Link>
-          ))}
-          {Array.from({ length: 8 }).map((_, i) => (
-            <Link key={i} href={`${href}/sample-post`} className="border border-ink-900/15">
-              <Media
-                label="썸네일"
-                ratio="aspect-[16/10]"
-                className="border-b!"
-                src={cardImage(i + 2)}
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-              <div className="p-5">
-                <p className="label">CATEGORY · 2026.05.{String(20 - i).padStart(2, "0")}</p>
-                <TextLines n={2} className="mt-3" />
-                <TextLines n={2} className="mt-4" />
+            );
+          }
+          return (
+            <>
+              <div className="flex items-baseline justify-between" data-reveal>
+                <p className="label tnum">전체 {posts.length}건</p>
               </div>
-            </Link>
-          ))}
-        </div>
 
-        {/* 페이지네이션 */}
-        <div className="mt-12 flex items-center justify-center gap-2">
-          {["‹", "1", "2", "3", "4", "›"].map((p, i) => (
-            <span
-              key={p + i}
-              className={`flex h-9 w-9 items-center justify-center border text-xs ${ p === "1" ? "border-ink-900 bg-forest-800 text-white" : "border-ink-900/15 text-ink-500" }`}
-            >
-              {p}
-            </span>
-          ))}
-        </div>
+              <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {posts.map((a, i) => (
+                  <Link
+                    key={a.slug}
+                    href={`${href}/${a.slug}`}
+                    className="group border border-ink-900/15 bg-cream-50"
+                    data-reveal
+                    style={{ "--reveal-delay": `${i * 100}ms` } as React.CSSProperties}
+                  >
+                    <div className="overflow-hidden">
+                      <Media
+                        label="썸네일"
+                        ratio="aspect-[16/10]"
+                        className="border-b!"
+                        src={cardImage(i)}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <p className="label tnum">
+                        {a.category} · {a.date}
+                      </p>
+                      <p className="display-ko mt-3 text-base">{a.title}</p>
+                      <p className="prose-ko mt-3 line-clamp-3 text-sm text-ink-500">
+                        {a.excerpt}
+                      </p>
+                      <span className="label mt-6 block">읽어보기 →</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </>
+          );
+        })()}
       </Section>
 
       <CtaBand />

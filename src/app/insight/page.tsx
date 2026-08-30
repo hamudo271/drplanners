@@ -1,12 +1,11 @@
 import Link from "next/link";
-import { Section, Media, TextLines } from "@/components/ui";
-import { PageHero, CtaBand, findHub } from "@/components/templates/shared";
+import { Section, Media, H2 } from "@/components/ui";
+import { PageHero, CtaBand } from "@/components/templates/shared";
 import { InsightTabs } from "@/components/templates/Insight";
 import { HUB_HERO, INSIGHT } from "@/config/images";
 import { ARTICLES } from "@/content/articles";
 
 export default function Page() {
-  const hub = findHub("/insight");
   return (
     <>
       <PageHero
@@ -41,25 +40,47 @@ export default function Page() {
         </Link>
       </Section>
 
-      {/* 4개 카테고리 각각 최신 3건 */}
-      {hub.children?.map((c, idx) => (
-        <Section key={c.href} no={String(idx + 2).padStart(2, "0")} label={c.label} tone={idx % 2 === 0 ? "paper" : "cream"}>
-          <div className="flex items-end justify-between">
-            <h2 className="text-2xl font-light md:text-3xl">{c.label}</h2>
-            <Link href={c.href} className="label whitespace-nowrap">
-              전체 보기 →
+      {/* 카테고리 안내 — 실제 글이 쌓이면 최신 목록으로 대체됩니다 */}
+      <Section no="02" label="Categories" tone="paper">
+        <H2>무엇을 다루나요</H2>
+        <div className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-2">
+          {[
+            {
+              href: "/insight/column",
+              label: "칼럼",
+              body: "병원 마케팅을 바라보는 관점. 왜 대행사를 바꿔도 결과가 같은지, 방향을 정한다는 게 무엇인지 같은 이야기를 답니다.",
+            },
+            {
+              href: "/insight/blog",
+              label: "블로그",
+              body: "실무에서 나온 기록. 플레이스 정비, 키워드 설계, 심의 대응처럼 손으로 해본 내용을 정리합니다.",
+            },
+            {
+              href: "/insight/faq",
+              label: "FAQ",
+              body: "계약 기간, 수주 기준, 리포트 방식까지 — 원장님들이 실제로 많이 묻는 질문에 답합니다.",
+            },
+            {
+              href: "/insight/notice",
+              label: "공지사항",
+              body: "서비스 변경과 운영 일정 안내.",
+            },
+          ].map((c, i) => (
+            <Link
+              key={c.href}
+              href={c.href}
+              className="border-r border-b border-ink-900/12 bg-cream-100 p-8"
+              data-reveal
+              style={{ "--reveal-delay": `${i * 100}ms` } as React.CSSProperties}
+            >
+              <p className="label tnum">{String(i + 1).padStart(2, "0")}</p>
+              <p className="display-ko mt-4 text-lg">{c.label}</p>
+              <p className="prose-ko mt-3 text-sm text-ink-500">{c.body}</p>
+              <span className="label mt-7 block">바로가기 →</span>
             </Link>
-          </div>
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
-            {[0, 1, 2].map((i) => (
-              <div key={i} className="border border-ink-900/15 bg-cream-100 p-5">
-                <p className="label">2026.05.{String(20 - i).padStart(2, "0")}</p>
-                <TextLines n={2} className="mt-3" />
-              </div>
-            ))}
-          </div>
-        </Section>
-      ))}
+          ))}
+        </div>
+      </Section>
 
       <CtaBand />
     </>

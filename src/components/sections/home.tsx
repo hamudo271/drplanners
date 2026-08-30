@@ -294,69 +294,48 @@ export function Rest() {
 export function Works() {
   return (
     <Section no="07" label="Works" tone="paper">
-      <div className="flex flex-wrap items-end justify-between gap-4" data-reveal>
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-end" data-reveal>
         <H2En>{C.WORKS.title}</H2En>
-        <Link href="/insight" className="group flex items-center gap-3">
-          <span className="label">{C.WORKS.more}</span>
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
-        </Link>
+        <p className="prose-ko text-sm text-ink-500">{C.WORKS.lead}</p>
       </div>
 
       <div className="mt-14 grid gap-6 md:grid-cols-3">
-        {C.WORKS.cases.map((w, i) => (
+        {C.WORKS.approach.map((a, i) => (
           <article
-            key={w.tag}
-            className="bg-cream-50 p-7 shadow-[0_1px_2px_rgba(22,35,27,0.06),0_12px_32px_-12px_rgba(22,35,27,0.14)]"
+            key={a.no}
+            className="flex flex-col bg-cream-50 p-8 shadow-[0_1px_2px_rgba(22,35,27,0.06),0_12px_32px_-12px_rgba(22,35,27,0.14)]"
             data-reveal
             style={{ "--reveal-delay": `${i * 120}ms` } as React.CSSProperties}
           >
-            <div className="flex items-center gap-2.5">
-              <BrassIcon size={22} />
-              <p className="label">{w.tag}</p>
+            <div className="flex items-center justify-between">
+              <span className="label tnum">{a.no}</span>
+              <span className="label text-brass-600!">{a.tag}</span>
             </div>
 
-            <p className="display-ko mt-5 text-base md:text-lg">{w.headline}</p>
-
             <Media
-              label="케이스 썸네일"
+              label="접근 방식 이미지"
               ratio="aspect-[4/3]"
               className="mt-6"
               src={HOME.works[i]}
               sizes="(max-width: 768px) 100vw, 33vw"
             />
 
-            <div className="mt-6 flex gap-2">
-              {w.chips.map((c) => (
-                <span
-                  key={c}
-                  className="border border-ink-900/15 px-2.5 py-1 text-[11px] tracking-[0.06em] text-ink-500"
-                >
-                  {c}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 gap-4 border-t border-ink-900/10 pt-6">
-              {w.metrics.map((m) => (
-                <div key={m.label}>
-                  <p className="tnum text-[1.75rem] leading-none font-light">{m.value}</p>
-                  <p className="label mt-2">{m.label}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="label mt-6 flex items-center gap-2">
-              {C.WORKS.flow.map((f, j) => (
-                <span key={f}>
-                  {f}
-                  {j < C.WORKS.flow.length - 1 && <span className="px-2">→</span>}
-                </span>
-              ))}
-            </div>
+            <p className="display-ko mt-7 text-lg">{a.title}</p>
+            <p className="prose-ko mt-3 text-sm text-ink-500">{a.body}</p>
           </article>
         ))}
+      </div>
+
+      <div className="mt-12 flex flex-wrap items-center justify-between gap-6" data-reveal>
+        <p className="prose-ko border-l-2 border-brass-500 pl-5 text-xs text-ink-500">
+          {C.WORKS.note}
+        </p>
+        <Link href="/diagnosis" className="group flex items-center gap-3">
+          <span className="label">{C.WORKS.more}</span>
+          <span className="transition-transform duration-300 group-hover:translate-x-1">
+            →
+          </span>
+        </Link>
       </div>
     </Section>
   );

@@ -1,4 +1,5 @@
-import { Section, Media } from "@/components/ui";
+import Link from "next/link";
+import { Section, Media, BrassIcon, Button, H2 } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { ABOUT } from "@/config/images";
 
@@ -38,7 +39,9 @@ export default function Page() {
             { t: "메디컬 AI", d: "검색·AI 노출 — 발견되는 구조를 만듭니다." },
           ].map(({ t, d }) => (
             <div key={t} className="border border-ink-900/15 p-6">
-              <Media label="팀 이미지" ratio="aspect-square" className="" />
+              <div className="flex aspect-square items-center justify-center bg-cream-200">
+                <BrassIcon size={40} />
+              </div>
               <p className="mt-4 text-base font-medium">{t} 팀</p>
               <p className="prose-ko mt-2 text-sm text-ink-500">{d}</p>
             </div>
@@ -62,14 +65,14 @@ export default function Page() {
       </Section>
 
       <Section no="03" label="Partners">
-        <h2 className="text-2xl font-light md:text-3xl">파트너</h2>
-        <div className="mt-8 grid grid-cols-2 gap-px border border-ink-900/15 bg-ink-900/12 md:grid-cols-6">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div key={i} className="bg-cream-200 flex h-24 items-center justify-center bg-cream-100">
-              <span className="label">LOGO</span>
-            </div>
-          ))}
-        </div>
+        <H2>파트너</H2>
+        <p className="prose-ko mt-6 max-w-xl text-sm text-ink-500">
+          제휴 및 협력사는 계약 관계 확인 후 순차적으로 공개합니다.
+          제휴를 원하시는 경우 문의로 연락 주세요.
+        </p>
+        <Link href="/contact" className="mt-8 inline-block">
+          <Button variant="outline">제휴 문의</Button>
+        </Link>
       </Section>
 
       <Section no="04" label="Location" tone="paper">
@@ -80,7 +83,7 @@ export default function Page() {
             {["주소", "대표번호", "이메일", "운영시간"].map((k) => (
               <div key={k} className="border-b border-ink-900/10 pb-4">
                 <dt className="label">{k}</dt>
-                <dd className="mt-2 h-3 w-3/4 rounded-sm bg-ink-900/8" />
+                <dd className="prose-ko mt-2 text-sm text-ink-500">문의 시 안내드립니다</dd>
               </div>
             ))}
           </dl>
