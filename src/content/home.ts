@@ -143,7 +143,13 @@ export const DIAGNOSIS = {
 
 export const INSIGHT = {
   title: "THINKING FOR DOCTORS.",
-  tabs: ["Medical Column", "Insight", "FAQ"],
+  /** 실제 카테고리로 이동하는 링크 — 사이트맵의 메디컬 칼럼 하위와 일치 */
+  tabs: [
+    { label: "칼럼", href: "/insight/column" },
+    { label: "블로그", href: "/insight/blog" },
+    { label: "FAQ", href: "/insight/faq" },
+    { label: "공지사항", href: "/insight/notice" },
+  ],
   more: "전체 보기",
   /** 실제 아티클 3건 — content/articles.ts와 slug가 일치해야 합니다 */
   cards: [

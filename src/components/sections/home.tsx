@@ -385,14 +385,19 @@ export function Insight() {
     <Section no="09" label="Insight" tone="paper">
       <div className="text-center" data-reveal>
         <H2En>{C.INSIGHT.title}</H2En>
-        <div className="mt-8 inline-flex gap-8 border-b border-ink-900/12">
+        <div className="mt-8 inline-flex flex-wrap justify-center gap-8 border-b border-ink-900/12">
           {C.INSIGHT.tabs.map((t, i) => (
-            <span
-              key={t}
-              className={`pb-3.5 text-sm ${ i === 0 ? "border-b border-ink-900 text-ink-900" : "text-ink-400" }`}
+            <Link
+              key={t.href}
+              href={t.href}
+              className={`pb-3.5 text-sm transition-colors ${
+                i === 0
+                  ? "border-b border-ink-900 text-ink-900"
+                  : "text-ink-400 hover:text-ink-900"
+              }`}
             >
-              {t}
-            </span>
+              {t.label}
+            </Link>
           ))}
         </div>
       </div>
