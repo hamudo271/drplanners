@@ -102,3 +102,43 @@ export const ALL_ROUTES = [
   ...NAV.flatMap((item) => [item.href, ...(item.children ?? []).map((c) => c.href)]),
   NAV_CTA.href,
 ];
+
+/**
+ * 함께 보면 좋은 솔루션.
+ * 실무에서 같이 가는 조합을 짝지어, 상세 페이지끼리 연결합니다.
+ * (내부 링크 구조와 체류시간에도 도움이 됩니다)
+ */
+export const RELATED: Record<string, string[]> = {
+  // 시그니처 — 단계별로 이어집니다
+  "/signature/doctor": ["/branding/account", "/branding/video"],
+  "/signature/opening": ["/medical-ai/website", "/branding/place"],
+  "/signature/growth": ["/marketing/paid-ads", "/medical-ai/seo"],
+
+  // 브랜딩
+  "/branding/account": ["/branding/video", "/marketing/viral"],
+  "/branding/place": ["/medical-ai/seo", "/branding/account"],
+  "/branding/press": ["/marketing/viral", "/signature/doctor"],
+  "/branding/in-clinic-video": ["/branding/video", "/branding/account"],
+  "/branding/video": ["/branding/account", "/marketing/influencer"],
+
+  // 마케팅
+  "/marketing/paid-ads": ["/marketing/review", "/medical-ai/website"],
+  "/marketing/viral": ["/branding/place", "/branding/press"],
+  "/marketing/review": ["/marketing/paid-ads", "/marketing/influencer"],
+  "/marketing/influencer": ["/marketing/review", "/branding/video"],
+  "/marketing/global-patients": ["/medical-ai/website", "/medical-ai/seo"],
+
+  // 메디컬 AI
+  "/medical-ai/website": ["/medical-ai/seo", "/marketing/paid-ads"],
+  "/medical-ai/seo": ["/medical-ai/aeo-geo", "/branding/place"],
+  "/medical-ai/aeo-geo": ["/medical-ai/seo", "/medical-ai/website"],
+};
+
+/** href로 메뉴 정보(라벨·설명·상위)를 찾습니다 */
+export function findByHref(href: string) {
+  for (const item of NAV) {
+    const child = item.children?.find((c) => c.href === href);
+    if (child) return { ...child, parent: item.fullLabel };
+  }
+  return null;
+}

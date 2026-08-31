@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { Container, Section, Media, BrassIcon, TextLines, H2 } from "@/components/ui";
+import Link from "next/link";
 import { PageHero, CtaBand, findDetail } from "./shared";
-import { detailHero, detailBody, whoImage, detailBand } from "@/config/images";
+import { RELATED, findByHref } from "@/config/nav";
+import { detailHero, detailBody, whoImage, detailBand, hubCard } from "@/config/images";
 import { solutionContent } from "@/content/solutions";
 
 /** 템플릿 2 — 솔루션 상세 (하위 리프 16개 공통, 5섹션) */
@@ -291,6 +293,48 @@ export function SolutionDetail({
           </p>
         )}
       </Section>
+
+      {/* 함께 보면 좋은 솔루션 — 실무에서 같이 가는 조합 */}
+      {(RELATED[detailHref] ?? []).length > 0 && (
+        <Section no="06" label="Related" tone="paper">
+          <H2>함께 보면 좋은 솔루션</H2>
+          <p className="prose-ko mt-5 max-w-xl text-sm text-ink-500">
+            이 서비스와 함께 진행할 때 효과가 커지는 항목입니다. 무엇을 묶을지는
+            진단 결과에 따라 저희가 제안드립니다.
+          </p>
+          <div className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-2">
+            {(RELATED[detailHref] ?? []).map((href, i) => {
+              const r = findByHref(href);
+              if (!r) return null;
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className="group border-r border-b border-ink-900/12 bg-cream-100"
+                  data-reveal
+                  style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
+                >
+                  <div className="overflow-hidden">
+                    <Media
+                      label={r.label}
+                      ratio="aspect-[16/9]"
+                      src={hubCard(href, i)}
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-8">
+                    <p className="label">{r.parent}</p>
+                    <p className="display-ko mt-3 text-lg">{r.label}</p>
+                    <p className="prose-ko mt-2.5 text-sm text-ink-500">{r.blurb}</p>
+                    <span className="label mt-7 block">자세히 보기 →</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </Section>
+      )}
 
       <CtaBand />
     </>
