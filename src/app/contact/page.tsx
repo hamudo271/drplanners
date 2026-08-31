@@ -39,8 +39,8 @@ export default function Page() {
                   <div key={c.k} className="flex items-start gap-3">
                     <BrassIcon size={28} />
                     <div className="flex-1">
-                      <p className="label">{c.k}</p>
-                      <p className="prose-ko mt-1.5 text-sm text-ink-500">{c.v}</p>
+                      <p className="text-sm font-medium text-ink-900">{c.k}</p>
+                      <p className="prose-ko mt-1.5 text-sm text-ink-700">{c.v}</p>
                     </div>
                   </div>
                 ))}
@@ -49,7 +49,7 @@ export default function Page() {
 
             <div className="border border-ink-900/15 bg-forest-800 p-6 text-cream-100">
               <p className="label label-on-dark">신규 수주 안내</p>
-              <p className="prose-ko mt-3 text-sm text-cream-100/85">
+              <p className="prose-ko mt-3.5 text-sm text-cream-100/90">
                 닥터플래너스는 월 최대 4개 병원만 새로 맡습니다. 동일 상권의
                 동일 진료과는 중복해서 맡지 않습니다.
               </p>
@@ -57,7 +57,7 @@ export default function Page() {
 
             <div className="border border-ink-900/15 p-6">
               <p className="label">진단부터 시작하기</p>
-              <p className="mt-3 text-sm leading-relaxed">
+              <p className="prose-ko mt-3.5 text-sm text-ink-700">
                 어떤 솔루션이 필요한지 아직 모르시겠다면
                 <br />
                 5분 진단을 먼저 받아보세요.

@@ -88,7 +88,7 @@ export function ContactForm() {
         aria-live="polite"
         className={
           state.status === "error"
-            ? "border border-ink-900 bg-cream-50 px-4 py-3 text-sm outline-none"
+            ? "border border-ink-900 bg-cream-50 px-5 py-4 text-base outline-none"
             : "sr-only"
         }
       >
@@ -147,12 +147,12 @@ export function ContactForm() {
 
       {/* 관심 솔루션 */}
       <fieldset>
-        <legend className="label">관심 솔루션 (중복 선택)</legend>
+        <legend className="text-sm font-medium text-ink-900">관심 솔루션 (중복 선택)</legend>
         <div className="mt-3 flex flex-wrap gap-2">
           {INTERESTS.map((t) => (
             <label
               key={t}
-              className="flex cursor-pointer items-center gap-2 border border-ink-900/15 px-4 py-2 text-xs text-ink-500 has-checked:border-ink-900 has-checked:bg-forest-800 has-checked:text-white"
+              className="flex cursor-pointer items-center gap-2 border border-ink-900/15 px-5 py-2.5 text-sm text-ink-700 transition-colors has-checked:border-ink-900 has-checked:bg-forest-800 has-checked:text-white"
             >
               <input
                 type="checkbox"
@@ -183,7 +183,7 @@ export function ContactForm() {
           placeholder="병원 상황과 궁금한 점을 자유롭게 적어주세요."
           aria-invalid={!!err("message")}
           aria-describedby={err("message") ? errId("message") : undefined}
-          className={`${inputCls(!!err("message"))} resize-y py-3 leading-relaxed`}
+          className={`${inputCls(!!err("message"))} h-auto resize-y py-3.5 leading-relaxed`}
         />
       </Field>
 
@@ -195,14 +195,14 @@ export function ContactForm() {
             name="consent"
             aria-invalid={!!err("consent")}
             aria-describedby={err("consent") ? errId("consent") : undefined}
-            className="mt-0.5 h-4 w-4 shrink-0 accent-forest-800"
+            className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-forest-800"
           />
-          <span className="text-xs text-ink-500">
+          <span className="text-sm leading-relaxed text-ink-700">
             개인정보 수집·이용에 동의합니다. <u>전문보기</u>
           </span>
         </label>
         {err("consent") && (
-          <p id={errId("consent")} className="mt-2 text-xs text-ink-900">
+          <p id={errId("consent")} className="mt-2 text-sm text-ink-900">
             {err("consent")}
           </p>
         )}
@@ -217,7 +217,7 @@ export function ContactForm() {
 
 function inputCls(hasError: boolean) {
   return [
-    "mt-2 block h-11 w-full border bg-cream-50 px-3 text-sm",
+    "mt-2.5 block h-12 w-full border bg-cream-50 px-4 text-base",
     "focus:outline-none focus:ring-2 focus:ring-forest-800 focus:ring-offset-1",
     hasError ? "border-ink-900" : "border-ink-900/15",
   ].join(" ");
@@ -240,14 +240,17 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="label">
+      <label
+        htmlFor={id}
+        className="block text-sm font-medium tracking-normal text-ink-900"
+      >
         {label}
         {required && <span aria-hidden> *</span>}
         {required && <span className="sr-only"> (필수)</span>}
       </label>
       {children}
       {error && (
-        <p id={errorId} className="mt-2 text-xs text-ink-900">
+        <p id={errorId} className="mt-2 text-sm text-ink-900">
           {error}
         </p>
       )}
