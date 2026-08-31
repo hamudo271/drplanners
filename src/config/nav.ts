@@ -12,9 +12,9 @@ export type NavChild = {
 };
 
 export type NavItem = {
-  /** 헤더에 노출되는 짧은 라벨 */
+  /** 좁은 화면·모바일에서 쓰는 짧은 라벨 */
   label: string;
-  /** 사이트맵 원본 풀 라벨 — 드롭다운 헤딩 / 페이지 타이틀용 */
+  /** 대표 명칭 — 헤더 대메뉴 / 드롭다운 헤딩 / 페이지 타이틀 */
   fullLabel: string;
   href: string;
   children?: NavChild[];
@@ -76,7 +76,7 @@ export const NAV: NavItem[] = [
   },
   {
     label: "인사이트",
-    fullLabel: "메디컬 칼럼",
+    fullLabel: "메디컬 인사이트",
     href: "/insight",
     children: [
       { label: "칼럼", href: "/insight/column", blurb: "의료 마케팅 관점" },

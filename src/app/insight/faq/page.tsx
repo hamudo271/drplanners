@@ -54,7 +54,7 @@ export default function Page() {
     <>
       <JsonLd data={faqJsonLd(FAQS)} />
       <PageHero
-        crumbs={[{ label: "메디컬 칼럼", href: "/insight" }, { label: "FAQ" }]}
+        crumbs={[{ label: "메디컬 인사이트", href: "/insight" }, { label: "FAQ" }]}
         title="자주 묻는 질문"
         lead="원장님들이 가장 많이 물어보시는 내용을 모았습니다."
       />

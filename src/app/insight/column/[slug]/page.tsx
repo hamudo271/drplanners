@@ -42,7 +42,7 @@ export default async function Page({
       />
       <JsonLd
         data={breadcrumbJsonLd([
-          { name: "메디컬 칼럼", path: "/insight" },
+          { name: "메디컬 인사이트", path: "/insight" },
           { name: article.category, path: article.list },
           { name: article.title, path: `${article.list}/${article.slug}` },
         ])}

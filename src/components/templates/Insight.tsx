@@ -36,7 +36,7 @@ export function ListTemplate({
 }) {
   return (
     <>
-      <PageHero crumbs={[{ label: "메디컬 칼럼", href: "/insight" }, { label: title }]} title={title} lead={lead} />
+      <PageHero crumbs={[{ label: "메디컬 인사이트", href: "/insight" }, { label: title }]} title={title} lead={lead} />
       <InsightTabs current={href} />
 
       <Section>
@@ -122,7 +122,7 @@ export function ArticleTemplate({
       <article>
         <PageHero
           crumbs={[
-            { label: "메디컬 칼럼", href: "/insight" },
+            { label: "메디컬 인사이트", href: "/insight" },
             { label: category, href: backHref },
             { label: "아티클 제목" },
           ]}
@@ -204,7 +204,7 @@ export function RealArticle({ article }: { article: Article }) {
       <article>
         <PageHero
           crumbs={[
-            { label: "메디컬 칼럼", href: "/insight" },
+            { label: "메디컬 인사이트", href: "/insight" },
             { label: article.category, href: article.list },
             { label: article.title },
           ]}

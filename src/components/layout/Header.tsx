@@ -53,9 +53,11 @@ export function Header() {
             <div key={item.href} className="group relative">
               <Link
                 href={item.href}
-                className="block px-3 py-8 text-[0.8125rem] tracking-[0.06em] whitespace-nowrap opacity-90 transition-opacity hover:opacity-100 xl:px-4"
+                className="block px-2.5 py-8 text-[0.8125rem] tracking-[0.02em] whitespace-nowrap opacity-90 transition-opacity hover:opacity-100 xl:px-3.5 xl:tracking-[0.04em]"
               >
-                {item.label}
+                {/* 1280px 미만에서는 대표 명칭이 다 들어가지 않아 축약 라벨을 씁니다 */}
+                <span className="xl:hidden">{item.label}</span>
+                <span className="hidden xl:inline">{item.fullLabel}</span>
               </Link>
 
               {item.children && (

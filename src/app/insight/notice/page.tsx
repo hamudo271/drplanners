@@ -15,7 +15,7 @@ export default function Page() {
   return (
     <>
       <PageHero
-        crumbs={[{ label: "메디컬 칼럼", href: "/insight" }, { label: "공지사항" }]}
+        crumbs={[{ label: "메디컬 인사이트", href: "/insight" }, { label: "공지사항" }]}
         title="공지사항"
         lead="닥터플래너스의 소식과 안내입니다."
       />

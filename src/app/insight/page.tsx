@@ -1,7 +1,7 @@
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "메디컬 칼럼",
+  title: "메디컬 인사이트",
   description: "병원 마케팅을 바라보는 관점과 실무 기록. 플레이스 최적화, 의료광고 심의, 리포트 읽는 법까지 현장에서 검증한 내용만 정리합니다.",
   path: "/insight",
 });
@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <>
       <PageHero
-        crumbs={[{ label: "메디컬 칼럼" }]}
+        crumbs={[{ label: "메디컬 인사이트" }]}
         title="THINKING FOR DOCTORS."
         lead="의료 마케팅에 대한 닥터플래너스의 관점과 실무 기록입니다."
         mediaLabel="인사이트 키비주얼"

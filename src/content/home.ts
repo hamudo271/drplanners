@@ -143,7 +143,7 @@ export const DIAGNOSIS = {
 
 export const INSIGHT = {
   title: "THINKING FOR DOCTORS.",
-  /** 실제 카테고리로 이동하는 링크 — 사이트맵의 메디컬 칼럼 하위와 일치 */
+  /** 실제 카테고리로 이동하는 링크 — 사이트맵의 메디컬 인사이트 하위와 일치 */
   tabs: [
     { label: "칼럼", href: "/insight/column" },
     { label: "블로그", href: "/insight/blog" },
