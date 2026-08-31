@@ -213,6 +213,53 @@ export function SolutionDetail({
         </div>
       </Section>
 
+      {/* 원장님이 실제로 쓰시는 시간 — 철학을 숫자로 증명 */}
+      {c?.yourTime && (
+        <section className="bg-forest-800 text-cream-100">
+          <Container className="py-20 md:py-24">
+            <div className="grid gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
+              <div data-reveal>
+                <p className="label label-on-dark">Your time</p>
+                <H2 className="mt-6 text-cream-100">
+                  원장님이 쓰시는 시간은
+                  <br />
+                  {c.yourTime.summary}입니다.
+                </H2>
+                <p className="prose-ko mt-7 text-sm text-cream-100/70">
+                  나머지는 저희가 가져갑니다. 원장님의 시간은 진료와 삶을 위해
+                  남겨두세요.
+                </p>
+              </div>
+
+              <div className="grid gap-px border-t border-l border-cream-100/15 sm:grid-cols-2">
+                <div className="border-r border-b border-cream-100/15 p-7">
+                  <p className="label label-on-dark">원장님이 하실 일</p>
+                  <ul className="mt-5 space-y-3">
+                    {c.yourTime.doing.map((d) => (
+                      <li key={d} className="flex gap-3">
+                        <span className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full bg-brass-400" />
+                        <span className="prose-ko text-sm text-cream-100/90">{d}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="border-r border-b border-cream-100/15 p-7">
+                  <p className="label label-on-dark">저희가 가져가는 일</p>
+                  <ul className="mt-5 space-y-3">
+                    {c.yourTime.weTake.map((w) => (
+                      <li key={w} className="flex gap-3">
+                        <span className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full bg-cream-100/40" />
+                        <span className="prose-ko text-sm text-cream-100/70">{w}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </Container>
+        </section>
+      )}
+
       {/* 05 ── FAQ */}
       <Section no="05" label="FAQ">
         <H2>자주 묻는 질문</H2>
