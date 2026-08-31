@@ -32,7 +32,7 @@ export function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${ overHero ? "bg-transparent text-cream-100" : "border-b border-ink-900/10 bg-cream-100/95 text-ink-900 backdrop-blur" }`}
     >
-      <div className="mx-auto flex h-20 w-full max-w-[1280px] items-center gap-6 px-6 md:h-24 md:px-10 lg:px-14">
+      <div className="mx-auto flex h-20 w-full max-w-[1400px] items-center gap-6 px-6 md:h-24 md:px-10 lg:px-14">
         <Link href="/" className="shrink-0" aria-label="닥터플래너스 홈">
           <Image
             src={overHero ? "/brand/logo-light.png" : "/brand/logo.png"}
