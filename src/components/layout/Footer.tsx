@@ -40,16 +40,16 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8 sm:gap-y-12">
             {COLUMNS.map((col) => (
               <div key={col.title}>
                 <p className="label label-on-dark mb-5">{col.title}</p>
-                <ul className="space-y-3">
+                <ul className="space-y-1 sm:space-y-1.5">
                   {col.hrefs.map((h) => (
                     <li key={h}>
                       <Link
                         href={h}
-                        className="text-sm text-cream-100/70 transition-colors hover:text-cream-100"
+                        className="-my-2.5 block py-2.5 text-sm text-cream-100/70 transition-colors hover:text-cream-100"
                       >
                         {labelFor(h)}
                       </Link>
@@ -68,7 +68,7 @@ export function Footer() {
                 <li className="pt-2">
                   <Link
                     href={NAV_CTA.href}
-                    className="border-b border-cream-100/30 pb-1 transition-colors hover:border-cream-100"
+                    className="inline-block border-b border-cream-100/30 py-2.5 transition-colors hover:border-cream-100"
                   >
                     문의하기
                   </Link>
@@ -82,13 +82,13 @@ export function Footer() {
           <span className="label label-on-dark tnum">
             © 2026 DR.PLANERS. All rights reserved.
           </span>
-          <Link href="/insight/notice" className="label label-on-dark">
+          <Link href="/insight/notice" className="label label-on-dark -my-3 py-3">
             개인정보처리방침
           </Link>
-          <Link href="/insight/notice" className="label label-on-dark">
+          <Link href="/insight/notice" className="label label-on-dark -my-3 py-3">
             이용약관
           </Link>
-          <Link href="/sitemap-view" className="label label-on-dark ml-auto">
+          <Link href="/sitemap-view" className="label label-on-dark -my-3 py-3 sm:ml-auto">
             사이트맵
           </Link>
         </div>

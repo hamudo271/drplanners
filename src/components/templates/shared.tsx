@@ -21,7 +21,7 @@ export function PageHero({
   const src = mediaSrc ?? DEFAULT_PAGE_HERO;
   const isEn = /^[A-Za-z0-9 .·&|-]+$/.test(title);
   return (
-    <section className="relative flex min-h-[400px] items-end md:min-h-[480px]">
+    <section className="relative flex min-h-[340px] items-end sm:min-h-[400px] md:min-h-[480px]">
       <div className="veil-left absolute inset-0">
         <Image src={src} alt="" fill priority sizes="100vw" className="object-cover" />
       </div>
@@ -31,14 +31,14 @@ export function PageHero({
           aria-label="breadcrumb"
           data-reveal
         >
-          <Link href="/" className="transition-colors hover:text-cream-100">
+          <Link href="/" className="-my-3 py-3 transition-colors hover:text-cream-100">
             HOME
           </Link>
           {crumbs.map((c) => (
             <span key={c.label} className="flex items-center gap-2.5">
               <span aria-hidden>/</span>
               {c.href ? (
-                <Link href={c.href} className="transition-colors hover:text-cream-100">
+                <Link href={c.href} className="-my-3 py-3 transition-colors hover:text-cream-100">
                   {c.label}
                 </Link>
               ) : (
