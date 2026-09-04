@@ -25,6 +25,10 @@ export function SolutionHub({ href }: { href: string }) {
   const hub = findHub(href);
   const c = hubContent(href);
 
+  const items = hub.children ?? [];
+  // 3열 기준으로 남는 칸 수 (5개 → 1칸)
+  const fillers = (3 - (items.length % 3)) % 3;
+
   // 섹션 번호 — 환자 여정이 있는 허브는 뒤 섹션이 한 칸씩 밀립니다
   let n = 0;
   const no = () => String(++n).padStart(2, "0");
@@ -40,15 +44,20 @@ export function SolutionHub({ href }: { href: string }) {
       />
 
       <Section no={no()} label="Sub solutions">
-        <div className="grid gap-px border border-ink-900/15 bg-ink-900/12 md:grid-cols-2">
-          {hub.children?.map((c, i) => (
-            <Link key={c.href} href={c.href} className="group bg-cream-100">
+        {/* 3열 — 3의 배수가 아닌 허브(5개)는 남는 칸을 진단 안내 카드로 채워 빈 칸을 없앱니다 */}
+        <div className="grid border-t border-l border-ink-900/15 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((c, i) => (
+            <Link
+              key={c.href}
+              href={c.href}
+              className="group border-r border-b border-ink-900/15 bg-cream-100"
+            >
               <div className="overflow-hidden">
                 <Media
                   label={c.label}
-                  ratio="aspect-[16/9]"
+                  ratio="aspect-[16/10]"
                   src={hubCard(href, i)}
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
                 />
               </div>
@@ -62,6 +71,29 @@ export function SolutionHub({ href }: { href: string }) {
                   </div>
                 </div>
                 <span className="label mt-7 block">자세히 보기 →</span>
+              </div>
+            </Link>
+          ))}
+
+          {Array.from({ length: fillers }).map((_, i) => (
+            <Link
+              key={`filler-${i}`}
+              href="/diagnosis"
+              className="group flex min-h-[320px] flex-col justify-between border-r border-b border-ink-900/15 bg-forest-800 p-8 text-cream-100"
+            >
+              <p className="label label-on-dark">어떤 조합이 맞을지 모르겠다면</p>
+              <div>
+                <p className="display-ko text-xl">
+                  5가지 항목으로
+                  <br />
+                  지금 위치부터 확인하세요.
+                </p>
+                <p className="prose-ko mt-4 text-sm text-cream-100/65">
+                  약 3분. 자동 점수가 아니라 담당 플래너가 직접 읽고 회신합니다.
+                </p>
+                <span className="label label-on-dark mt-10 block transition-colors group-hover:text-cream-100">
+                  병원 진단 시작하기 →
+                </span>
               </div>
             </Link>
           ))}
