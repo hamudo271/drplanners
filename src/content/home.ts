@@ -5,6 +5,8 @@ export const HERO = {
   body: ["병원은 더 성장하고,", "원장님은 더 여유롭게."],
   services: "Branding · Marketing · Operation · Growth",
   cta: "Meet Dr.Planers",
+  /** 첫 화면의 행동 유도 — 진단으로 바로 진입 */
+  primary: "병원 진단 시작하기",
 };
 
 export const PROBLEM = {
@@ -56,10 +58,10 @@ export const SIGNATURE = {
     "이 계획은 6단계 DR.PLAN 프로세스로 실행됩니다.",
   ],
   steps: [
-    { no: "01", en: "DIAGNOSIS", ko: "병원의 현재를\n진단합니다." },
-    { no: "02", en: "DIRECTION", ko: "가야 할 방향을\n결정합니다." },
-    { no: "03", en: "PLANNING", ko: "브랜드·마케팅을\n설계합니다." },
-    { no: "04", en: "MANAGEMENT", ko: "실행하고\n관리합니다." },
+    { no: "01", en: "DIAGNOSIS", ko: "병원의 현재를\n진단합니다.", you: "없음" },
+    { no: "02", en: "DIRECTION", ko: "가야 할 방향을\n결정합니다.", you: "결과 확인 · 1분" },
+    { no: "03", en: "PLANNING", ko: "브랜드·마케팅을\n설계합니다.", you: "승인" },
+    { no: "04", en: "MANAGEMENT", ko: "실행하고\n관리합니다.", you: "월 1회 보고 받기" },
   ],
 };
 
@@ -151,27 +153,6 @@ export const INSIGHT = {
     { label: "공지사항", href: "/insight/notice" },
   ],
   more: "전체 보기",
-  /** 실제 아티클 3건 — content/articles.ts와 slug가 일치해야 합니다 */
-  cards: [
-    {
-      cat: "칼럼",
-      date: "2026.08.29",
-      title: "왜 닥터플래너스일까?",
-      href: "/insight/column/why-drplanners",
-    },
-    {
-      cat: "칼럼",
-      date: "2026.08.22",
-      title: "플레이스 순위는 왜 안 오를까요?",
-      href: "/insight/column/place-ranking-basics",
-    },
-    {
-      cat: "칼럼",
-      date: "2026.08.15",
-      title: "의료광고 심의, 어디까지 받아야 하나요?",
-      href: "/insight/column/medical-ad-review-basics",
-    },
-  ],
 };
 
 export const CTA = {

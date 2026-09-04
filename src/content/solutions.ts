@@ -1095,6 +1095,77 @@ export type HubContent = {
   processTitle?: string;
   process: { title: string; body: string; you?: string }[];
   casesNote: string;
+  /** 환자가 병원을 고르는 여정 — 우리 솔루션이 어느 단계에 붙는지 */
+  journey?: HubJourney;
+};
+
+export type HubJourney = {
+  title: string;
+  lead: string;
+  steps: {
+    title: string;
+    body: string;
+    /** 이 단계에 붙는 우리 솔루션 (상세 페이지 링크) */
+    ours: { label: string; href: string }[];
+  }[];
+  closing: string;
+};
+
+/** 마케팅 허브 — 환자 검색 동선 6단계 */
+const MARKETING_JOURNEY: HubJourney = {
+  title: "환자는 이렇게 병원을 고릅니다",
+  lead: "마케팅은 ‘많이 노출’이 아니라, 환자가 병원을 고르는 여섯 단계 중 막힌 곳을 뚫는 일입니다. 저희 솔루션이 어느 단계에 붙는지 표시했습니다.",
+  steps: [
+    {
+      title: "니즈",
+      body: "증상이 생기거나, 시술이 궁금해집니다. 아직 병원 이름은 모릅니다.",
+      ours: [],
+    },
+    {
+      title: "1차 검색",
+      body: "증상명 · 지역+진료과목 · 시술명으로 검색합니다. 여기서 보이지 않으면 다음 단계는 없습니다.",
+      ours: [
+        { label: "검색엔진 최적화", href: "/medical-ai/seo" },
+        { label: "플레이스 최적화", href: "/branding/place" },
+        { label: "CPC / CPM 광고", href: "/marketing/paid-ads" },
+      ],
+    },
+    {
+      title: "첫 노출",
+      body: "검색광고 · 블로그 · 기사 · 영상이 눈에 들어옵니다. 병원 이름을 처음 보는 순간입니다.",
+      ours: [
+        { label: "바이럴마케팅", href: "/marketing/viral" },
+        { label: "언론보도", href: "/branding/press" },
+        { label: "국내·외 인플루언서", href: "/marketing/influencer" },
+      ],
+    },
+    {
+      title: "2차 검색",
+      body: "병원명을 다시 검색해 플레이스 리뷰 · 홈페이지 · SNS를 확인합니다. 마음을 정하는 자리입니다.",
+      ours: [
+        { label: "플레이스 최적화", href: "/branding/place" },
+        { label: "계정 운영", href: "/branding/account" },
+        { label: "홈페이지 제작", href: "/medical-ai/website" },
+      ],
+    },
+    {
+      title: "예약 · 내원",
+      body: "예약 버튼이나 길찾기를 누릅니다. 전화가 오면 데스크가 받습니다.",
+      ours: [
+        { label: "홈페이지 제작 — 예약 연동", href: "/medical-ai/website" },
+        { label: "의료광고심의 대행", href: "/marketing/review" },
+      ],
+    },
+    {
+      title: "후기 · 재방문",
+      body: "후기를 남기고 지인에게 말합니다. 다음 환자의 2차 검색 재료가 됩니다.",
+      ours: [
+        { label: "플레이스 최적화 — 리뷰 관리", href: "/branding/place" },
+        { label: "계정 운영", href: "/branding/account" },
+      ],
+    },
+  ],
+  closing: "원장님 병원은 여섯 단계 중 어디에서 환자를 놓치고 있을까요? 그걸 찾는 게 진단입니다.",
 };
 
 export const HUBS: Record<string, HubContent> = {
@@ -1153,6 +1224,7 @@ export const HUBS: Record<string, HubContent> = {
       { title: "실행", body: "집행하고, 효율 기준으로 계속 조정합니다." },
       { title: "리포트 · 관리", body: "예약·문의 기준의 성과를 매달 보고합니다." },
     ],
+    journey: MARKETING_JOURNEY,
     casesNote: "공개 가능한 사례부터 순차적으로 게재할 예정입니다.",
   },
   "/medical-ai": {

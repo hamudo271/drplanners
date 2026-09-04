@@ -143,3 +143,67 @@ html.js [data-reveal].is-in { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
   html.js [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
+
+/* ── 헤더 위 티커: 최신 칼럼이 순환합니다 ────────── */
+.ticker-item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  opacity: 0;
+  animation: ticker-3 var(--ticker-total, 15s) infinite;
+  animation-delay: var(--ticker-delay, 0s);
+}
+.ticker-item.ticker-1 { animation: none; opacity: 1; }
+.ticker-item.ticker-2 { animation-name: ticker-2; }
+
+/* 다음 항목이 들어오는 동안 이전 항목이 살짝 겹쳐 빠집니다 (빈 순간 방지) */
+@keyframes ticker-3 {
+  0%    { opacity: 0; transform: translateY(8px); }
+  3%    { opacity: 1; transform: none; }
+  33.3% { opacity: 1; transform: none; }
+  36.5% { opacity: 0; transform: translateY(-8px); }
+  100%  { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes ticker-2 {
+  0%   { opacity: 0; transform: translateY(8px); }
+  4%   { opacity: 1; transform: none; }
+  50%  { opacity: 1; transform: none; }
+  54%  { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ── PROBLEM 타임라인: 시각이 하나씩 켜집니다 ─────── */
+.tl-item { --tl-dur: 12s; }
+.tl-item .tl-dot {
+  animation: tl-dot var(--tl-dur) infinite;
+  animation-delay: calc(var(--i, 0) * var(--tl-dur) / 4);
+}
+.tl-item .tl-time {
+  animation: tl-time var(--tl-dur) infinite;
+  animation-delay: calc(var(--i, 0) * var(--tl-dur) / 4);
+}
+@keyframes tl-dot {
+  0%, 30%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(169, 143, 95, 0); }
+  8%, 22%       { transform: scale(1.7); box-shadow: 0 0 0 7px rgba(169, 143, 95, 0.16); }
+}
+@keyframes tl-time {
+  0%, 30%, 100% { color: var(--color-ink-500); }
+  8%, 22%       { color: var(--color-brass-600); }
+}
+
+/* ── 플로팅 문의 독 · 바텀 시트 진입 ───────────────── */
+@keyframes dock-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.dock  { animation: dock-in 0.9s var(--ease-out-soft) 0.5s both; }
+.sheet { animation: dock-in 0.45s var(--ease-out-soft) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-item { animation: none; }
+  .ticker-item:first-child { opacity: 1; }
+  .tl-item .tl-dot, .tl-item .tl-time { animation: none; }
+  .dock, .sheet { animation: none; }
+}

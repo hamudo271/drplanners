@@ -4,6 +4,8 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Reveal } from "@/components/layout/Reveal";
+import { QuickContact } from "@/components/layout/QuickContact";
+import { latestArticles } from "@/content/articles";
 import { SITE } from "@/config/site";
 
 /* 영문 디스플레이 — 라이트 웨이트 + 넓은 트래킹 */
@@ -110,6 +112,11 @@ const siteJsonLd = {
   inLanguage: "ko-KR",
 };
 
+/** 헤더 티커 — 최신 칼럼 3건 */
+const ticker = latestArticles("/insight/column")
+  .slice(0, 3)
+  .map((a) => ({ label: "NEW COLUMN", text: a.title, href: `${a.list}/${a.slug}` }));
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -128,9 +135,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
         />
         <Reveal />
-        <Header />
+        <Header ticker={ticker} />
         <main>{children}</main>
         <Footer />
+        <QuickContact kakaoUrl={SITE.kakaoChannel || undefined} />
       </body>
     </html>
   );

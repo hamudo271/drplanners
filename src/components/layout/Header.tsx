@@ -6,7 +6,10 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV, NAV_CTA } from "@/config/nav";
 
-export function Header() {
+/** 헤더 위 얇은 띠에서 순환하는 항목 — layout.tsx가 최신 칼럼으로 채웁니다 */
+export type TickerItem = { label: string; text: string; href: string };
+
+export function Header({ ticker = [] }: { ticker?: TickerItem[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -32,6 +35,40 @@ export function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${ overHero ? "bg-transparent text-cream-100" : "border-b border-ink-900/10 bg-cream-100/95 text-ink-900 backdrop-blur" }`}
     >
+      {/* ── 티커: 최신 칼럼 순환 + 진단 진입 ── */}
+      {ticker.length > 0 && (
+        <div
+          className={`border-b text-[0.6875rem] tracking-[0.08em] transition-colors duration-500 ${ overHero ? "border-cream-100/12 bg-forest-950/35 text-cream-100/80 backdrop-blur-sm" : "border-forest-700 bg-forest-800 text-cream-100/85" }`}
+        >
+          <div className="mx-auto flex h-8 w-full max-w-[1400px] items-center gap-6 px-6 md:h-9 md:px-10 lg:px-14">
+            <div
+              className="relative h-full min-w-0 flex-1"
+              style={{ "--ticker-total": `${ticker.length * 5}s` } as React.CSSProperties}
+            >
+              {ticker.map((t, i) => (
+                <Link
+                  key={t.href}
+                  href={t.href}
+                  className={`ticker-item ticker-${ticker.length} gap-3 transition-colors hover:text-cream-100`}
+                  style={{ "--ticker-delay": `${i * 5}s` } as React.CSSProperties}
+                  tabIndex={i === 0 ? 0 : -1}
+                >
+                  <span className="shrink-0 text-brass-400">{t.label}</span>
+                  <span className="truncate">{t.text}</span>
+                </Link>
+              ))}
+            </div>
+            <Link
+              href="/diagnosis"
+              className="hidden shrink-0 items-center gap-2 transition-colors hover:text-cream-100 sm:flex"
+            >
+              <span>병원 진단 · 약 3분</span>
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
+        </div>
+      )}
+
       <div className="mx-auto flex h-20 w-full max-w-[1400px] items-center gap-6 px-6 md:h-24 md:px-10 lg:px-14">
         <Link href="/" className="shrink-0" aria-label="닥터플래너스 홈">
           <Image
@@ -40,6 +77,7 @@ export function Header() {
             width={1815}
             height={340}
             priority
+            sizes="(max-width: 768px) 150px, 180px"
             className="h-7 w-auto md:h-8"
           />
           {/* 시안: 로고 아래 태그라인 */}

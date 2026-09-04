@@ -174,13 +174,14 @@ export function Button({
   className = "",
 }: {
   children: ReactNode;
-  variant?: "solid" | "outline" | "light" | "brass";
+  variant?: "solid" | "outline" | "light" | "brass" | "cream";
   className?: string;
 }) {
   const styles = {
     solid: "border-forest-800 bg-forest-800 text-cream-100 hover:bg-forest-700",
     outline: "border-ink-900/25 text-ink-900 hover:border-ink-900/60",
     light: "border-cream-100/40 text-cream-100 hover:border-cream-100",
+    cream: "border-cream-100 bg-cream-100 text-forest-900 hover:border-cream-50 hover:bg-cream-50",
     brass: "border-brass-500 text-brass-400 hover:bg-brass-500 hover:text-forest-900",
   }[variant];
 

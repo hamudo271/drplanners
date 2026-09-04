@@ -1,6 +1,6 @@
 import "server-only";
 import { Resend } from "resend";
-import type { ContactInput } from "./contact";
+import type { ContactInput, QuickInput } from "./contact";
 
 /**
  * 문의 전송 어댑터.
@@ -16,24 +16,25 @@ const FROM = process.env.CONTACT_FROM_EMAIL;
 
 export type SendResult = { ok: true; devMode: boolean } | { ok: false; reason: string };
 
-function renderText(data: ContactInput) {
-  const rows: [string, string][] = [
-    ["병원명", data.clinic],
-    ["진료과목", data.department],
-    ["담당자", data.title ? `${data.name} (${data.title})` : data.name],
-    ["연락처", data.phone],
-    ["이메일", data.email],
-    ["관심 솔루션", data.interests.length ? data.interests.join(", ") : "-"],
-  ];
-  const width = Math.max(...rows.map(([k]) => k.length));
+/** 본 문의·빠른 문의가 공유하는 메일 형태 */
+type Mail = {
+  subject: string;
+  heading: string;
+  rows: [string, string][];
+  message: string;
+  replyTo?: string;
+};
+
+function renderText(m: Mail) {
+  const width = Math.max(...m.rows.map(([k]) => k.length));
   return [
-    "닥터플래너스 홈페이지 문의",
+    m.heading,
     "─".repeat(40),
-    ...rows.map(([k, v]) => `${k.padEnd(width, " ")}  ${v}`),
+    ...m.rows.map(([k, v]) => `${k.padEnd(width, " ")}  ${v}`),
     "─".repeat(40),
     "문의 내용",
     "",
-    data.message,
+    m.message,
   ].join("\n");
 }
 
@@ -43,19 +44,11 @@ function esc(s: string) {
   );
 }
 
-function renderHtml(data: ContactInput) {
-  const rows: [string, string][] = [
-    ["병원명", data.clinic],
-    ["진료과목", data.department],
-    ["담당자", data.title ? `${data.name} (${data.title})` : data.name],
-    ["연락처", data.phone],
-    ["이메일", data.email],
-    ["관심 솔루션", data.interests.length ? data.interests.join(", ") : "-"],
-  ];
+function renderHtml(m: Mail) {
   return `<div style="font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:#16201A;max-width:600px">
-  <h2 style="font-weight:500;font-size:18px;margin:0 0 20px">닥터플래너스 홈페이지 문의</h2>
+  <h2 style="font-weight:500;font-size:18px;margin:0 0 20px">${esc(m.heading)}</h2>
   <table style="border-collapse:collapse;width:100%;font-size:14px">
-    ${rows
+    ${m.rows
       .map(
         ([k, v]) =>
           `<tr><th align="left" style="padding:8px 12px 8px 0;border-bottom:1px solid #E9E3D6;width:110px;font-weight:400;color:#6B7770">${esc(k)}</th><td style="padding:8px 0;border-bottom:1px solid #E9E3D6">${esc(v)}</td></tr>`,
@@ -63,11 +56,11 @@ function renderHtml(data: ContactInput) {
       .join("")}
   </table>
   <p style="margin:24px 0 8px;font-size:12px;letter-spacing:.1em;color:#6B7770">문의 내용</p>
-  <div style="white-space:pre-wrap;font-size:14px;line-height:1.7">${esc(data.message)}</div>
+  <div style="white-space:pre-wrap;font-size:14px;line-height:1.7">${esc(m.message)}</div>
 </div>`;
 }
 
-export async function sendContactEmail(data: ContactInput): Promise<SendResult> {
+async function deliver(m: Mail): Promise<SendResult> {
   // ── 개발 폴백: 키가 없으면 콘솔 출력 ──
   if (!API_KEY || !TO || !FROM) {
     const missing = [
@@ -83,7 +76,7 @@ export async function sendContactEmail(data: ContactInput): Promise<SendResult> 
 
     console.info(
       `\n[contact] 개발 모드 — 메일 미발송 (미설정: ${missing.join(", ")})\n` +
-        renderText(data) +
+        renderText(m) +
         "\n",
     );
     return { ok: true, devMode: true };
@@ -93,10 +86,10 @@ export async function sendContactEmail(data: ContactInput): Promise<SendResult> 
     const { error } = await new Resend(API_KEY).emails.send({
       from: FROM,
       to: TO.split(",").map((s) => s.trim()),
-      replyTo: data.email,
-      subject: `[문의] ${data.clinic} — ${data.name}`,
-      text: renderText(data),
-      html: renderHtml(data),
+      ...(m.replyTo ? { replyTo: m.replyTo } : {}),
+      subject: m.subject,
+      text: renderText(m),
+      html: renderHtml(m),
     });
 
     if (error) {
@@ -108,4 +101,36 @@ export async function sendContactEmail(data: ContactInput): Promise<SendResult> 
     console.error("[contact] 전송 실패:", e);
     return { ok: false, reason: "network-error" };
   }
+}
+
+/** /contact 본 문의 폼 */
+export function sendContactEmail(data: ContactInput) {
+  return deliver({
+    subject: `[문의] ${data.clinic} — ${data.name}`,
+    heading: "닥터플래너스 홈페이지 문의",
+    rows: [
+      ["병원명", data.clinic],
+      ["진료과목", data.department],
+      ["담당자", data.title ? `${data.name} (${data.title})` : data.name],
+      ["연락처", data.phone],
+      ["이메일", data.email],
+      ["관심 솔루션", data.interests.length ? data.interests.join(", ") : "-"],
+    ],
+    message: data.message,
+    replyTo: data.email,
+  });
+}
+
+/** 플로팅 독 · 모바일 하단 바의 빠른 문의 */
+export function sendQuickInquiryEmail(data: QuickInput, page: string) {
+  return deliver({
+    subject: `[빠른 문의] ${data.name} · ${data.phone}`,
+    heading: "닥터플래너스 빠른 문의",
+    rows: [
+      ["성함", data.name],
+      ["연락처", data.phone],
+      ["문의한 페이지", page],
+    ],
+    message: data.message,
+  });
 }

@@ -442,3 +442,18 @@ export const ARTICLES: Article[] = [
 ];
 
 export const articleBySlug = (slug: string) => ARTICLES.find((a) => a.slug === slug);
+
+/** 읽는 시간(분) — 한글 기준 분당 500자로 어림합니다 */
+export function readingTime(a: Article) {
+  const chars = a.blocks.reduce(
+    (n, b) => n + ("text" in b ? b.text.length : b.items.join("").length),
+    0,
+  );
+  return Math.max(1, Math.round(chars / 500));
+}
+
+/** 최신순 정렬 — 목록·티커·메인 카드가 같은 순서를 씁니다 */
+export const latestArticles = (list?: Article["list"]) =>
+  [...ARTICLES]
+    .filter((a) => !list || a.list === list)
+    .sort((a, b) => b.date.localeCompare(a.date));

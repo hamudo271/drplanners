@@ -25,7 +25,7 @@ export function PageHero({
       <div className="veil-left absolute inset-0">
         <Image src={src} alt="" fill priority sizes="100vw" className="object-cover" />
       </div>
-      <Container className="relative pt-36 pb-14 md:pt-44 md:pb-20">
+      <Container className="relative pt-40 pb-14 md:pt-48 md:pb-20">
         <nav
           className="label label-on-dark flex flex-wrap items-center gap-2.5"
           aria-label="breadcrumb"
@@ -101,7 +101,7 @@ export function CtaBand() {
           </div>
           <div className="flex shrink-0 flex-wrap gap-3">
             <Link href="/diagnosis">
-              <Button className="border-cream-100! bg-cream-100! text-forest-900!">
+              <Button variant="cream">
                 병원 진단 시작하기
               </Button>
             </Link>

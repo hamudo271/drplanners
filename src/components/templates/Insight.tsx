@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Section, Media, TextLines, BrassIcon, Button } from "@/components/ui";
 import { PageHero, CtaBand, findHub } from "./shared";
 import { INSIGHT, cardImage } from "@/config/images";
-import { ARTICLES, type Article } from "@/content/articles";
+import { ARTICLES, readingTime, type Article } from "@/content/articles";
 
 /** 인사이트 4개 탭 — nav.ts에서 파생 */
 export function InsightTabs({ current }: { current: string }) {
@@ -88,7 +88,7 @@ export function ListTemplate({
                     </div>
                     <div className="p-6">
                       <p className="label tnum">
-                        {a.category} · {a.date}
+                        {a.category} · {a.date} · {readingTime(a)}분 읽기
                       </p>
                       <p className="display-ko mt-3 text-base">{a.title}</p>
                       <p className="prose-ko mt-3 line-clamp-3 text-sm text-ink-500">
@@ -215,7 +215,7 @@ export function RealArticle({ article }: { article: Article }) {
           <div className="mx-auto max-w-[720px]">
             <div className="label flex items-center justify-between border-b border-ink-900/15 pb-5">
               <span className="tnum">
-                {article.category} · {article.date}
+                {article.category} · {article.date} · {readingTime(article)}분 읽기
               </span>
               <span>DR.PLANERS</span>
             </div>

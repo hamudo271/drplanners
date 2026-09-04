@@ -6,17 +6,19 @@ import {
   Media,
   Button,
   CircleArrow,
-  BrassIcon,
   H2,
   H2En,
 } from "@/components/ui";
 import * as C from "@/content/home";
 import { HOME } from "@/config/images";
+import { DIAGNOSIS_QUESTIONS } from "@/content/diagnosis";
+import { latestArticles, readingTime } from "@/content/articles";
 
 /* ══ 01 HERO ══════════════════════════════════════════ */
 export function Hero() {
   return (
-    <section className="relative flex min-h-[88svh] items-center md:min-h-screen">
+    // 화면 높이에 따라 늘어나지 않도록 고정 높이 — 와이드 모니터에서도 시안 비율을 유지합니다
+    <section className="relative flex min-h-[640px] items-center md:min-h-[760px] xl:min-h-[820px]">
       <div className="veil-left absolute inset-0">
         <Image
           src={HOME.hero}
@@ -50,12 +52,18 @@ export function Hero() {
 
           <p className="label label-on-dark mt-9">{C.HERO.services}</p>
 
-          <Link href="/about/philosophy" className="group mt-12 inline-flex items-center gap-5">
-            <CircleArrow size={46} dark />
-            <span className="text-sm tracking-[0.06em] text-cream-100">
-              {C.HERO.cta}
-            </span>
-          </Link>
+          {/* 첫 화면에서 바로 움직일 수 있는 두 갈래 — 진단(주) / 소개(부) */}
+          <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-6">
+            <Link href="/diagnosis">
+              <Button variant="cream">{C.HERO.primary}</Button>
+            </Link>
+            <Link href="/about/philosophy" className="group inline-flex items-center gap-5">
+              <CircleArrow size={46} dark />
+              <span className="text-sm tracking-[0.06em] text-cream-100">
+                {C.HERO.cta}
+              </span>
+            </Link>
+          </div>
         </div>
       </Container>
     </section>
@@ -86,16 +94,17 @@ export function Problem() {
         </div>
 
         <div className="flex flex-col justify-center">
+          {/* 시각이 하나씩 켜지며 밤이 흘러갑니다 (globals.css .tl-*) */}
           <ul className="border-l border-ink-900/15 pl-8">
             {C.PROBLEM.timeline.map((t, i) => (
               <li
                 key={t.time}
-                className="relative py-6"
+                className="tl-item relative py-6"
                 data-reveal
-                style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
+                style={{ "--reveal-delay": `${i * 110}ms`, "--i": i } as React.CSSProperties}
               >
-                <span className="absolute top-[30px] -left-[36px] h-1.5 w-1.5 rounded-full bg-brass-500" />
-                <p className="label tnum">{t.time}</p>
+                <span className="tl-dot absolute top-[30px] -left-[36px] h-1.5 w-1.5 rounded-full bg-brass-500" />
+                <p className="tl-time label tnum">{t.time}</p>
                 <p className="prose-ko mt-2.5 text-sm text-ink-700 md:text-base">
                   {t.text}
                 </p>
@@ -185,19 +194,26 @@ export function Signature() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+        {/* 세리프 숫자가 앵커 — 각 단계마다 원장님이 실제로 하실 일을 적습니다 */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4 md:gap-x-8">
           {C.SIGNATURE.steps.map((s, i) => (
             <div
               key={s.no}
+              className="flex flex-col border-t border-brass-500/40 pt-7"
               data-reveal
               style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
             >
-              <BrassIcon size={38} />
-              <p className="label tnum mt-7">{s.no}</p>
-              <p className="mt-2 text-sm tracking-[0.14em] text-ink-900">{s.en}</p>
-              <p className="prose-ko mt-3 text-xs whitespace-pre-line text-ink-500">
+              <p className="display-serif tnum text-[2.75rem] leading-none text-brass-500 md:text-[3.25rem]">
+                {s.no}
+              </p>
+              <p className="mt-6 text-sm tracking-[0.18em] text-ink-900">{s.en}</p>
+              <p className="prose-ko mt-3 text-sm whitespace-pre-line text-ink-700">
                 {s.ko}
               </p>
+              <div className="mt-auto pt-7">
+                <p className="label">원장님이 하실 일</p>
+                <p className="mt-1.5 text-sm text-brass-600">{s.you}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -361,19 +377,35 @@ export function DiagnosisTeaser() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 border-t border-l border-ink-900/12 sm:grid-cols-5">
-          {C.DIAGNOSIS.items.map((it, i) => (
-            <div
-              key={it}
-              className="flex flex-col items-center gap-5 border-r border-b border-ink-900/12 px-4 py-10"
+        {/* 실제 진단 문항을 그대로 미리 보여줍니다 — content/diagnosis.ts */}
+        <ol className="border-t border-ink-900/12">
+          {DIAGNOSIS_QUESTIONS.map((q, i) => (
+            <li
+              key={q.area}
               data-reveal
               style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
             >
-              <BrassIcon size={34} />
-              <p className="text-center text-xs text-ink-700">{it}</p>
-            </div>
+              <Link
+                href="/diagnosis"
+                className="group -mx-3 grid grid-cols-[3.25rem_1fr_auto] items-baseline gap-4 border-b border-ink-900/12 px-3 py-6 transition-colors duration-300 hover:bg-cream-50 md:grid-cols-[4rem_1fr_auto]"
+              >
+                <span className="display-serif tnum text-2xl leading-none text-brass-500 md:text-3xl">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm tracking-[0.06em] text-ink-900">{q.area}</span>
+                  <span className="prose-ko mt-1.5 block text-sm text-ink-500">{q.q}</span>
+                </span>
+                <span
+                  aria-hidden
+                  className="label transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </Section>
   );
@@ -381,6 +413,9 @@ export function DiagnosisTeaser() {
 
 /* ══ 09 INSIGHT ═══════════════════════════════════════ */
 export function Insight() {
+  // 최신 칼럼 3건 — content/articles.ts에서 직접 가져와 목록과 항상 같습니다
+  const posts = latestArticles("/insight/column").slice(0, 3);
+
   return (
     <Section no="09" label="Insight" tone="paper">
       <div className="text-center" data-reveal>
@@ -403,11 +438,11 @@ export function Insight() {
       </div>
 
       <div className="mt-14 grid gap-6 md:grid-cols-3">
-        {C.INSIGHT.cards.map((c, i) => (
+        {posts.map((a, i) => (
           <Link
-            key={c.title}
-            href={c.href}
-            className="group bg-cream-50"
+            key={a.slug}
+            href={`${a.list}/${a.slug}`}
+            className="group flex flex-col bg-cream-50"
             data-reveal
             style={{ "--reveal-delay": `${i * 120}ms` } as React.CSSProperties}
           >
@@ -420,11 +455,13 @@ export function Insight() {
                 className="transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
               />
             </div>
-            <div className="p-7">
-              <p className="display-ko text-base">{c.title}</p>
-              <p className="label mt-6">
-                {c.cat} · <span className="tnum">{c.date}</span>
+            <div className="flex flex-1 flex-col p-7">
+              <p className="label tnum">
+                {a.category} · {a.date} · {readingTime(a)}분 읽기
               </p>
+              <p className="display-ko mt-4 text-base">{a.title}</p>
+              <p className="prose-ko mt-3 line-clamp-2 text-sm text-ink-500">{a.excerpt}</p>
+              <span className="label mt-auto block pt-6">읽어보기 →</span>
             </div>
           </Link>
         ))}

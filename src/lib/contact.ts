@@ -12,18 +12,22 @@ export const INTERESTS = [
 /** 국내 유선·휴대폰 번호 (하이픈 유무 무관) */
 const PHONE = /^0\d{1,2}-?\d{3,4}-?\d{4}$/;
 
+const phoneField = z
+  .string()
+  .trim()
+  .min(1, "연락처를 입력해주세요.")
+  .refine((v) => PHONE.test(v.replace(/\s/g, "")), {
+    message: "연락처 형식을 확인해주세요. (예: 02-1234-5678)",
+  });
+
+const consentField = z.literal("on", { error: "개인정보 수집·이용에 동의해주세요." });
+
 export const contactSchema = z.object({
   clinic: z.string().trim().min(1, "병원명을 입력해주세요.").max(100),
   department: z.string().trim().min(1, "진료과목을 입력해주세요.").max(100),
   name: z.string().trim().min(1, "담당자명을 입력해주세요.").max(50),
   title: z.string().trim().max(50).optional().or(z.literal("")),
-  phone: z
-    .string()
-    .trim()
-    .min(1, "연락처를 입력해주세요.")
-    .refine((v) => PHONE.test(v.replace(/\s/g, "")), {
-      message: "연락처 형식을 확인해주세요. (예: 02-1234-5678)",
-    }),
+  phone: phoneField,
   email: z
     .string()
     .trim()
@@ -35,10 +39,24 @@ export const contactSchema = z.object({
     .trim()
     .min(10, "문의 내용을 10자 이상 입력해주세요.")
     .max(5000, "문의 내용이 너무 깁니다. (최대 5000자)"),
-  consent: z.literal("on", { error: "개인정보 수집·이용에 동의해주세요." }),
+  consent: consentField,
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;
+
+/** 빠른 문의 — 플로팅 독 · 모바일 하단 바에서 쓰는 3필드 버전 */
+export const quickSchema = z.object({
+  name: z.string().trim().min(1, "성함을 입력해주세요.").max(50),
+  phone: phoneField,
+  message: z
+    .string()
+    .trim()
+    .min(5, "문의 내용을 5자 이상 입력해주세요.")
+    .max(1000, "문의 내용이 너무 깁니다. (최대 1000자)"),
+  consent: consentField,
+});
+
+export type QuickInput = z.infer<typeof quickSchema>;
 
 /** 서버 액션 반환 형태 */
 export type ContactState = {
@@ -66,6 +84,15 @@ export function parseContactForm(formData: FormData) {
     phone: formData.get("phone") ?? "",
     email: formData.get("email") ?? "",
     interests: formData.getAll("interests"),
+    message: formData.get("message") ?? "",
+    consent: formData.get("consent") ?? "",
+  });
+}
+
+export function parseQuickForm(formData: FormData) {
+  return quickSchema.safeParse({
+    name: formData.get("name") ?? "",
+    phone: formData.get("phone") ?? "",
     message: formData.get("message") ?? "",
     consent: formData.get("consent") ?? "",
   });
