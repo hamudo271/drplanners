@@ -4,7 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Reveal } from "@/components/layout/Reveal";
-import { QuickContact } from "@/components/layout/QuickContact";
+import { Dock } from "@/components/layout/Dock";
 import { latestArticles } from "@/content/articles";
 import { SITE } from "@/config/site";
 
@@ -138,7 +138,7 @@ export default function RootLayout({
         <Header ticker={ticker} />
         <main>{children}</main>
         <Footer />
-        <QuickContact kakaoUrl={SITE.kakaoChannel || undefined} />
+        <Dock kakaoUrl={SITE.kakaoChannel || undefined} />
       </body>
     </html>
   );

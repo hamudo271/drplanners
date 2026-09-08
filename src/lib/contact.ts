@@ -44,20 +44,6 @@ export const contactSchema = z.object({
 
 export type ContactInput = z.infer<typeof contactSchema>;
 
-/** 빠른 문의 — 플로팅 독 · 모바일 하단 바에서 쓰는 3필드 버전 */
-export const quickSchema = z.object({
-  name: z.string().trim().min(1, "성함을 입력해주세요.").max(50),
-  phone: phoneField,
-  message: z
-    .string()
-    .trim()
-    .min(5, "문의 내용을 5자 이상 입력해주세요.")
-    .max(1000, "문의 내용이 너무 깁니다. (최대 1000자)"),
-  consent: consentField,
-});
-
-export type QuickInput = z.infer<typeof quickSchema>;
-
 /** 서버 액션 반환 형태 */
 export type ContactState = {
   status: "idle" | "success" | "error";
@@ -89,11 +75,3 @@ export function parseContactForm(formData: FormData) {
   });
 }
 
-export function parseQuickForm(formData: FormData) {
-  return quickSchema.safeParse({
-    name: formData.get("name") ?? "",
-    phone: formData.get("phone") ?? "",
-    message: formData.get("message") ?? "",
-    consent: formData.get("consent") ?? "",
-  });
-}

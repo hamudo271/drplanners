@@ -1,6 +1,6 @@
 import "server-only";
 import { Resend } from "resend";
-import type { ContactInput, QuickInput } from "./contact";
+import type { ContactInput } from "./contact";
 
 /**
  * 문의 전송 어댑터.
@@ -16,7 +16,7 @@ const FROM = process.env.CONTACT_FROM_EMAIL;
 
 export type SendResult = { ok: true; devMode: boolean } | { ok: false; reason: string };
 
-/** 본 문의·빠른 문의가 공유하는 메일 형태 */
+/** 발송할 메일의 형태 */
 type Mail = {
   subject: string;
   heading: string;
@@ -121,16 +121,3 @@ export function sendContactEmail(data: ContactInput) {
   });
 }
 
-/** 플로팅 독 · 모바일 하단 바의 빠른 문의 */
-export function sendQuickInquiryEmail(data: QuickInput, page: string) {
-  return deliver({
-    subject: `[빠른 문의] ${data.name} · ${data.phone}`,
-    heading: "닥터플래너스 빠른 문의",
-    rows: [
-      ["성함", data.name],
-      ["연락처", data.phone],
-      ["문의한 페이지", page],
-    ],
-    message: data.message,
-  });
-}
