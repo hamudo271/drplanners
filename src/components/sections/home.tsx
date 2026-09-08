@@ -485,33 +485,80 @@ export function Insight() {
 /* ══ 10 CTA ═══════════════════════════════════════════ */
 export function ClosingCta() {
   return (
-    <section className="relative flex min-h-[46svh] items-center md:min-h-[54svh]">
-      <div className="veil-soft absolute inset-0">
-        <Image src={HOME.cta} alt="" fill sizes="100vw" className="object-cover" />
+    <section className="relative overflow-hidden bg-forest-800 text-cream-100">
+      {/* 사진은 텍스트 뒤가 아니라 우측 질감으로만 — 03 PHILOSOPHY와 같은 처리 */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-2/3 opacity-[0.17]">
+        <Image src={HOME.cta} alt="" fill sizes="66vw" className="object-cover" />
       </div>
-      <Container className="relative py-20">
-        <div
-          className="flex flex-col items-start justify-between gap-10 text-cream-100 lg:flex-row lg:items-end"
-          data-reveal
-        >
-          <div>
-            <div className="mb-8 flex items-center gap-4">
+      <div className="absolute inset-0 bg-gradient-to-r from-forest-800 via-forest-800/92 to-transparent" />
+      {/* 크림 섹션에서 넘어오는 경계 — 브라스 헤어라인 */}
+      <div
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brass-500/55 to-transparent"
+        aria-hidden
+      />
+
+      <Container className="relative py-24 md:py-32">
+        <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-24">
+          <div data-reveal>
+            <div className="mb-9 flex items-center gap-4">
               <span className="label label-on-dark">10</span>
               <span className="h-px w-8 bg-cream-100/30" aria-hidden />
               <span className="label label-on-dark">{C.CTA.eyebrow}</span>
             </div>
-            <h2 className="display-ko text-[1.625rem] md:text-[2.25rem] lg:text-[2.625rem]" data-lines>
+
+            <h2
+              className="display-ko text-[1.75rem] md:text-[2.375rem] lg:text-[2.75rem]"
+              data-lines
+            >
               {C.CTA.title.map((l) => (
                 <span key={l} className="block">
                   {l}
                 </span>
               ))}
             </h2>
-            <p className="prose-ko mt-5 text-sm text-cream-100/70">{C.CTA.body}</p>
+
+            <p className="prose-ko mt-7 max-w-md text-sm text-cream-100/70 md:text-base">
+              {C.CTA.body}
+            </p>
+
+            <div className="mt-11 flex flex-wrap items-center gap-3">
+              <Link href="/contact">
+                <Button variant="cream">{C.CTA.button}</Button>
+              </Link>
+              <Link href="/diagnosis">
+                <Button variant="light">{C.CTA.second}</Button>
+              </Link>
+            </div>
           </div>
-          <Link href="/contact" className="shrink-0">
-            <Button variant="light">{C.CTA.button}</Button>
-          </Link>
+
+          {/* 버튼을 누르면 무슨 일이 일어나는지 — 빈 공간 대신 답을 둡니다 */}
+          <div
+            data-reveal
+            style={{ "--reveal-delay": "140ms" } as React.CSSProperties}
+          >
+            <p className="label label-on-dark">{C.CTA.stepsLabel}</p>
+            <ol className="mt-6 border-t border-cream-100/15">
+              {C.CTA.steps.map((s, i) => (
+                <li key={s.title} className="flex gap-6 border-b border-cream-100/15 py-6">
+                  <span className="display-serif tnum text-2xl leading-none text-brass-400">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-sm tracking-[0.04em] text-cream-100">{s.title}</p>
+                    <p className="prose-ko mt-1.5 text-sm text-cream-100/60">{s.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            {/* 한글 문장이라 .label의 넓은 자간 대신 본문 스타일로 둡니다 */}
+            <p className="mt-6 flex items-start gap-2.5 text-sm text-cream-100/55">
+              <span
+                className="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-brass-400"
+                aria-hidden
+              />
+              {C.CTA.note}
+            </p>
+          </div>
         </div>
       </Container>
     </section>
