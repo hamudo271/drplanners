@@ -92,7 +92,10 @@ export function Media({
     );
   }
   return (
-    <div className={`relative ${ratio} ${className} overflow-hidden bg-forest-900`}>
+    <div
+      className={`relative ${ratio} ${className} overflow-hidden bg-forest-900`}
+      data-reveal="wipe"
+    >
       <Image
         src={src}
         alt=""
@@ -121,13 +124,17 @@ export function Eyebrow({
 export function H2({
   children,
   className = "",
+  lines = false,
 }: {
   children: ReactNode;
   className?: string;
+  /** 줄 단위로 차례차례 올라오게 합니다 (자식이 <span class="block"> 구조일 때) */
+  lines?: boolean;
 }) {
   return (
     <h2
       className={`display-ko text-[1.75rem] leading-[1.32] md:text-[2.5rem] lg:text-[2.875rem] ${className}`}
+      data-lines={lines ? "" : undefined}
     >
       {children}
     </h2>

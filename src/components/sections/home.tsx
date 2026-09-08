@@ -32,7 +32,10 @@ export function Hero() {
 
       <Container className="relative pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="max-w-3xl text-cream-100" data-reveal>
-          <h1 className="display-en text-[2.75rem] leading-[1.06] sm:text-[3.75rem] lg:text-[5rem]">
+          <h1
+            className="display-en text-[2.75rem] leading-[1.06] sm:text-[3.75rem] lg:text-[5rem]"
+            data-lines
+          >
             {C.HERO.title.map((l) => (
               <span key={l} className="block">
                 {l}
@@ -75,8 +78,8 @@ export function Problem() {
   return (
     <Section no="02" label="Problem">
       <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
-        <div data-reveal>
-          <H2>
+        <div data-reveal="left">
+          <H2 lines>
             {C.PROBLEM.title.map((l) => (
               <span key={l} className="block">
                 {l}
@@ -147,7 +150,7 @@ export function Philosophy() {
         </div>
 
         <div className="max-w-2xl" data-reveal>
-          <h2 className="display-serif text-[2.75rem] sm:text-[3.5rem] lg:text-[4.5rem]">
+          <h2 className="display-serif text-[2.75rem] sm:text-[3.5rem] lg:text-[4.5rem]" data-lines>
             {C.PHILOSOPHY.title.map((l) => (
               <span key={l} className="block">
                 {l}
@@ -177,7 +180,7 @@ export function Signature() {
     <Section no="04" label="Signature" tone="paper">
       <div className="grid gap-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-24">
         <div data-reveal>
-          <h2 className="display-en text-[2rem] md:text-[2.75rem] lg:text-[3.25rem]">
+          <h2 className="display-en text-[2rem] md:text-[2.75rem] lg:text-[3.25rem]" data-lines>
             {C.SIGNATURE.title.map((l) => (
               <span key={l} className="block">
                 {l}
@@ -290,7 +293,7 @@ export function Rest() {
             <span className="h-px w-8 bg-cream-100/30" aria-hidden />
             <span className="label label-on-dark">Rest</span>
           </div>
-          <h2 className="display-ko text-[1.875rem] md:text-[2.75rem] lg:text-[3.25rem]">
+          <h2 className="display-ko text-[1.875rem] md:text-[2.75rem] lg:text-[3.25rem]" data-lines>
             {C.REST.title.map((l) => (
               <span key={l} className="block">
                 {l}
@@ -362,8 +365,8 @@ export function DiagnosisTeaser() {
   return (
     <Section no="08" label="Medical Diagnosis">
       <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
-        <div data-reveal>
-          <H2>
+        <div data-reveal="left">
+          <H2 lines>
             {C.DIAGNOSIS.title.map((l) => (
               <span key={l} className="block">
                 {l}
@@ -497,7 +500,7 @@ export function ClosingCta() {
               <span className="h-px w-8 bg-cream-100/30" aria-hidden />
               <span className="label label-on-dark">{C.CTA.eyebrow}</span>
             </div>
-            <h2 className="display-ko text-[1.625rem] md:text-[2.25rem] lg:text-[2.625rem]">
+            <h2 className="display-ko text-[1.625rem] md:text-[2.25rem] lg:text-[2.625rem]" data-lines>
               {C.CTA.title.map((l) => (
                 <span key={l} className="block">
                   {l}
