@@ -16,9 +16,18 @@ import { BrassIcon } from "@/components/ui";
 /** 본 문의 폼이 있는 페이지에서는 띄우지 않습니다 */
 const HIDDEN_ON = ["/contact"];
 
+/**
+ * 독 공통 셸.
+ * 크림 섹션 위에서는 딥그린 덩어리로, 딥그린 섹션 위에서는 브라스 헤어라인과
+ * 그림자로 형태가 남습니다 — 배경색과 같아져 사라지던 문제를 막습니다.
+ */
+const DOCK_SHELL =
+  "flex border border-brass-500/35 bg-forest-900/92 text-cream-100 shadow-[0_14px_34px_-14px_rgba(6,14,9,0.75)] backdrop-blur-sm transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-brass-400/70 hover:bg-forest-800/95";
+
 export function QuickContact({ kakaoUrl }: { kakaoUrl?: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [lastPath, setLastPath] = useState(pathname);
 
   // 라우트가 바뀌면 닫습니다 (렌더 중 상태 조정 패턴)
@@ -26,6 +35,14 @@ export function QuickContact({ kakaoUrl }: { kakaoUrl?: string }) {
     setLastPath(pathname);
     setOpen(false);
   }
+
+  // 한 화면 이상 내려갔을 때만 '맨 위로'를 띄웁니다 — 상단에서는 군더더기입니다
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.9);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -71,21 +88,23 @@ export function QuickContact({ kakaoUrl }: { kakaoUrl?: string }) {
           </a>
         )}
 
-        <button
-          type="button"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          aria-label="맨 위로"
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-ink-900/15 bg-cream-50 text-ink-700 transition-colors duration-300 hover:border-ink-900/40 hover:text-ink-900"
-        >
-          ↑
-        </button>
+        {scrolled && (
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            aria-label="맨 위로"
+            className={`${DOCK_SHELL} h-12 w-12 items-center justify-center rounded-full`}
+          >
+            ↑
+          </button>
+        )}
 
         <button
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
           aria-controls="quick-panel"
-          className="flex h-12 items-center gap-3 bg-forest-800 px-6 text-[0.8125rem] tracking-[0.08em] text-cream-100 shadow-[0_12px_28px_-12px_rgba(22,35,27,0.5)] transition-colors duration-300 hover:bg-forest-700"
+          className={`${DOCK_SHELL} h-12 items-center gap-3 px-6 text-[0.8125rem] tracking-[0.08em]`}
         >
           <span className="h-1.5 w-1.5 rounded-full bg-brass-400" aria-hidden />
           {open ? "닫기" : "빠른 문의"}
@@ -93,7 +112,7 @@ export function QuickContact({ kakaoUrl }: { kakaoUrl?: string }) {
       </div>
 
       {/* ── 모바일: 하단 고정 바 ── */}
-      <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-ink-900/10 bg-cream-100 pb-[env(safe-area-inset-bottom)] lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-brass-500/35 bg-cream-100 pb-[env(safe-area-inset-bottom)] lg:hidden">
         <Link
           href="/diagnosis"
           className="flex h-14 items-center justify-center gap-2.5 text-sm text-ink-900"
