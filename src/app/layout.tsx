@@ -5,7 +5,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Reveal } from "@/components/layout/Reveal";
 import { Dock } from "@/components/layout/Dock";
-import { latestArticles } from "@/content/articles";
 import { SITE } from "@/config/site";
 
 /* 영문 디스플레이 — 라이트 웨이트 + 넓은 트래킹 */
@@ -83,7 +82,7 @@ const orgJsonLd = {
   url: SITE.url,
   logo: `${SITE.url}/brand/logo.png`,
   image: `${SITE.url}/brand/logo.png`,
-  slogan: "A SANCTUARY FOR DOCTORS",
+  slogan: "병원 마케팅, 방향부터 결정합니다",
   areaServed: { "@type": "Country", name: "대한민국" },
   knowsAbout: [
     "병원 마케팅",
@@ -112,11 +111,6 @@ const siteJsonLd = {
   inLanguage: "ko-KR",
 };
 
-/** 헤더 티커 — 최신 칼럼 3건 */
-const ticker = latestArticles("/insight/column")
-  .slice(0, 3)
-  .map((a) => ({ label: "NEW COLUMN", text: a.title, href: `${a.list}/${a.slug}` }));
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -135,8 +129,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
         />
         <Reveal />
-        <Header ticker={ticker} />
-        <main>{children}</main>
+        <a href="#main-content" className="skip-link">본문으로 바로가기</a>
+        <Header />
+        <main id="main-content">{children}</main>
         <Footer />
         <Dock kakaoUrl={SITE.kakaoChannel || undefined} />
       </body>

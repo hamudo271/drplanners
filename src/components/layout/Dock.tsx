@@ -7,23 +7,25 @@ import { useEffect, useState } from "react";
 /**
  * 화면에 계속 떠 있는 유틸리티.
  *
- * 데스크톱: 맨 위로 · 카카오톡 (헤더에 contact 버튼이 늘 보이므로 문의는 두지 않습니다)
- * 모바일:   햄버거에 메뉴가 숨으므로, 하단 고정 바로 진단·문의 진입로만 남깁니다
+ * 데스크톱: 무료 진단 · 카카오톡 · 맨 위로
+ * 모바일:   햄버거에 메뉴가 숨으므로, 하단 고정 바로 진입로만 남깁니다
+ *
+ * 주 행동은 전 사이트에서 하나입니다 — 무료 병원 진단.
+ * 하단 바에서도 채워진 버튼(마지막 항목)이 진단이어야 합니다.
  */
 
 /** 이미 그 페이지에 있는 진입로는 하단 바에서 지웁니다 */
 const BAR_LINKS = [
-  { href: "/diagnosis", label: "병원 진단" },
-  { href: "/contact", label: "문의하기" },
+  { href: "/contact", label: "문의" },
+  { href: "/diagnosis", label: "무료 병원 진단" },
 ];
 
 /**
  * 독 공통 셸.
- * 크림 섹션 위에서는 딥그린 덩어리로, 딥그린 섹션 위에서는 브라스 헤어라인과
- * 그림자로 형태가 남습니다 — 배경색과 같아져 사라지던 문제를 막습니다.
+ * 밝은 원형 버튼에 얇은 테두리와 그림자를 더해 사진 위에서도 읽히게 합니다.
  */
 const DOCK_SHELL =
-  "flex border border-brass-500/35 bg-forest-900/92 text-cream-100 shadow-[0_14px_34px_-14px_rgba(6,14,9,0.75)] backdrop-blur-sm transition-[transform,border-color,background-color] duration-300 hover:-translate-y-0.5 hover:border-brass-400/70 hover:bg-forest-800/95";
+  "flex border border-ink-900/10 bg-cream-50/95 text-ink-900 shadow-[0_8px_28px_-8px_rgba(55,47,36,0.24)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:bg-cream-200";
 
 export function Dock({ kakaoUrl }: { kakaoUrl?: string }) {
   const pathname = usePathname();
@@ -46,6 +48,10 @@ export function Dock({ kakaoUrl }: { kakaoUrl?: string }) {
 
       {/* ── 데스크톱: 우측 하단 ── */}
       <div className="dock fixed right-6 bottom-6 z-40 hidden flex-col items-end gap-3 lg:flex xl:right-10 xl:bottom-10">
+        <Link href="/diagnosis" aria-label="무료 병원 진단" className={`${DOCK_SHELL} h-16 w-16 flex-col items-center justify-center gap-1 rounded-full`}>
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0Z" /><path d="M7 9h8M7 13h5" /></svg>
+          <span className="text-[11px]">무료 진단</span>
+        </Link>
         {kakaoUrl && (
           <a
             href={kakaoUrl}
@@ -61,9 +67,9 @@ export function Dock({ kakaoUrl }: { kakaoUrl?: string }) {
         {scrolled && (
           <button
             type="button"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}
             aria-label="맨 위로"
-            className={`${DOCK_SHELL} h-12 w-12 items-center justify-center rounded-full`}
+            className={`${DOCK_SHELL} h-14 w-14 items-center justify-center rounded-full`}
           >
             ↑
           </button>

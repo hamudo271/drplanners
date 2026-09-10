@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Section, Media, IconBox, H2, BrassIcon, Button } from "@/components/ui";
 import { PageHero, CtaBand, findHub } from "./shared";
+import { HubDiagram, hasHubDiagram } from "@/components/sections/HubDiagram";
 import { HUB_HERO, hubCard } from "@/config/images";
 import { hubContent } from "@/content/solutions";
 
@@ -43,7 +44,7 @@ export function SolutionHub({ href }: { href: string }) {
         mediaSrc={HUB_HERO[href]}
       />
 
-      <Section no={no()} label="Sub solutions">
+      <Section no={no()} label="세부 서비스">
         {/* 3열 — 3의 배수가 아닌 허브(5개)는 남는 칸을 진단 안내 카드로 채워 빈 칸을 없앱니다 */}
         <div className="grid border-t border-l border-ink-900/15 md:grid-cols-2 lg:grid-cols-3">
           {items.map((c, i) => (
@@ -52,7 +53,7 @@ export function SolutionHub({ href }: { href: string }) {
               href={c.href}
               className="group border-r border-b border-ink-900/15 bg-cream-100"
             >
-              <div className="overflow-hidden">
+              <div className="media-more overflow-hidden" data-more="MORE">
                 <Media
                   label={c.label}
                   ratio="aspect-[16/10]"
@@ -100,9 +101,13 @@ export function SolutionHub({ href }: { href: string }) {
         </div>
       </Section>
 
+      {/* 허브별 고유 도식 — 브랜딩 접점 맵 / 마케팅 예산 흐름 / 메디컬 AI 노출 구조.
+          세 허브가 카드 목록만 반복하지 않도록 페이지마다 형태를 다르게 둡니다. */}
+      {hasHubDiagram(href) && <HubDiagram href={href} no={no()} />}
+
       {/* 환자 여정 — 우리 솔루션이 어느 단계에 붙는지 */}
       {c?.journey && (
-        <Section no={no()} label="Patient journey" tone="forest">
+        <Section no={no()} label="환자가 오는 길" tone="forest">
           <div
             className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end"
             data-reveal
@@ -162,7 +167,7 @@ export function SolutionHub({ href }: { href: string }) {
         </Section>
       )}
 
-      <Section no={no()} label="Process" tone="paper">
+      <Section no={no()} label="진행 순서" tone="paper">
         <H2>{c?.processTitle ?? "진행 방식"}</H2>
         <div
           className={`mt-12 grid gap-px border-t border-l border-ink-900/12 ${
@@ -195,7 +200,7 @@ export function SolutionHub({ href }: { href: string }) {
       </Section>
 
       {/* 사례 — 공개 가능한 것이 생기기 전까지는 원칙으로 신뢰를 대신합니다 */}
-      <Section no={no()} label="Related works">
+      <Section no={no()} label="함께 보면 좋은 것">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
           <div data-reveal>
             <H2>관련 사례</H2>
@@ -227,7 +232,7 @@ export function SolutionHub({ href }: { href: string }) {
         </div>
       </Section>
 
-      <CtaBand />
+      <CtaBand kind="service" />
     </>
   );
 }

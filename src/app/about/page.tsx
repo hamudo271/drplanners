@@ -22,7 +22,7 @@ export default function Page() {
         mediaLabel="브랜드 키비주얼"
         mediaSrc={HUB_HERO["/about"]}
       />
-      <Section no="01" label="About">
+      <Section no="01" label="회사 소개">
         <div className="grid gap-px border border-ink-900/15 bg-ink-900/12 md:grid-cols-2">
           {hub.children?.map((c, i) => (
             <Link key={c.href} href={c.href} className="bg-cream-100 p-10">
@@ -40,7 +40,7 @@ export default function Page() {
           ))}
         </div>
       </Section>
-      <Section no="02" label="What we do" tone="paper">
+      <Section no="02" label="무엇을 하는가" tone="paper">
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div data-reveal>
             <H2>

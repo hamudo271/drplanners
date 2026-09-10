@@ -1,470 +1,342 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Container,
-  Section,
-  Media,
-  Button,
-  CircleArrow,
-  H2,
-  H2En,
-} from "@/components/ui";
+import { Container, Section, Button, CircleArrow } from "@/components/ui";
 import * as C from "@/content/home";
 import { HOME } from "@/config/images";
-import { DIAGNOSIS_QUESTIONS } from "@/content/diagnosis";
 import { latestArticles, readingTime } from "@/content/articles";
+import { ServiceShowcase } from "./ServiceShowcase";
 
-/* ══ 01 HERO ══════════════════════════════════════════ */
-export function Hero() {
+/* ══ 01 히어로 ════════════════════════════════════════
+   4매 로테이션이라 상태가 필요합니다 — 클라이언트 컴포넌트로 분리했습니다. */
+export { HeroSlider as Hero } from "./HeroSlider";
+
+/* ══ 02 대상 확인 ═════════════════════════════════════
+   히어로 바로 다음에 "이 사이트가 당신을 위한 것인가"를 닫아줍니다.
+   주력 타겟은 01이지만 나머지 둘도 받아 이탈을 막습니다. */
+export function Audience() {
   return (
-    // 화면 높이에 따라 늘어나지 않도록 고정 높이 — 와이드 모니터에서도 시안 비율을 유지합니다
-    <section className="relative flex min-h-[640px] items-center md:min-h-[760px] xl:min-h-[820px]">
-      <div className="veil-left absolute inset-0">
-        <Image
-          src={HOME.hero}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
-
-      <Container className="relative pt-32 pb-24 md:pt-40 md:pb-32">
-        <div className="max-w-3xl text-cream-100" data-reveal>
-          <h1
-            className="display-en text-[2.75rem] leading-[1.06] sm:text-[3.75rem] lg:text-[5rem]"
-            data-lines
-          >
-            {C.HERO.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </h1>
-
-          <div className="mt-10 h-px w-14 bg-cream-100/45" />
-
-          <p className="prose-ko mt-8 text-sm text-cream-100/85 md:text-base">
-            {C.HERO.body.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </p>
-
-          <p className="label label-on-dark mt-9">{C.HERO.services}</p>
-
-          {/* 첫 화면에서 바로 움직일 수 있는 두 갈래 — 진단(주) / 소개(부) */}
-          <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-6">
-            <Link href="/diagnosis">
-              <Button variant="cream">{C.HERO.primary}</Button>
-            </Link>
-            <Link href="/about/philosophy" className="group inline-flex items-center gap-5">
-              <CircleArrow size={46} dark />
-              <span className="text-sm tracking-[0.06em] text-cream-100">
-                {C.HERO.cta}
-              </span>
-            </Link>
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ══ 02 PROBLEM ═══════════════════════════════════════ */
-export function Problem() {
-  return (
-    <Section no="02" label="Problem">
-      <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
-        <div data-reveal="left">
-          <H2 lines>
-            {C.PROBLEM.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </H2>
-          <p className="prose-ko mt-6 max-w-md text-sm text-ink-500">{C.PROBLEM.lead}</p>
-          <Media
-            label="야근하는 원장 이미지"
-            ratio="aspect-[16/10]"
-            className="mt-12"
-            src={HOME.problem}
-            sizes="(max-width: 1024px) 100vw, 50vw"
-          />
-        </div>
-
-        <div className="flex flex-col justify-center">
-          {/* 시각이 하나씩 켜지며 밤이 흘러갑니다 (globals.css .tl-*) */}
-          <ul className="border-l border-ink-900/15 pl-8">
-            {C.PROBLEM.timeline.map((t, i) => (
-              <li
-                key={t.time}
-                className="tl-item relative py-6"
-                data-reveal
-                style={{ "--reveal-delay": `${i * 110}ms`, "--i": i } as React.CSSProperties}
-              >
-                <span className="tl-dot absolute top-[30px] -left-[36px] h-1.5 w-1.5 rounded-full bg-brass-500" />
-                <p className="tl-time label tnum">{t.time}</p>
-                <p className="prose-ko mt-2.5 text-sm text-ink-700 md:text-base">
-                  {t.text}
-                </p>
-              </li>
-            ))}
-          </ul>
-          <p
-            className="display-ko mt-14 text-right text-lg md:text-xl lg:text-2xl"
-            data-reveal
-          >
-            {C.PROBLEM.closing}
-          </p>
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-/* ══ 03 PHILOSOPHY ════════════════════════════════════ */
-export function Philosophy() {
-  return (
-    <section className="relative overflow-hidden bg-forest-800 text-cream-100">
-      {/* 시안의 은은한 식물 텍스처 */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-[0.16]">
-        <Image
-          src={HOME.philosophyTexture}
-          alt=""
-          fill
-          sizes="50vw"
-          className="object-cover"
-        />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-forest-800 via-forest-800/90 to-transparent" />
-
-      <Container className="relative py-24 md:py-36 lg:py-44">
-        <div className="mb-12 flex items-center gap-4" data-reveal>
-          <span className="label label-on-dark">03</span>
-          <span className="h-px w-8 bg-cream-100/30" aria-hidden />
-          <span className="label label-on-dark">Philosophy</span>
-        </div>
-
-        <div className="max-w-2xl" data-reveal>
-          <h2 className="display-serif text-[2.75rem] sm:text-[3.5rem] lg:text-[4.5rem]" data-lines>
-            {C.PHILOSOPHY.title.map((l) => (
+    <Section id="audience" no="01" label="이런 병원입니다" tone="paper" className="home-audience">
+      <div className="editorial-section-heading" data-reveal>
+        <div>
+          <h2 className="editorial-title">
+            {C.AUDIENCE.title.map((l) => (
               <span key={l} className="block">
                 {l}
               </span>
             ))}
           </h2>
-          <p className="prose-ko mt-10 text-sm text-cream-100/70 md:text-base">
-            {C.PHILOSOPHY.body.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </p>
-          <p className="display-serif mt-12 text-xl text-brass-400 md:text-2xl">
-            “{C.PHILOSOPHY.quote}”
-          </p>
-          <p className="label label-on-dark mt-12">{C.PHILOSOPHY.formula}</p>
         </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ══ 04 SIGNATURE ═════════════════════════════════════ */
-export function Signature() {
-  return (
-    <Section no="04" label="Signature" tone="paper">
-      <div className="grid gap-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-24">
-        <div data-reveal>
-          <h2 className="display-en text-[2rem] md:text-[2.75rem] lg:text-[3.25rem]" data-lines>
-            {C.SIGNATURE.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </h2>
-          <p className="display-ko mt-7 text-lg md:text-xl">{C.SIGNATURE.subtitle}</p>
-          <p className="prose-ko mt-7 text-sm text-ink-500">
-            {C.SIGNATURE.body.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </p>
-        </div>
-
-        {/* 세리프 숫자가 앵커 — 각 단계마다 원장님이 실제로 하실 일을 적습니다 */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4 md:gap-x-8">
-          {C.SIGNATURE.steps.map((s, i) => (
-            <div
-              key={s.no}
-              className="flex flex-col border-t border-brass-500/40 pt-7"
-              data-reveal
-              style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
-            >
-              <p className="display-serif tnum text-[2.75rem] leading-none text-brass-500 md:text-[3.25rem]">
-                {s.no}
-              </p>
-              <p className="mt-6 text-sm tracking-[0.18em] text-ink-900">{s.en}</p>
-              <p className="prose-ko mt-3 text-sm whitespace-pre-line text-ink-700">
-                {s.ko}
-              </p>
-              <div className="mt-auto pt-7">
-                <p className="label">원장님이 하실 일</p>
-                <p className="mt-1.5 text-sm text-brass-600">{s.you}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-/* ══ 05 SOLUTIONS ═════════════════════════════════════ */
-export function Solutions() {
-  return (
-    <Section no="05" label="Solutions">
-      <H2En className="text-center">{C.SOLUTIONS.title}</H2En>
-
-      <div className="mt-16 grid gap-5 md:grid-cols-3">
-        {C.SOLUTIONS.cards.map((card, i) => (
-          <Link
-            key={card.en}
-            href={card.href}
-            className="group relative flex min-h-[420px] flex-col overflow-hidden bg-forest-900 p-8 text-cream-100 md:min-h-[480px]"
-            data-reveal
-            style={{ "--reveal-delay": `${i * 120}ms` } as React.CSSProperties}
-          >
-            <Image
-              src={HOME.solutions[i]}
-              alt=""
-              fill
-              sizes="(max-width: 768px) 100vw, 33vw"
-              className="object-cover opacity-45 transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/55 to-forest-950/20" />
-
-            <div className="relative flex h-full flex-col">
-              <p className="text-sm tracking-[0.2em]">{card.en}</p>
-              <p className="prose-ko mt-3 text-sm text-cream-100/70">{card.ko}</p>
-
-              <ul className="mt-auto space-y-2 pt-16">
-                {card.items.map((it) => (
-                  <li key={it} className="text-xs text-cream-100/60">
-                    · {it}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-8 flex items-center gap-4">
-                <CircleArrow size={38} dark />
-                <span className="text-xs tracking-[0.08em]">자세히 보기</span>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-/* ══ 06 REST ══════════════════════════════════════════ */
-export function Rest() {
-  return (
-    <section className="relative flex min-h-[70svh] items-center md:min-h-[80svh]">
-      <div className="veil-soft absolute inset-0">
-        <Image
-          src={HOME.rest}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
-      <Container className="relative py-24">
-        <div className="text-cream-100" data-reveal>
-          <div className="mb-10 flex items-center gap-4">
-            <span className="label label-on-dark">06</span>
-            <span className="h-px w-8 bg-cream-100/30" aria-hidden />
-            <span className="label label-on-dark">Rest</span>
-          </div>
-          <h2 className="display-ko text-[1.875rem] md:text-[2.75rem] lg:text-[3.25rem]" data-lines>
-            {C.REST.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </h2>
-          <p className="display-en mt-8 text-lg text-cream-100/70 md:text-xl">
-            {C.REST.sub}
-          </p>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ══ 07 WORKS ═════════════════════════════════════════ */
-export function Works() {
-  return (
-    <Section no="07" label="Works" tone="paper">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-end" data-reveal>
-        <H2En>{C.WORKS.title}</H2En>
-        <p className="prose-ko text-sm text-ink-500">{C.WORKS.lead}</p>
+        <p className="editorial-intro">
+          해당되지 않는다면 굳이 문의하지 않으셔도 됩니다.
+          <br />
+          맞는 병원과만 일합니다.
+        </p>
       </div>
 
-      <div className="mt-14 grid gap-6 md:grid-cols-3">
-        {C.WORKS.approach.map((a, i) => (
+      <div className="audience-grid">
+        {C.AUDIENCE.cards.map((card, i) => (
           <article
-            key={a.no}
-            className="flex flex-col bg-cream-50 p-8 shadow-[0_1px_2px_rgba(22,35,27,0.06),0_12px_32px_-12px_rgba(22,35,27,0.14)]"
+            key={card.no}
+            className="audience-card"
             data-reveal
-            style={{ "--reveal-delay": `${i * 120}ms` } as React.CSSProperties}
+            style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
           >
-            <div className="flex items-center justify-between">
-              <span className="label tnum">{a.no}</span>
-              <span className="label text-brass-600!">{a.tag}</span>
+            <div className="audience-card-top">
+              <span className="display-serif tnum audience-no">{card.no}</span>
+              {card.tag && <span className="audience-tag">{card.tag}</span>}
             </div>
-
-            <Media
-              label="접근 방식 이미지"
-              ratio="aspect-[4/3]"
-              className="mt-6"
-              src={HOME.works[i]}
-              sizes="(max-width: 768px) 100vw, 33vw"
-            />
-
-            <p className="display-ko mt-7 text-lg">{a.title}</p>
-            <p className="prose-ko mt-3 text-sm text-ink-500">{a.body}</p>
+            <p className="audience-title">{card.title}</p>
+            <p className="prose-ko audience-body">{card.body}</p>
           </article>
         ))}
       </div>
 
-      <div className="mt-12 flex flex-wrap items-center justify-between gap-6" data-reveal>
-        <p className="prose-ko border-l-2 border-brass-500 pl-5 text-xs text-ink-500">
-          {C.WORKS.note}
-        </p>
-        <Link href="/diagnosis" className="group flex items-center gap-3">
-          <span className="label">{C.WORKS.more}</span>
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
-        </Link>
+      {/* 거르는 장치 — "월 4곳만" 이라는 말이 진짜가 되려면 안 받는 경우도 밝혀야 합니다 */}
+      <div className="exclude-block" data-reveal>
+        <p className="exclude-label">{C.AUDIENCE.excludeLabel}</p>
+        <ul className="exclude-list">
+          {C.AUDIENCE.exclude.map((e) => (
+            <li key={e}>
+              <span className="exclude-mark" aria-hidden="true">
+                ✕
+              </span>
+              <span className="prose-ko">{e}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </Section>
   );
 }
 
-/* ══ 08 MEDICAL DIAGNOSIS ═════════════════════════════ */
-export function DiagnosisTeaser() {
+/* ══ 03 원인 재정의 ═══════════════════════════════════
+   이 사이트의 승부처. 경쟁사는 문제 공감과 서비스 나열까지만 하고
+   "왜 안 되는가"를 구조로 설명하지 못합니다. */
+export function Why() {
   return (
-    <Section no="08" label="Medical Diagnosis">
-      <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
+    <Section no="02" label="왜 안 되는가" className="home-why">
+      <div className="why-layout">
         <div data-reveal="left">
-          <H2 lines>
-            {C.DIAGNOSIS.title.map((l) => (
+          <h2 className="editorial-title">
+            {C.WHY.title.map((l) => (
               <span key={l} className="block">
                 {l}
               </span>
             ))}
-          </H2>
-          <p className="label mt-10">{C.DIAGNOSIS.sub}</p>
-          <p className="prose-ko mt-3 text-sm text-ink-500">{C.DIAGNOSIS.body}</p>
-          <Link href="/diagnosis" className="mt-10 inline-block">
-            <Button>{C.DIAGNOSIS.cta}</Button>
-          </Link>
+          </h2>
+          <div className="prose-ko why-body">
+            {C.WHY.body.map((t) => (
+              <p key={t}>{t}</p>
+            ))}
+          </div>
         </div>
 
-        {/* 실제 진단 문항을 그대로 미리 보여줍니다 — content/diagnosis.ts */}
-        <ol className="border-t border-ink-900/12">
-          {DIAGNOSIS_QUESTIONS.map((q, i) => (
-            <li
-              key={q.area}
-              data-reveal
-              style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
-            >
-              <Link
-                href="/diagnosis"
-                className="group -mx-3 grid grid-cols-[3.25rem_1fr_auto] items-baseline gap-4 border-b border-ink-900/12 px-3 py-6 transition-colors duration-300 hover:bg-cream-50 md:grid-cols-[4rem_1fr_auto]"
-              >
-                <span className="display-serif tnum text-2xl leading-none text-brass-500 md:text-3xl">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-sm tracking-[0.06em] text-ink-900">{q.area}</span>
-                  <span className="prose-ko mt-1.5 block text-sm text-ink-500">{q.q}</span>
-                </span>
-                <span
-                  aria-hidden
-                  className="label transition-transform duration-300 group-hover:translate-x-1"
-                >
-                  →
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ol>
+        {/* 리포트 한 줄 → "그래서요?" — 이 대비가 블록의 전부입니다 */}
+        <figure className="why-report" data-reveal="right">
+          <figcaption className="label label-ko">{C.WHY.report.label}</figcaption>
+          <p className="why-report-line">“{C.WHY.report.line}”</p>
+          <p className="why-retort">{C.WHY.report.retort}</p>
+          <p className="prose-ko why-report-caption">{C.WHY.report.caption}</p>
+        </figure>
+      </div>
+
+      <p className="why-punch" data-reveal>
+        {C.WHY.punch.map((l, i) => (
+          <span key={l} className={i === 1 ? "why-punch-strong" : undefined}>
+            {l}
+          </span>
+        ))}
+      </p>
+    </Section>
+  );
+}
+
+/* ══ 04 병목 진단 ═════════════════════════════════════
+   문제 기준으로 안내하되 목적지는 기존 서비스 페이지입니다.
+   (서비스 키워드 검색 자산을 지키려고 URL은 그대로 둡니다) */
+export function Bottleneck() {
+  return (
+    <Section no="03" label="어디가 막혔는지부터" tone="paper" className="home-bottleneck">
+      <div className="editorial-section-heading" data-reveal>
+        <div>
+          <h2 className="editorial-title">
+            {C.BOTTLENECK.title.map((l) => (
+              <span key={l} className="block">
+                {l}
+              </span>
+            ))}
+          </h2>
+        </div>
+        <p className="editorial-intro">{C.BOTTLENECK.lead}</p>
+      </div>
+
+      <div className="bottleneck-grid">
+        {C.BOTTLENECK.items.map((it, i) => (
+          <Link
+            key={it.no}
+            href={it.href}
+            className="bottleneck-card group"
+            data-reveal
+            style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
+          >
+            <span className="display-serif tnum bottleneck-no">{it.no}</span>
+            <p className="bottleneck-q">{it.q}</p>
+            <p className="prose-ko bottleneck-body">{it.body}</p>
+            <span className="bottleneck-fix">
+              {it.fix}
+              <span aria-hidden="true">→</span>
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      {/* 세 가지 중 무엇이든 결국 이 세 축으로 처리됩니다 */}
+      <div className="bottleneck-showcase" data-reveal>
+        <ServiceShowcase />
+      </div>
+
+      {/* CTA 2회차 — 상단·중단·하단 3회 정책 */}
+      <div className="mt-16 text-center" data-reveal>
+        <Link href={C.PRIMARY_CTA.href}>
+          <Button>{C.PRIMARY_CTA.label}</Button>
+        </Link>
+        <p className="prose-ko mt-4 text-sm text-ink-500">
+          어디가 막혔는지 모르시겠다면, 진단부터 받아보십시오.
+        </p>
       </div>
     </Section>
   );
 }
 
-/* ══ 09 INSIGHT ═══════════════════════════════════════ */
+/* ══ 05 일하는 순서 ═══════════════════════════════════ */
+export function Plan() {
+  return (
+    <section className="home-plan bg-cream-50 text-ink-900">
+      <Container className="pt-20 md:pt-28 lg:pt-32">
+        <div className="mb-12 flex items-center gap-4" data-reveal>
+          <span className="label tnum">04</span>
+          <span className="h-px w-8 bg-ink-900/20" aria-hidden />
+          <span className="label label-ko">{C.PLAN.label}</span>
+        </div>
+
+        <div
+          className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-end lg:gap-24"
+          data-reveal
+        >
+          <h2 className="editorial-title">
+            {C.PLAN.title.map((l) => (
+              <span key={l} className="block">
+                {l}
+              </span>
+            ))}
+          </h2>
+          <p className="prose-ko text-sm text-ink-500">
+            {C.PLAN.lead.map((l) => (
+              <span key={l} className="block">
+                {l}
+              </span>
+            ))}
+          </p>
+        </div>
+      </Container>
+
+      {/* 풀블리드 4분할 패널 — 손이 닿은 칸만 켜지는 전환은 전부 CSS에 있습니다 */}
+      <div className="plan-band">
+        <div className="plan-band-photo">
+          <Image src={HOME.planBand} alt="" fill sizes="100vw" className="object-cover" />
+        </div>
+
+        <div className="plan-panels">
+          {C.PLAN.steps.map((s, i) => (
+            <div key={s.no} className="plan-panel">
+              <div
+                className="plan-panel-inner"
+                data-reveal
+                style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
+              >
+                <p className="plan-number tnum">{s.no}</p>
+                <p className="plan-en">{s.name}</p>
+                <p className="plan-ko">{s.ko}</p>
+                <p className="plan-you">
+                  <span>원장님이 하실 일</span>
+                  {s.you}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══ 06 증거 ══════════════════════════════════════════
+   ⚠️ metrics 가 비어 있으면 수치 블록은 통째로 숨겨집니다.
+      실제 운영 수치가 확보되면 content/home.ts 의 EVIDENCE.metrics 만 채우면 켜집니다. */
+export function Evidence() {
+  const { metrics } = C.EVIDENCE;
+
+  return (
+    <Section no="05" label="저희가 지키는 것" className="home-evidence">
+      <div className="editorial-section-heading" data-reveal>
+        <div>
+          <h2 className="editorial-title">
+            {C.EVIDENCE.title.map((l) => (
+              <span key={l} className="block">
+                {l}
+              </span>
+            ))}
+          </h2>
+        </div>
+        <p className="editorial-intro">
+          지키지 못할 약속은 쓰지 않습니다.
+          <br />
+          아래는 오늘부터 지키는 것들입니다.
+        </p>
+      </div>
+
+      <div className="evidence-grid">
+        {C.EVIDENCE.promises.map((p, i) => (
+          <div
+            key={p.v}
+            className="evidence-card"
+            data-reveal
+            style={{ "--reveal-delay": `${i * 100}ms` } as React.CSSProperties}
+          >
+            <p className="evidence-value tnum">{p.v}</p>
+            <p className="evidence-key">{p.k}</p>
+            <p className="prose-ko evidence-desc">{p.d}</p>
+          </div>
+        ))}
+      </div>
+
+      {metrics.length > 0 && (
+        <div className="evidence-metrics" data-reveal>
+          {metrics.map((m) => (
+            <div key={m.label} className="evidence-metric">
+              <p className="evidence-value tnum">{m.value}</p>
+              <p className="evidence-key">{m.label}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <p className="evidence-note" data-reveal>
+        {C.EVIDENCE.note}
+      </p>
+    </Section>
+  );
+}
+
+/* ══ 07 인사이트 ══════════════════════════════════════ */
 export function Insight() {
-  // 최신 칼럼 3건 — content/articles.ts에서 직접 가져와 목록과 항상 같습니다
   const posts = latestArticles("/insight/column").slice(0, 3);
 
   return (
-    <Section no="09" label="Insight" tone="paper">
-      <div className="text-center" data-reveal>
-        <H2En>{C.INSIGHT.title}</H2En>
-        <div className="mt-8 inline-flex flex-wrap justify-center gap-8 border-b border-ink-900/12">
-          {C.INSIGHT.tabs.map((t, i) => (
-            <Link
-              key={t.href}
-              href={t.href}
-              className={`pb-3.5 text-sm transition-colors ${
-                i === 0
-                  ? "border-b border-ink-900 text-ink-900"
-                  : "text-ink-400 hover:text-ink-900"
-              }`}
-            >
+    <Section no="06" label="읽을거리" tone="paper" className="home-insight">
+      <div className="editorial-section-heading" data-reveal>
+        <div>
+          <h2 className="editorial-title">
+            {C.INSIGHT.title.map((l) => (
+              <span key={l} className="block">
+                {l}
+              </span>
+            ))}
+          </h2>
+        </div>
+        <div className="insight-tabs">
+          {C.INSIGHT.tabs.map((t) => (
+            <Link key={t.href} href={t.href} className="insight-tab">
               {t.label}
             </Link>
           ))}
         </div>
       </div>
 
-      <div className="mt-14 grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3">
         {posts.map((a, i) => (
           <Link
             key={a.slug}
             href={`${a.list}/${a.slug}`}
-            className="group flex flex-col bg-cream-50"
+            className="group flex flex-col bg-cream-100"
             data-reveal
             style={{ "--reveal-delay": `${i * 120}ms` } as React.CSSProperties}
           >
-            <div className="overflow-hidden">
-              <Media
-                label="아티클 썸네일"
-                ratio="aspect-[16/10]"
+            <div className="media-more relative aspect-[16/10] overflow-hidden bg-forest-900" data-more="읽어보기">
+              <Image
                 src={HOME.insight[i]}
+                alt=""
+                fill
                 sizes="(max-width: 768px) 100vw, 33vw"
-                className="transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
               />
             </div>
             <div className="flex flex-1 flex-col p-7">
-              <p className="label tnum">
+              <p className="label label-ko tnum">
                 {a.category} · {a.date} · {readingTime(a)}분 읽기
               </p>
               <p className="display-ko mt-4 text-base">{a.title}</p>
               <p className="prose-ko mt-3 line-clamp-2 text-sm text-ink-500">{a.excerpt}</p>
-              <span className="label mt-auto block pt-6">읽어보기 →</span>
             </div>
           </Link>
         ))}
@@ -472,26 +344,64 @@ export function Insight() {
 
       <div className="mt-12 text-center" data-reveal>
         <Link href="/insight" className="group inline-flex items-center gap-3">
-          <span className="label">{C.INSIGHT.more}</span>
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
+          <span className="label label-ko">{C.INSIGHT.more}</span>
+          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </Link>
       </div>
     </Section>
   );
 }
 
-/* ══ 10 CTA ═══════════════════════════════════════════ */
+/* ══ 08 자주 묻는 질문 ════════════════════════════════
+   문의 직전에 가장 자주 걸리는 4개. 펼침 애니메이션은 globals.css 에 있습니다. */
+export function Faq() {
+  return (
+    <Section no="07" label="묻기 전에" className="home-faq">
+      <div className="faq-layout">
+        <div data-reveal="left">
+          <h2 className="editorial-title">
+            {C.FAQ_HOME.title.map((l) => (
+              <span key={l} className="block">
+                {l}
+              </span>
+            ))}
+          </h2>
+          <Link href="/insight/faq" className="editorial-link mt-9 inline-flex">
+            {C.FAQ_HOME.more} <CircleArrow size={44} />
+          </Link>
+        </div>
+
+        <div className="faq-list">
+          {C.FAQ_HOME.items.map((f, i) => (
+            <details
+              key={f.q}
+              className="faq-item"
+              data-reveal
+              style={{ "--reveal-delay": `${i * 80}ms` } as React.CSSProperties}
+            >
+              <summary className="faq-q">
+                <span>{f.q}</span>
+                <span className="label faq-plus" aria-hidden="true">
+                  +
+                </span>
+              </summary>
+              <p className="prose-ko faq-a">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+/* ══ 09 마지막 행동 ═══════════════════════════════════ */
 export function ClosingCta() {
   return (
     <section className="relative overflow-hidden bg-forest-800 text-cream-100">
-      {/* 사진은 텍스트 뒤가 아니라 우측 질감으로만 — 03 PHILOSOPHY와 같은 처리 */}
       <div className="pointer-events-none absolute inset-y-0 right-0 w-2/3 opacity-[0.17]">
         <Image src={HOME.cta} alt="" fill sizes="66vw" className="object-cover" />
       </div>
       <div className="absolute inset-0 bg-gradient-to-r from-forest-800 via-forest-800/92 to-transparent" />
-      {/* 크림 섹션에서 넘어오는 경계 — 브라스 헤어라인 */}
       <div
         className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brass-500/55 to-transparent"
         aria-hidden
@@ -501,15 +411,12 @@ export function ClosingCta() {
         <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-24">
           <div data-reveal>
             <div className="mb-9 flex items-center gap-4">
-              <span className="label label-on-dark">10</span>
+              <span className="label label-on-dark tnum">08</span>
               <span className="h-px w-8 bg-cream-100/30" aria-hidden />
-              <span className="label label-on-dark">{C.CTA.eyebrow}</span>
+              <span className="label label-ko label-on-dark">{C.CTA.label}</span>
             </div>
 
-            <h2
-              className="display-ko text-[1.75rem] md:text-[2.375rem] lg:text-[2.75rem]"
-              data-lines
-            >
+            <h2 className="display-ko text-[1.75rem] md:text-[2.375rem] lg:text-[2.75rem]" data-lines>
               {C.CTA.title.map((l) => (
                 <span key={l} className="block">
                   {l}
@@ -521,22 +428,16 @@ export function ClosingCta() {
               {C.CTA.body}
             </p>
 
-            <div className="mt-11 flex flex-wrap items-center gap-3">
-              <Link href="/contact">
-                <Button variant="cream">{C.CTA.button}</Button>
-              </Link>
-              <Link href="/diagnosis">
-                <Button variant="light">{C.CTA.second}</Button>
+            <div className="mt-11">
+              <Link href={C.PRIMARY_CTA.href}>
+                <Button variant="cream">{C.PRIMARY_CTA.label}</Button>
               </Link>
             </div>
           </div>
 
           {/* 버튼을 누르면 무슨 일이 일어나는지 — 빈 공간 대신 답을 둡니다 */}
-          <div
-            data-reveal
-            style={{ "--reveal-delay": "140ms" } as React.CSSProperties}
-          >
-            <p className="label label-on-dark">{C.CTA.stepsLabel}</p>
+          <div data-reveal style={{ "--reveal-delay": "140ms" } as React.CSSProperties}>
+            <p className="label label-ko label-on-dark">{C.CTA.stepsLabel}</p>
             <ol className="mt-6 border-t border-cream-100/15">
               {C.CTA.steps.map((s, i) => (
                 <li key={s.title} className="flex gap-6 border-b border-cream-100/15 py-6">
@@ -550,7 +451,6 @@ export function ClosingCta() {
                 </li>
               ))}
             </ol>
-            {/* 한글 문장이라 .label의 넓은 자간 대신 본문 스타일로 둡니다 */}
             <p className="mt-6 flex items-start gap-2.5 text-sm text-cream-100/55">
               <span
                 className="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-brass-400"

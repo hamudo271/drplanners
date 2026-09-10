@@ -23,7 +23,7 @@ export default function Page() {
         mediaSrc={CONTACT_HERO}
       />
 
-      <Section no="01" label="Inquiry">
+      <Section no="01" label="문의">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
           <ContactForm />
 
@@ -73,13 +73,12 @@ export default function Page() {
               src={cardImage(6)}
               sizes="(max-width: 1024px) 100vw, 33vw"
             />
-            <Media label="지도 임베드 자리" ratio="aspect-square" />
           </aside>
         </div>
       </Section>
 
       {/* 문의 전에 원장님이 품으실 의문 — 답은 사이트 곳곳에 있지만 여기 모읍니다 */}
-      <Section no="02" label="Before you ask" tone="paper">
+      <Section no="02" label="묻기 전에" tone="paper">
         <H2>문의 전에, 이런 게 궁금하실 겁니다</H2>
         <div className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-2">
           {[

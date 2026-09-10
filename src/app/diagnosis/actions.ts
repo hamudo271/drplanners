@@ -1,8 +1,8 @@
 "use server";
 
 import { z } from "zod";
-import { parseContactForm, type ContactState } from "@/lib/contact";
-import { sendContactEmail } from "@/lib/mailer";
+import { parseDiagnosisForm, type ContactState } from "@/lib/contact";
+import { sendDiagnosisEmail } from "@/lib/mailer";
 import {
   guard,
   rateLimited,
@@ -11,31 +11,36 @@ import {
   failureMessage,
 } from "@/lib/form-guards";
 
-const SUCCESS = "문의가 접수되었습니다.";
+const SUCCESS = "진단 신청이 접수되었습니다.";
 
 function successMessage(devMode: boolean) {
   return devMode ? `${SUCCESS} (개발 모드 — 메일은 발송되지 않았습니다)` : SUCCESS;
 }
 
-export async function submitContact(
+/**
+ * 무료 병원 진단 접수.
+ *
+ * 전 사이트의 CTA가 이 액션 하나로 모입니다. 5개 문항 응답은 answers[] 로
+ * 함께 넘어와 메일 본문에 붙습니다 — 담당 플래너가 연락 전에 상태를 먼저 봅니다.
+ */
+export async function submitDiagnosis(
   _prev: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
   const blocked = guard(formData, SUCCESS);
   if (blocked) return blocked;
 
-  // 검증 실패 시 되돌려줄 입력값
   const values = {
     text: Object.fromEntries(
-      ["clinic", "department", "name", "title", "phone", "email", "message"].map((k) => [
+      ["clinic", "department", "name", "phone", "email"].map((k) => [
         k,
         String(formData.get(k) ?? ""),
       ]),
     ),
-    interests: formData.getAll("interests").map(String),
+    interests: [] as string[],
   };
 
-  const parsed = parseContactForm(formData);
+  const parsed = parseDiagnosisForm(formData);
   if (!parsed.success) {
     return {
       status: "error",
@@ -49,7 +54,7 @@ export async function submitContact(
     return { status: "error", message: RATE_LIMITED, values };
   }
 
-  const result = await sendContactEmail(parsed.data);
+  const result = await sendDiagnosisEmail(parsed.data);
   if (!result.ok) {
     return { status: "error", message: failureMessage(result.reason), values };
   }

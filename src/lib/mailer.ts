@@ -1,6 +1,6 @@
 import "server-only";
 import { Resend } from "resend";
-import type { ContactInput } from "./contact";
+import type { ContactInput, DiagnosisInput } from "./contact";
 
 /**
  * 문의 전송 어댑터.
@@ -121,3 +121,27 @@ export function sendContactEmail(data: ContactInput) {
   });
 }
 
+
+/** /diagnosis 무료 병원 진단 — 5개 문항 응답을 본문으로 붙여 보냅니다 */
+export function sendDiagnosisEmail(data: DiagnosisInput) {
+  const answers = data.answers
+    .map((a, i) => {
+      const [area, choice] = a.split("|");
+      return `${String(i + 1).padStart(2, "0")}. ${area} — ${choice}`;
+    })
+    .join("\n");
+
+  return deliver({
+    subject: `[진단] ${data.clinic} — ${data.name}`,
+    heading: "무료 병원 진단 신청",
+    rows: [
+      ["병원명", data.clinic],
+      ["진료과목", data.department],
+      ["담당자", data.name],
+      ["연락처", data.phone],
+      ["이메일", data.email],
+    ],
+    message: `진단 응답\n\n${answers}`,
+    replyTo: data.email,
+  });
+}

@@ -52,8 +52,15 @@ export function Section({
               className={`h-px w-8 ${dark ? "bg-cream-100/30" : "bg-ink-900/20"}`}
               aria-hidden
             />
+            {/* 라벨이 한글이면 자간을 좁힙니다 — .label 의 .2em 은 한글에서 너무 벌어집니다 */}
             {label && (
-              <span className={`label ${dark ? "label-on-dark" : ""}`}>{label}</span>
+              <span
+                className={`label ${/[가-힣]/.test(label) ? "label-ko" : ""} ${
+                  dark ? "label-on-dark" : ""
+                }`}
+              >
+                {label}
+              </span>
             )}
           </div>
         )}
@@ -70,7 +77,7 @@ export function Media({
   ratio = "aspect-[16/9]",
   className = "",
   src,
-  priority,
+  preload,
   sizes = "100vw",
   position = "object-center",
 }: {
@@ -78,7 +85,7 @@ export function Media({
   ratio?: string;
   className?: string;
   src?: string;
-  priority?: boolean;
+  preload?: boolean;
   sizes?: string;
   position?: string;
 }) {
@@ -100,7 +107,7 @@ export function Media({
         src={src}
         alt=""
         fill
-        priority={priority}
+        preload={preload}
         sizes={sizes}
         className={`object-cover ${position}`}
       />
@@ -194,7 +201,7 @@ export function Button({
 
   return (
     <span
-      className={`group/btn inline-flex items-center gap-4 border px-8 py-4 text-[0.8125rem] tracking-[0.08em] transition-colors duration-300 ${styles} ${className}`}
+      className={`group/btn rounded-full inline-flex items-center gap-4 border px-8 py-4 text-sm tracking-[0.08em] transition-colors duration-300 ${styles} ${className}`}
     >
       {children}
       <span

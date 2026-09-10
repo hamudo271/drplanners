@@ -10,6 +10,16 @@ const nextConfig: NextConfig = {
         destination: "https://dr-planners.com/:path*",
         permanent: true,
       },
+
+      /* 짐작하기 쉬운 짧은 주소들 — 메뉴에서 링크하지는 않지만,
+         직접 입력하거나 외부에서 잘못 걸어놨을 때 404 대신 제자리로 보냅니다. */
+      { source: "/company", destination: "/about/company", permanent: true },
+      { source: "/ai", destination: "/medical-ai", permanent: true },
+      { source: "/faq", destination: "/insight/faq", permanent: true },
+      { source: "/blog", destination: "/insight/blog", permanent: true },
+      { source: "/column", destination: "/insight/column", permanent: true },
+      { source: "/notice", destination: "/insight/notice", permanent: true },
+      { source: "/about/philosophy/", destination: "/about/philosophy", permanent: true },
     ];
   },
 };

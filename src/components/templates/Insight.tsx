@@ -104,7 +104,7 @@ export function ListTemplate({
         })()}
       </Section>
 
-      <CtaBand />
+      <CtaBand kind="insight" />
     </>
   );
 }
@@ -171,7 +171,7 @@ export function ArticleTemplate({
           </div>
         </Section>
 
-        <Section label="Related" tone="paper">
+        <Section label="함께 보면 좋은 것" tone="paper">
           <h2 className="text-xl font-light md:text-2xl">함께 읽으면 좋은 글</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-3">
             {[0, 1, 2].map((i) => (
@@ -191,7 +191,7 @@ export function ArticleTemplate({
           </div>
         </Section>
       </article>
-      <CtaBand />
+      <CtaBand kind="insight" />
     </>
   );
 }
@@ -290,7 +290,7 @@ export function RealArticle({ article }: { article: Article }) {
           </div>
         </Section>
       </article>
-      <CtaBand />
+      <CtaBand kind="insight" />
     </>
   );
 }

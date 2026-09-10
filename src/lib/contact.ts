@@ -75,3 +75,44 @@ export function parseContactForm(formData: FormData) {
   });
 }
 
+
+/* ═══════════════════════════════════════════════════════════
+   무료 병원 진단 (/diagnosis)
+   전 사이트 CTA가 여기 하나로 모이므로, 실제로 접수되어야 합니다.
+   문의 폼과 스키마를 나눠두되 메일 발송 경로는 공유합니다.
+   ═══════════════════════════════════════════════════════════ */
+
+/** "브랜드|대략적인 방향은 있다" 형태로 넘어옵니다 */
+const answerField = z
+  .string()
+  .trim()
+  .max(200)
+  .refine((v) => v.includes("|"), { message: "진단 응답 형식이 올바르지 않습니다." });
+
+export const diagnosisSchema = z.object({
+  clinic: z.string().trim().min(1, "병원명을 입력해주세요.").max(100),
+  department: z.string().trim().min(1, "진료과목을 입력해주세요.").max(100),
+  name: z.string().trim().min(1, "담당자명을 입력해주세요.").max(50),
+  phone: phoneField,
+  email: z
+    .string()
+    .trim()
+    .min(1, "이메일을 입력해주세요.")
+    .pipe(z.email("이메일 형식을 확인해주세요.")),
+  answers: z.array(answerField).min(1, "진단 문항에 응답해주세요.").max(10),
+  consent: consentField,
+});
+
+export type DiagnosisInput = z.infer<typeof diagnosisSchema>;
+
+export function parseDiagnosisForm(formData: FormData) {
+  return diagnosisSchema.safeParse({
+    clinic: formData.get("clinic") ?? "",
+    department: formData.get("department") ?? "",
+    name: formData.get("name") ?? "",
+    phone: formData.get("phone") ?? "",
+    email: formData.get("email") ?? "",
+    answers: formData.getAll("answers"),
+    consent: formData.get("consent") ?? "",
+  });
+}

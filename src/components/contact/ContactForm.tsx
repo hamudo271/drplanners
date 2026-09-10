@@ -198,7 +198,10 @@ export function ContactForm() {
             className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-forest-800"
           />
           <span className="text-sm leading-relaxed text-ink-700">
-            개인정보 수집·이용에 동의합니다. <u>전문보기</u>
+            개인정보 수집·이용에 동의합니다.{" "}
+            <Link href="/privacy" className="underline underline-offset-2">
+              전문보기
+            </Link>
           </span>
         </label>
         {err("consent") && (

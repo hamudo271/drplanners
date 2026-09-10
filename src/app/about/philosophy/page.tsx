@@ -8,8 +8,9 @@ export const metadata = pageMeta({
 
 import { Section, Media, IconBox, Container, H2 } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";
-import { PHILOSOPHY, WHY } from "@/content/home";
-import { ABOUT } from "@/config/images";
+import Image from "next/image";
+import { PHILOSOPHY, PROBLEM, REST } from "@/content/home";
+import { ABOUT, HOME } from "@/config/images";
 
 export default function Page() {
   return (
@@ -36,7 +37,7 @@ export default function Page() {
         </Container>
       </section>
 
-      <Section no="01" label="Values">
+      <Section no="01" label="우리가 지키는 것">
         <H2>우리가 지키는 것</H2>
         <div className="mt-12 grid gap-10 md:grid-cols-3">
           {[
@@ -66,7 +67,7 @@ export default function Page() {
         </div>
       </Section>
 
-      <Section no="02" label="Manifesto" tone="paper">
+      <Section no="02" label="시작한 이유" tone="paper">
         <div className="grid gap-12 lg:grid-cols-2">
           <Media
             label="사무실 / 팀 이미지"
@@ -88,55 +89,77 @@ export default function Page() {
               — 계약이 끝나도 그 문서는 원장님 병원에 남습니다.
             </p>
             <p className="prose-ko mt-8 text-sm text-ink-700 md:text-base">
-              원장님은 승인만 하시고, 나머지 시간은 쉬십시오. 그 쉼을 지켜드리는
-              것이 저희의 유일한 존재 이유입니다.
+              원장님은 방향만 승인하시고, 실행과 운영은 저희가 책임집니다. 그렇게
+              돌려드린 시간을 지키는 것이 저희의 유일한 존재 이유입니다.
             </p>
           </div>
         </div>
       </Section>
 
-      {/* 대행사를 바꿔도 똑같았던 이유 — 창업의 출발점 */}
-      <Section no="03" label="Why we exist">
+      {/* 원장님의 밤 — 이 회사가 시작된 자리. 홈에서 이 자리로 옮겨왔습니다 */}
+      <Section no="03" label="원장님의 밤">
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
-          <div data-reveal>
-            <H2>
-              {WHY.title.map((l) => (
+          <div data-reveal="left">
+            <H2 lines>
+              {PROBLEM.title.map((l) => (
                 <span key={l} className="block">
                   {l}
                 </span>
               ))}
             </H2>
-            <div className="mt-8 space-y-5">
-              {WHY.body.map((t) => (
-                <p key={t} className="prose-ko text-sm text-ink-700 md:text-base">
-                  {t}
-                </p>
-              ))}
-            </div>
-            <p className="display-ko mt-10 text-lg md:text-xl">
-              {WHY.punch.map((l) => (
-                <span key={l} className="block">
-                  {l}
-                </span>
-              ))}
-            </p>
+            <p className="prose-ko mt-6 max-w-md text-sm text-ink-500">{PROBLEM.lead}</p>
+            <Media
+              label="야근하는 원장 이미지"
+              ratio="aspect-[16/10]"
+              className="mt-12"
+              src={HOME.problem}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
           </div>
 
-          {/* 블로그 글의 일화 — 리포트의 배신 */}
-          <div className="flex flex-col justify-center" data-reveal>
-            <div className="border border-ink-900/15 bg-cream-50 p-8">
-              <p className="label">{WHY.report.label}</p>
-              <p className="tnum mt-5 border-l-2 border-ink-900/20 pl-5 text-base text-ink-700 md:text-lg">
-                “{WHY.report.line}”
-              </p>
-              <p className="display-ko mt-8 text-3xl md:text-4xl">{WHY.report.retort}</p>
-              <p className="prose-ko mt-4 text-sm text-ink-500">{WHY.report.caption}</p>
-            </div>
+          <div className="flex flex-col justify-center">
+            {/* 시각이 하나씩 켜지며 밤이 흘러갑니다 (globals.css .tl-*) */}
+            <ul className="border-l border-ink-900/15 pl-8">
+              {PROBLEM.timeline.map((t, i) => (
+                <li
+                  key={t.time}
+                  className="tl-item relative py-6"
+                  data-reveal
+                  style={{ "--reveal-delay": `${i * 110}ms`, "--i": i } as React.CSSProperties}
+                >
+                  <span className="tl-dot absolute top-[30px] -left-[36px] h-1.5 w-1.5 rounded-full bg-brass-500" />
+                  <p className="tl-time label tnum">{t.time}</p>
+                  <p className="prose-ko mt-2.5 text-sm text-ink-700 md:text-base">{t.text}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="display-ko mt-14 text-right text-lg md:text-xl lg:text-2xl" data-reveal>
+              {PROBLEM.closing}
+            </p>
           </div>
         </div>
       </Section>
 
-      <Section no="04" label="Standards" tone="forest">
+      {/* 휴식 밴드 — 홈에서 이 자리로 옮겨왔습니다 */}
+      <section className="relative flex min-h-[60svh] items-center md:min-h-[70svh]">
+        <div className="veil-soft absolute inset-0">
+          <Image src={HOME.rest} alt="" fill sizes="100vw" className="object-cover" />
+        </div>
+        <Container className="relative py-24">
+          <div className="text-cream-100" data-reveal>
+            <h2 className="display-ko text-[1.875rem] md:text-[2.75rem] lg:text-[3.25rem]" data-lines>
+              {REST.title.map((l) => (
+                <span key={l} className="block">
+                  {l}
+                </span>
+              ))}
+            </h2>
+            <p className="prose-ko mt-8 text-base text-cream-100/70 md:text-lg">{REST.sub}</p>
+          </div>
+        </Container>
+      </section>
+
+      <Section no="04" label="받지 않는 기준" tone="forest">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
           <div data-reveal>
             <H2 className="text-cream-100">
@@ -156,7 +179,7 @@ export default function Page() {
               "동일 상권의 동일 진료과는 중복해서 맡지 않습니다",
               "3개월 미만 단발성 계약은 지양합니다 — 마케팅은 분기 단위로 검증해야 합니다",
               "의료광고심의 기준을 지키지 않는 방향과는 협업하지 않습니다",
-              "방향 결정권을 위임해주시는 곳과만 협업합니다",
+              "저희가 방향을 제안하고 원장님이 승인하시는 방식으로 일합니다",
             ].map((rule, i) => (
               <li
                 key={rule}

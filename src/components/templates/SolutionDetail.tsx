@@ -28,7 +28,7 @@ export function SolutionDetail({
       />
 
       {/* 01 ── 이런 병원에 필요합니다 */}
-      <Section no="01" label="Who needs this">
+      <Section no="01" label="이런 병원에 필요합니다">
         <H2>이런 병원에 필요합니다</H2>
         <div className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-3">
           {(c?.who ?? [null, null, null]).map((w, i) => (
@@ -64,7 +64,7 @@ export function SolutionDetail({
       </Section>
 
       {/* 02 ── 무엇을 하나요 */}
-      <Section no="02" label="What we do" tone="paper">
+      <Section no="02" label="무엇을 하는가" tone="paper">
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div data-reveal>
             <H2>무엇을 하나요</H2>
@@ -113,7 +113,7 @@ export function SolutionDetail({
       </Section>
 
       {/* 03 ── 진행 프로세스 */}
-      <Section no="03" label="Process">
+      <Section no="03" label="진행 순서">
         <H2>진행 프로세스</H2>
         <ol className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-4">
           {(c?.process ?? [null, null, null, null]).map((s, i) => (
@@ -164,7 +164,7 @@ export function SolutionDetail({
       </section>
 
       {/* 04 ── 제공 산출물 / 측정 항목 */}
-      <Section no="04" label="Deliverables" tone="paper">
+      <Section no="04" label="받으시는 것" tone="paper">
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div data-reveal>
             <Media
@@ -263,7 +263,7 @@ export function SolutionDetail({
       )}
 
       {/* 05 ── FAQ */}
-      <Section no="05" label="FAQ">
+      <Section no="05" label="자주 묻는 질문">
         <H2>자주 묻는 질문</H2>
         <div className="mt-10 border-t border-ink-900/15">
           {(c?.faq ?? [null, null, null]).map((f, i) => (
@@ -296,7 +296,7 @@ export function SolutionDetail({
 
       {/* 함께 보면 좋은 솔루션 — 실무에서 같이 가는 조합 */}
       {(RELATED[detailHref] ?? []).length > 0 && (
-        <Section no="06" label="Related" tone="paper">
+        <Section no="06" label="함께 보면 좋은 것" tone="paper">
           <H2>함께 보면 좋은 솔루션</H2>
           <p className="prose-ko mt-5 max-w-xl text-sm text-ink-500">
             이 서비스와 함께 진행할 때 효과가 커지는 항목입니다. 무엇을 묶을지는
@@ -336,7 +336,7 @@ export function SolutionDetail({
         </Section>
       )}
 
-      <CtaBand />
+      <CtaBand kind="service" />
     </>
   );
 }

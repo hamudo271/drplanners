@@ -18,14 +18,14 @@ export default function Page() {
     <>
       <PageHero
         crumbs={[{ label: "메디컬 인사이트" }]}
-        title="THINKING FOR DOCTORS."
+        title="읽을거리"
         lead="의료 마케팅에 대한 닥터플래너스의 관점과 실무 기록입니다."
         mediaLabel="인사이트 키비주얼"
         mediaSrc={HUB_HERO["/insight"]}
       />
       <InsightTabs current="/insight" />
 
-      <Section no="01" label="Featured">
+      <Section no="01" label="추천 글">
         <Link
           href={`/insight/column/${ARTICLES[0].slug}`}
           className="grid gap-8 border border-ink-900/15 md:grid-cols-2"
@@ -49,7 +49,7 @@ export default function Page() {
       </Section>
 
       {/* 카테고리 안내 — 실제 글이 쌓이면 최신 목록으로 대체됩니다 */}
-      <Section no="02" label="Categories" tone="paper">
+      <Section no="02" label="분류" tone="paper">
         <H2>무엇을 다루나요</H2>
         <div className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-2">
           {[
@@ -90,7 +90,7 @@ export default function Page() {
         </div>
       </Section>
 
-      <CtaBand />
+      <CtaBand kind="insight" />
     </>
   );
 }

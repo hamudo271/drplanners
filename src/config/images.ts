@@ -13,14 +13,18 @@ const img = (n: number) => `/image%20${n}.png`;
 
 /* ── 메인 ───────────────────────────────────────── */
 export const HOME = {
-  hero: img(32),          // 짙은 잎사귀 — 풀블리드 배경
+  hero: img(11),          // 밝은 공간 — 아이보리 히어로
   problem: img(34),       // 어두운 정물
   rest: img(30),          // 잎 + 물방울
   cta: img(28),           // 그린 + 골드 실크
   works: [img(27), img(25), img(19)],
   insight: [img(8), img(29), img(31)],
   solutions: [img(10), img(23), img(17)], // 브랜딩 / 마케팅 / 메디컬 AI
-  philosophyTexture: img(32),             // 딥그린 밴드 우측 식물 텍스처
+  philosophyTexture: img(25),             // 브랜드 디테일 — 철학 섹션
+  /** 히어로 로테이션 5매 — content/home.ts 의 HERO_SLIDES 와 같은 순서 */
+  heroSlides: [img(11), img(10), img(23), img(17), img(33)],
+  /** DR.PLAN 4단 패널의 풀블리드 배경 — 흰 텍스트가 얹히므로 어두운 원본만 */
+  planBand: img(32),
 };
 
 /* ── 솔루션 허브 키비주얼 (21:9) ──────────────────

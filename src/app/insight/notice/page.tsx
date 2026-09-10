@@ -8,7 +8,7 @@ export const metadata = pageMeta({
 
 import Link from "next/link";
 import { Section, BrassIcon, Button } from "@/components/ui";
-import { PageHero, CtaBand } from "@/components/templates/shared";
+import { PageHero } from "@/components/templates/shared";
 import { InsightTabs } from "@/components/templates/Insight";
 
 export default function Page() {
@@ -40,7 +40,6 @@ export default function Page() {
         </div>
       </Section>
 
-      <CtaBand />
     </>
   );
 }

@@ -31,76 +31,88 @@ export const NAV: NavItem[] = [
     ],
   },
   {
-    label: "시그니처",
-    fullLabel: "DRP 시그니처",
+    label: "성장 플래닝",
+    fullLabel: "병원 성장 플래닝",
     href: "/signature",
     children: [
-      { label: "닥터 플래닝", href: "/signature/doctor", blurb: "퍼스널 — 원장 개인 브랜딩" },
-      { label: "개원 플래닝", href: "/signature/opening", blurb: "초기 — 개원 준비부터 오픈까지" },
-      { label: "그로스 플래닝", href: "/signature/growth", blurb: "운영중 — 성장 구간 재설계" },
+      { label: "원장 개인 브랜딩", href: "/signature/doctor", blurb: "원장님을 아는 사람이 병원을 찾습니다" },
+      { label: "개원 준비", href: "/signature/opening", blurb: "개원 준비부터 오픈까지" },
+      { label: "성장 재설계", href: "/signature/growth", blurb: "운영 중인 병원의 다음 구간" },
     ],
   },
   {
     label: "브랜딩",
-    fullLabel: "브랜딩 솔루션",
+    fullLabel: "병원 브랜딩",
     href: "/branding",
     children: [
       { label: "계정 운영", href: "/branding/account", blurb: "인스타 · 유튜브 · 블로그 채널 운영" },
       { label: "플레이스 최적화", href: "/branding/place", blurb: "네이버 플레이스 상위 노출" },
       { label: "언론보도", href: "/branding/press", blurb: "기사 · 인터뷰 · PR" },
-      { label: "원내 영상 송출 제작", href: "/branding/in-clinic-video", blurb: "대기실 · 진료실 사이니지" },
+      { label: "대기실 영상 제작", href: "/branding/in-clinic-video", blurb: "대기실 · 진료실 화면에 트는 영상" },
       { label: "영상 브랜딩", href: "/branding/video", blurb: "브랜드 필름 · 숏폼" },
     ],
   },
   {
     label: "마케팅",
-    fullLabel: "마케팅 솔루션",
+    fullLabel: "병원 마케팅",
     href: "/marketing",
     children: [
-      { label: "CPC / CPM 광고", href: "/marketing/paid-ads", blurb: "검색 · 디스플레이 퍼포먼스" },
+      { label: "검색 · 배너 광고", href: "/marketing/paid-ads", blurb: "네이버 · 구글 · 인스타 광고 집행" },
       { label: "바이럴마케팅", href: "/marketing/viral", blurb: "카페 · 커뮤니티 · 체험단" },
       { label: "의료광고심의 대행", href: "/marketing/review", blurb: "심의 접수부터 승인까지" },
-      { label: "국내·외 인플루언서", href: "/marketing/influencer", blurb: "섭외 · 캐스팅 · 집행" },
+      { label: "인플루언서", href: "/marketing/influencer", blurb: "국내 · 해외 섭외부터 집행까지" },
       { label: "해외 환자 유치", href: "/marketing/global-patients", blurb: "글로벌 채널 · 다국어" },
     ],
   },
   {
-    label: "메디컬 AI",
-    fullLabel: "메디컬 AI 솔루션",
+    label: "홈페이지·검색",
+    fullLabel: "홈페이지 · 검색 노출",
     href: "/medical-ai",
     children: [
       { label: "홈페이지 제작", href: "/medical-ai/website", blurb: "반응형 · 예약 연동" },
-      { label: "검색엔진 최적화", href: "/medical-ai/seo", blurb: "SEO — 검색 유입 설계" },
-      { label: "AEO / GEO", href: "/medical-ai/aeo-geo", blurb: "AI 답변 · 생성형 검색 노출" },
+      { label: "검색 노출 최적화", href: "/medical-ai/seo", blurb: "검색해서 들어오는 길 만들기" },
+      { label: "AI 검색 노출", href: "/medical-ai/aeo-geo", blurb: "챗GPT · AI 답변에 병원이 언급되게" },
     ],
   },
   {
-    label: "인사이트",
-    fullLabel: "메디컬 인사이트",
+    label: "읽을거리",
+    fullLabel: "읽을거리",
     href: "/insight",
     children: [
-      { label: "칼럼", href: "/insight/column", blurb: "의료 마케팅 관점" },
+      { label: "칼럼", href: "/insight/column", blurb: "병원 마케팅을 보는 관점" },
       { label: "블로그", href: "/insight/blog", blurb: "실무 노트" },
-      { label: "FAQ", href: "/insight/faq", blurb: "자주 묻는 질문" },
+      { label: "자주 묻는 질문", href: "/insight/faq", blurb: "계약 · 기간 · 비용" },
       { label: "공지사항", href: "/insight/notice", blurb: "소식 · 안내" },
     ],
   },
   {
-    label: "진단",
-    fullLabel: "메디컬 진단 시스템",
+    label: "무료 진단",
+    fullLabel: "무료 병원 진단",
     href: "/diagnosis",
-    children: [{ label: "문의폼 작성하기", href: "/diagnosis#form", blurb: "진단 결과 + 상담 접수" }],
+    children: [{ label: "진단 신청하기", href: "/diagnosis#form", blurb: "5개 항목 확인 후 접수" }],
   },
 ];
 
-/** 헤더 우측 CTA — 사이트맵의 contact */
-export const NAV_CTA = { label: "contact", href: "/contact" };
+/**
+ * 헤더 우측 CTA — 전 사이트의 단일 행동.
+ * 문구와 목적지는 content/home.ts 의 PRIMARY_CTA 와 같아야 합니다.
+ */
+export const NAV_CTA = { label: "무료 병원 진단", href: "/diagnosis" };
+
+/**
+ * 보조 경로. 메뉴에는 넣지 않지만(행동이 갈리므로) 푸터와 사이트맵에는 남깁니다 —
+ * 진단 말고 그냥 물어보고 싶은 분들의 길을 막지 않기 위해서입니다.
+ */
+export const SECONDARY_LINKS = [
+  { label: "문의하기", href: "/contact" },
+  { label: "개인정보처리방침", href: "/privacy" },
+];
 
 /** 전체 리프 경로 (사이트맵 페이지 / QA 체크리스트용) */
 export const ALL_ROUTES = [
   "/",
   ...NAV.flatMap((item) => [item.href, ...(item.children ?? []).map((c) => c.href)]),
-  NAV_CTA.href,
+  ...SECONDARY_LINKS.map((l) => l.href),
 ];
 
 /**

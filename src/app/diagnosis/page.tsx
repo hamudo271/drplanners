@@ -1,7 +1,7 @@
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "메디컬 진단 시스템",
+  title: "무료 병원 진단",
   description: "5가지 항목으로 지금 병원의 위치를 진단합니다. 브랜드·검색·콘텐츠·광고·AI 검색, 약 3분. 담당 플래너가 직접 읽고 회신드립니다.",
   path: "/diagnosis",
 });
@@ -49,14 +49,14 @@ export default function Page() {
   return (
     <>
       <PageHero
-        crumbs={[{ label: "메디컬 진단 시스템" }]}
-        title="메디컬 진단 시스템"
-        lead="어떤 솔루션이 필요한지 아직 모르시겠다면 여기서 시작하세요. 5가지 항목으로 지금 병원의 위치를 확인합니다. 약 3분이면 끝납니다."
+        crumbs={[{ label: "무료 병원 진단" }]}
+        title="무료 병원 진단"
+        lead="광고비가 어디서 새는지, 무엇부터 손대야 하는지 5개 항목으로 확인합니다. 3분이면 끝나고, 비용은 없습니다."
         mediaSrc={DIAGNOSIS_HERO}
       />
 
       {/* 01 — 왜 진단부터인가 */}
-      <Section no="01" label="Why diagnose">
+      <Section no="01" label="왜 진단부터인가">
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div data-reveal>
             <H2>
@@ -87,7 +87,7 @@ export default function Page() {
       </Section>
 
       {/* 02 — 무엇을 보는가 */}
-      <Section no="02" label="What we check" tone="paper">
+      <Section no="02" label="무엇을 보는가" tone="paper">
         <H2>5가지를 봅니다</H2>
         <div className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-2 lg:grid-cols-3">
           {AREAS.map((a, i) => (
@@ -139,7 +139,7 @@ export default function Page() {
       </section>
 
       {/* 03 — 진행 순서 */}
-      <Section no="03" label="How it works">
+      <Section no="03" label="진행 방식">
         <H2>어떻게 진행되나요</H2>
         <ol className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-4">
           {STEPS.map((s, i) => (
@@ -167,7 +167,7 @@ export default function Page() {
       </div>
 
       {/* 05 — 진단 전 궁금증 */}
-      <Section no="05" label="Before you start" tone="paper">
+      <Section no="05" label="시작 전에" tone="paper">
         <H2>시작 전에 궁금하실 것</H2>
         <div className="mt-10 border-t border-ink-900/15">
           {[

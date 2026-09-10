@@ -6,10 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV, NAV_CTA } from "@/config/nav";
 
-/** 헤더 위 얇은 띠에서 순환하는 항목 — layout.tsx가 최신 칼럼으로 채웁니다 */
-export type TickerItem = { label: string; text: string; href: string };
-
-export function Header({ ticker = [] }: { ticker?: TickerItem[] }) {
+export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -21,8 +18,8 @@ export function Header({ ticker = [] }: { ticker?: TickerItem[] }) {
     setOpen(false);
   }
 
-  /** 모든 페이지가 다크 히어로로 시작하므로, 상단에서는 투명 + 밝은 로고 */
-  const overHero = !scrolled && !open;
+  // 메인은 밝은 히어로, 상세 페이지는 기존 사진 위의 밝은 로고를 사용합니다.
+  const overHero = pathname !== "/" && !scrolled && !open;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -33,73 +30,41 @@ export function Header({ ticker = [] }: { ticker?: TickerItem[] }) {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${ overHero ? "bg-transparent text-cream-100" : "border-b border-ink-900/10 bg-cream-100/95 text-ink-900 backdrop-blur" }`}
+      onKeyDown={(event) => { if (event.key === "Escape") setOpen(false); }}
+      className={`site-header fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${ overHero ? "bg-transparent text-cream-100" : "border-b border-ink-900/10 bg-cream-100/95 text-ink-900 backdrop-blur" }`}
     >
-      {/* ── 티커: 최신 칼럼 순환 + 진단 진입 ── */}
-      {ticker.length > 0 && (
-        <div
-          className={`border-b text-[0.6875rem] tracking-[0.08em] transition-colors duration-500 ${ overHero ? "border-cream-100/12 bg-forest-950/35 text-cream-100/80 backdrop-blur-sm" : "border-forest-700 bg-forest-800 text-cream-100/85" }`}
-        >
-          <div className="mx-auto flex h-8 w-full max-w-[1400px] items-center gap-6 px-6 md:h-9 md:px-10 lg:px-14">
-            <div
-              className="relative h-full min-w-0 flex-1"
-              style={{ "--ticker-total": `${ticker.length * 5}s` } as React.CSSProperties}
-            >
-              {ticker.map((t, i) => (
-                <Link
-                  key={t.href}
-                  href={t.href}
-                  className={`ticker-item ticker-${ticker.length} gap-3 transition-colors hover:text-cream-100`}
-                  style={{ "--ticker-delay": `${i * 5}s` } as React.CSSProperties}
-                  tabIndex={i === 0 ? 0 : -1}
-                >
-                  <span className="shrink-0 text-brass-400">{t.label}</span>
-                  <span className="truncate">{t.text}</span>
-                </Link>
-              ))}
-            </div>
-            <Link
-              href="/diagnosis"
-              className="hidden shrink-0 items-center gap-2 transition-colors hover:text-cream-100 sm:flex"
-            >
-              <span>병원 진단 · 약 3분</span>
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
-        </div>
-      )}
-
-      <div className="mx-auto flex h-20 w-full max-w-[1400px] items-center gap-6 px-6 md:h-24 md:px-10 lg:px-14">
+      <div className="header-inner mx-auto flex h-20 w-full items-center gap-6 px-6 md:h-24 md:px-10">
         <Link href="/" className="shrink-0" aria-label="닥터플래너스 홈">
           <Image
             src={overHero ? "/brand/logo-light.png" : "/brand/logo.png"}
             alt="DR.PLANERS"
             width={1815}
             height={340}
-            priority
+            preload
             sizes="(max-width: 768px) 150px, 180px"
             className="h-7 w-auto md:h-8"
           />
-          {/* 시안: 로고 아래 태그라인 */}
-          <span className="mt-1.5 hidden text-[9px] tracking-[0.28em] opacity-70 sm:block">
-            A SANCTUARY FOR DOCTORS
+          {/* 로고 아래 태그라인 — 무엇을 하는 회사인지 한 줄로 */}
+          <span className="mt-1.5 hidden text-[10px] tracking-[0.06em] opacity-70 sm:block">
+            병원 마케팅, 방향부터 결정합니다
           </span>
         </Link>
 
-        <nav className="ml-auto hidden items-center lg:flex">
+        <nav aria-label="주 메뉴" className="ml-auto hidden items-center xl:flex">
           {NAV.map((item) => (
             <div key={item.href} className="group relative">
               <Link
                 href={item.href}
-                className="block px-2.5 py-8 text-[0.8125rem] tracking-[0.02em] whitespace-nowrap opacity-90 transition-opacity hover:opacity-100 xl:px-3.5 xl:tracking-[0.04em]"
+                aria-current={pathname === item.href || pathname.startsWith(`${item.href}/`) ? "page" : undefined}
+                className="block px-2.5 py-8 text-sm tracking-[0.01em] whitespace-nowrap opacity-90 transition-opacity hover:opacity-100 2xl:px-4"
               >
-                {/* 1280px 미만에서는 대표 명칭이 다 들어가지 않아 축약 라벨을 씁니다 */}
-                <span className="xl:hidden">{item.label}</span>
-                <span className="hidden xl:inline">{item.fullLabel}</span>
+                {/* 1536px 미만의 데스크톱에서는 축약 라벨을 씁니다 */}
+                <span className="2xl:hidden">{item.label}</span>
+                <span className="hidden 2xl:inline">{item.fullLabel}</span>
               </Link>
 
               {item.children && (
-                <div className="invisible absolute top-full left-0 min-w-[248px] border border-ink-900/10 bg-cream-50 text-ink-900 opacity-0 shadow-[0_18px_40px_-18px_rgba(22,35,27,0.28)] transition-all duration-300 group-hover:visible group-hover:opacity-100">
+                <div className="invisible absolute top-full right-0 min-w-[248px] border border-ink-900/10 bg-cream-50 text-ink-900 opacity-0 shadow-[0_18px_40px_-18px_rgba(22,35,27,0.28)] transition-all duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                   <p className="label border-b border-ink-900/10 px-5 py-4">
                     {item.fullLabel}
                   </p>
@@ -108,7 +73,7 @@ export function Header({ ticker = [] }: { ticker?: TickerItem[] }) {
                       <li key={c.href}>
                         <Link
                           href={c.href}
-                          className="block px-5 py-2.5 text-sm transition-colors hover:bg-cream-200"
+                          className="block px-5 py-2.5 text-sm"
                         >
                           {c.label}
                         </Link>
@@ -123,14 +88,16 @@ export function Header({ ticker = [] }: { ticker?: TickerItem[] }) {
 
         <Link
           href={NAV_CTA.href}
-          className={`ml-auto hidden shrink-0 border px-6 py-3 text-xs tracking-[0.08em] transition-colors duration-300 lg:ml-6 lg:block ${ overHero ? "border-cream-100/45 hover:border-cream-100" : "border-forest-800 bg-forest-800 text-cream-100 hover:bg-forest-700" }`}
+          className={`ml-auto hidden shrink-0 rounded-full border px-6 py-3 text-sm tracking-[0.04em] transition-colors duration-300 xl:ml-4 xl:block ${ overHero ? "border-cream-100/45 hover:border-cream-100" : "border-forest-800 bg-forest-800 text-cream-100 hover:bg-forest-700" }`}
         >
           {NAV_CTA.label}
         </Link>
 
         <button
           onClick={() => setOpen(!open)}
-          className="ml-auto flex h-10 w-10 flex-col items-center justify-center gap-[5px] lg:hidden"
+          className="ml-auto flex h-10 w-10 flex-col items-center justify-center gap-[5px] xl:hidden"
+          type="button"
+          aria-controls="mobile-navigation"
           aria-expanded={open}
           aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
         >
@@ -144,7 +111,7 @@ export function Header({ ticker = [] }: { ticker?: TickerItem[] }) {
       </div>
 
       {open && (
-        <div className="max-h-[76vh] overflow-y-auto border-t border-ink-900/10 bg-cream-100 text-ink-900 lg:hidden">
+        <div id="mobile-navigation" className="max-h-[76vh] overflow-y-auto border-t border-ink-900/10 bg-cream-100 text-ink-900 xl:hidden">
           <div className="px-6 py-6 md:px-10">
             {NAV.map((item) => (
               <div key={item.href} className="border-b border-ink-900/10 py-4">

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Container, Button } from "@/components/ui";
 import { CTA_BAND, DEFAULT_PAGE_HERO } from "@/config/images";
 import { NAV } from "@/config/nav";
+import { PRIMARY_CTA } from "@/content/home";
 
 /** 하위 페이지 공통 상단 — 메인과 같은 풀블리드 다크 히어로 */
 export function PageHero({
@@ -23,7 +24,7 @@ export function PageHero({
   return (
     <section className="relative flex min-h-[340px] items-end sm:min-h-[400px] md:min-h-[480px]">
       <div className="veil-left absolute inset-0">
-        <Image src={src} alt="" fill priority sizes="100vw" className="object-cover" />
+        <Image src={src} alt="" fill preload sizes="100vw" className="object-cover" />
       </div>
       <Container className="relative pt-40 pb-14 md:pt-48 md:pb-20">
         <nav
@@ -70,18 +71,42 @@ export function PageHero({
   );
 }
 
-/** 하위 페이지 공통 하단 CTA — 풀블리드 사진 밴드 */
-export function CtaBand() {
+/**
+ * 하위 페이지 하단 CTA — 풀블리드 사진 밴드.
+ *
+ * 목적지와 버튼 문구는 전 사이트 하나(PRIMARY_CTA)로 고정하되, **문맥은 페이지 성격을
+ * 따라갑니다.** 28개 페이지가 똑같은 문장으로 끝나면 설득이 아니라 템플릿으로 읽힙니다.
+ *
+ *   service — 서비스를 읽고 난 사람. "이게 우리 병원에 맞나?"가 다음 질문입니다.
+ *   insight — 글을 읽고 난 사람. 아직 파는 단계가 아니라 판단을 돕는 톤으로.
+ *   default — 회사/철학처럼 이미 설득 문맥에 있는 페이지.
+ *
+ * 공지사항처럼 영업 문맥이 아닌 페이지에서는 아예 부르지 않습니다.
+ */
+type CtaKind = "default" | "service" | "insight";
+
+const CTA_COPY: Record<CtaKind, { title: string[]; body: string }> = {
+  default: {
+    title: ["광고비가 어디서 새는지,", "먼저 확인해보십시오."],
+    body: "5개 항목만 확인하면 됩니다. 3분이면 충분하고, 비용은 없습니다.",
+  },
+  service: {
+    title: ["이게 우리 병원에 맞는지부터", "확인해보십시오."],
+    body: "무엇부터 손대야 하는지는 병원마다 다릅니다. 진단 결과를 보고 순서를 정해드립니다.",
+  },
+  insight: {
+    title: ["글로만 판단하기", "어려우시다면."],
+    body: "우리 병원 상황에 대입해서 직접 봐드립니다. 진단과 상담에는 비용이 없습니다.",
+  },
+};
+
+export function CtaBand({ kind = "default" }: { kind?: CtaKind }) {
+  const copy = CTA_COPY[kind];
+
   return (
     <section className="relative flex min-h-[380px] items-center md:min-h-[440px]">
       <div className="veil-soft absolute inset-0">
-        <Image
-          src={CTA_BAND}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
+        <Image src={CTA_BAND} alt="" fill sizes="100vw" className="object-cover" />
       </div>
       <Container className="relative py-20">
         <div
@@ -89,24 +114,21 @@ export function CtaBand() {
           data-reveal
         >
           <div>
-            <p className="label label-on-dark">Next step</p>
+            <p className="label label-ko label-on-dark">{PRIMARY_CTA.short}</p>
             <p className="display-ko mt-6 text-2xl leading-snug md:text-3xl lg:text-[2.25rem]">
-              우리 병원에 맞는 계획이
-              <br />
-              궁금하신가요?
+              {copy.title.map((l, i) => (
+                <span key={l}>
+                  {l}
+                  {i === 0 && <br />}
+                </span>
+              ))}
             </p>
-            <p className="prose-ko mt-5 text-sm text-cream-100/70">
-              5분 진단으로 현재 위치부터 확인해보세요.
-            </p>
+            <p className="prose-ko mt-5 text-sm text-cream-100/70">{copy.body}</p>
           </div>
-          <div className="flex shrink-0 flex-wrap gap-3">
-            <Link href="/diagnosis">
-              <Button variant="cream">
-                병원 진단 시작하기
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button variant="light">문의하기</Button>
+          {/* CTA는 하나만 둡니다 — 두 개를 나란히 두면 행동이 갈립니다 */}
+          <div className="shrink-0">
+            <Link href={PRIMARY_CTA.href}>
+              <Button variant="cream">{PRIMARY_CTA.label}</Button>
             </Link>
           </div>
         </div>
