@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Reveal } from "@/components/layout/Reveal";
 import { Dock } from "@/components/layout/Dock";
 import { SITE } from "@/config/site";
+import { COMPANY, ADDRESS_LINE } from "@/config/company";
 
 /* 영문 디스플레이 — 라이트 웨이트 + 넓은 트래킹 */
 const jost = Jost({
@@ -83,6 +84,17 @@ const orgJsonLd = {
   logo: `${SITE.url}/brand/logo.png`,
   image: `${SITE.url}/brand/logo.png`,
   slogan: "병원 마케팅, 방향부터 결정합니다",
+  legalName: COMPANY.legalName,
+  founder: { "@type": "Person", name: COMPANY.ceo },
+  telephone: COMPANY.tel,
+  email: COMPANY.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: ADDRESS_LINE,
+    addressLocality: COMPANY.address.locality,
+    addressRegion: COMPANY.address.region,
+    addressCountry: COMPANY.address.country,
+  },
   areaServed: { "@type": "Country", name: "대한민국" },
   knowsAbout: [
     "병원 마케팅",

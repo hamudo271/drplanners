@@ -2,6 +2,7 @@ import { pageMeta } from "@/lib/seo";
 import { Container, Section } from "@/components/ui";
 import { PageHero } from "@/components/templates/shared";
 import { SITE } from "@/config/site";
+import { COMPANY, ADDRESS_LINE } from "@/config/company";
 
 export const metadata = pageMeta({
   title: "개인정보처리방침",
@@ -13,17 +14,19 @@ export const metadata = pageMeta({
 /**
  * 개인정보처리방침.
  *
- * ⚠️ 아래 내용은 실제 폼이 수집하는 항목(src/lib/contact.ts)과 전송 경로
- *    (src/lib/mailer.ts — Resend)를 근거로 작성한 것입니다.
- *    사업자등록번호 · 주소 · 개인정보 보호책임자는 회사만 확정할 수 있으므로
- *    COMPANY_INFO 를 채운 뒤 공개하십시오. 비어 있으면 화면에 경고가 보입니다.
+ * 내용은 실제 폼이 수집하는 항목(src/lib/contact.ts)과 전송 경로
+ * (src/lib/mailer.ts — Resend)를 근거로 작성했습니다. 수집 항목이 바뀌면
+ * 이 문서도 같이 고쳐야 합니다.
+ *
+ * 사업자 정보는 config/company.ts 한 곳에서 옵니다.
  */
 const COMPANY_INFO: { label: string; value: string }[] = [
-  // { label: "상호", value: "닥터플래너스" },
-  // { label: "사업자등록번호", value: "" },
-  // { label: "주소", value: "" },
-  // { label: "개인정보 보호책임자", value: "" },
-  // { label: "문의 이메일", value: "" },
+  { label: "상호", value: COMPANY.legalName + "(" + COMPANY.legalNameKo + ")" },
+  { label: "대표자", value: COMPANY.ceo },
+  { label: "사업자등록번호", value: COMPANY.bizNo },
+  { label: "주소", value: ADDRESS_LINE },
+  { label: "개인정보 보호책임자", value: COMPANY.ceo },
+  { label: "문의 이메일", value: COMPANY.email },
 ];
 
 const SECTIONS = [
@@ -60,7 +63,7 @@ const SECTIONS = [
   {
     h: "5. 정보주체의 권리",
     body: [
-      "정보주체는 언제든지 본인의 개인정보에 대한 열람, 정정, 삭제, 처리정지를 요구할 수 있습니다. 요청은 아래 연락처로 접수해 주시면 지체 없이 처리합니다.",
+      `정보주체는 언제든지 본인의 개인정보에 대한 열람, 정정, 삭제, 처리정지를 요구할 수 있습니다. 요청은 ${COMPANY.email} 또는 ${COMPANY.tel} 로 접수해 주시면 지체 없이 처리합니다.`,
       "개인정보 수집·이용 동의는 거부하실 수 있습니다. 다만 문의와 진단 신청은 회신을 위해 연락처가 반드시 필요하므로, 동의하지 않으실 경우 해당 서비스 이용이 제한됩니다.",
     ],
   },

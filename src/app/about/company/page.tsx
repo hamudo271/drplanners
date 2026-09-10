@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Section, BrassIcon, Button, H2 } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { ABOUT } from "@/config/images";
+import { COMPANY, ADDRESS_LINE } from "@/config/company";
 
 const HISTORY = [
   {
@@ -40,9 +41,9 @@ const FACTS = [
  *    비어 있으면 빈 표 대신 안내 문구가 나갑니다 — 빈 칸을 보여주지 않기 위해서입니다.
  */
 const OFFICE: { k: string; v: string }[] = [
-  // { k: "주소", v: "" },
-  // { k: "대표번호", v: "" },
-  // { k: "이메일", v: "" },
+  { k: "주소", v: ADDRESS_LINE },
+  { k: "대표번호", v: COMPANY.tel },
+  { k: "이메일", v: COMPANY.email },
 ];
 
 export default function Page() {

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { NAV, NAV_CTA } from "@/config/nav";
 import { Container } from "@/components/ui";
+import { COMPANY, ADDRESS_LINE, TEL_HREF, LEGAL_LINE } from "@/config/company";
 
 /** 시안 푸터: COMPANY / SERVICE / RESOURCES / CONTACT 4단 */
 const COLUMNS = [
@@ -89,7 +90,18 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-ink-900/12 pt-7">
+        {/* 법적 표기 — 상호·대표·사업자등록번호는 사업자 사이트의 필수 표기입니다 */}
+        <div className="mt-16 border-t border-ink-900/12 pt-7">
+          <p className="text-xs leading-relaxed text-ink-500">{LEGAL_LINE}</p>
+          <p className="mt-2 text-xs leading-relaxed text-ink-500">
+            {ADDRESS_LINE} · <a href={TEL_HREF} className="hover:text-forest-800">{COMPANY.tel}</a> ·{" "}
+            <a href={`mailto:${COMPANY.email}`} className="hover:text-forest-800">
+              {COMPANY.email}
+            </a>
+          </p>
+        </div>
+
+        <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
           <span className="label tnum">
             © 2026 DR.PLANERS. All rights reserved.
           </span>

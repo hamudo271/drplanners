@@ -10,6 +10,7 @@ import { Section, Media, BrassIcon, Button, H2 } from "@/components/ui";
 import { PageHero } from "@/components/templates/shared";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { CONTACT_HERO, cardImage } from "@/config/images";
+import { COMPANY, ADDRESS_LINE, TEL_HREF } from "@/config/company";
 
 
 export default function Page() {
@@ -32,15 +33,25 @@ export default function Page() {
               <p className="label">바로 연락</p>
               <div className="mt-5 space-y-5">
                 {[
-                  { k: "대표번호", v: "문의 폼으로 남겨주시면 연락드립니다" },
-                  { k: "이메일", v: "아래 폼이 담당자 메일로 바로 전달됩니다" },
+                  { k: "대표번호", v: COMPANY.tel, href: TEL_HREF },
+                  { k: "이메일", v: COMPANY.email, href: `mailto:${COMPANY.email}` },
+                  { k: "주소", v: ADDRESS_LINE },
                   { k: "응답 시간", v: "영업일 기준 1일 내 회신" },
                 ].map((c) => (
                   <div key={c.k} className="flex items-start gap-3">
                     <BrassIcon size={28} />
                     <div className="flex-1">
                       <p className="text-sm font-medium text-ink-900">{c.k}</p>
-                      <p className="prose-ko mt-1.5 text-sm text-ink-700">{c.v}</p>
+                      {"href" in c && c.href ? (
+                        <a
+                          href={c.href}
+                          className="mt-1.5 inline-block text-sm text-ink-700 underline underline-offset-2 hover:text-forest-800"
+                        >
+                          {c.v}
+                        </a>
+                      ) : (
+                        <p className="prose-ko mt-1.5 text-sm text-ink-700">{c.v}</p>
+                      )}
                     </div>
                   </div>
                 ))}
