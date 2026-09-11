@@ -11,8 +11,6 @@ import { Section } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { InsightTabs } from "@/components/templates/Insight";
 
-const GROUPS = ["계약 · 운영", "진행 방식", "성과 · 리포트", "정책"];
-
 /** 블로그 글 "왜 닥터플래너스일까?"에서 정리한 실제 운영 기준 기반 문답 */
 const FAQS = [
   {
@@ -61,19 +59,7 @@ export default function Page() {
       <InsightTabs current="/insight/faq" />
 
       <Section>
-        <div className="grid gap-12 lg:grid-cols-[220px_1fr]">
-          {/* 카테고리 사이드 */}
-          <nav className="h-fit border border-ink-900/15">
-            {GROUPS.map((g, i) => (
-              <span
-                key={g}
-                className={`block border-b border-ink-900/10 px-5 py-3.5 text-sm last:border-0 ${ i === 0 ? "bg-cream-50 font-medium" : "text-ink-500" }`}
-              >
-                {g}
-              </span>
-            ))}
-          </nav>
-
+        <div className="max-w-3xl">
           {/* 아코디언 — 네이티브 details 사용 (JS 불필요) */}
           <div className="border-t border-ink-900/15">
             {FAQS.map((f, i) => (

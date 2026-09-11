@@ -7,7 +7,7 @@ export const metadata = pageMeta({
 });
 
 import Link from "next/link";
-import { Section, BrassIcon, Button, H2 } from "@/components/ui";
+import { Section } from "@/components/ui";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { ABOUT } from "@/config/images";
 import { COMPANY, ADDRESS_LINE } from "@/config/company";
@@ -52,29 +52,28 @@ export default function Page() {
       <PageHero
         crumbs={[{ label: "닥터플래너스", href: "/about" }, { label: "회사소개" }]}
         title="회사소개"
-        lead="조직 · 연혁 · 파트너 · 오시는 길"
+        lead="조직 · 연혁 · 일하는 조건 · 오시는 길"
         mediaLabel="회사 전경 이미지"
         mediaSrc={ABOUT.company}
       />
 
+      {/* 사진이 없는 팀에 빈 사각형을 그려두면 빠진 이미지로 읽힙니다 — 글로만 둡니다 */}
       <Section no="01" label="조직">
         <h2 className="text-2xl font-light md:text-3xl">조직</h2>
-        <div className="mt-8 grid gap-5 md:grid-cols-4">
+        <ol className="team-list">
           {[
             { t: "전략", d: "진단과 플래닝 — 병원의 계획을 세우고 지킵니다." },
             { t: "브랜딩", d: "콘텐츠·디자인·영상 — 병원의 톤을 만듭니다." },
             { t: "퍼포먼스", d: "광고·데이터 — 예산이 예약이 되게 합니다." },
             { t: "메디컬 AI", d: "검색·AI 노출 — 발견되는 구조를 만듭니다." },
-          ].map(({ t, d }) => (
-            <div key={t} className="border border-ink-900/15 p-6">
-              <div className="flex aspect-square items-center justify-center bg-cream-200">
-                <BrassIcon size={40} />
-              </div>
-              <p className="mt-4 text-base font-medium">{t} 팀</p>
-              <p className="prose-ko mt-2 text-sm text-ink-500">{d}</p>
-            </div>
+          ].map(({ t, d }, i) => (
+            <li key={t} data-reveal style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}>
+              <span className="display-serif tnum team-no">{String(i + 1).padStart(2, "0")}</span>
+              <p className="team-name">{t} 팀</p>
+              <p className="prose-ko team-body">{d}</p>
+            </li>
           ))}
-        </div>
+        </ol>
       </Section>
 
       <Section no="02" label="연혁" tone="paper">
@@ -92,18 +91,7 @@ export default function Page() {
         </ul>
       </Section>
 
-      <Section no="03" label="파트너">
-        <H2>파트너</H2>
-        <p className="prose-ko mt-6 max-w-xl text-sm text-ink-500">
-          제휴 및 협력사는 계약 관계 확인 후 순차적으로 공개합니다.
-          제휴를 원하시는 경우 문의로 연락 주세요.
-        </p>
-        <Link href="/contact" className="mt-8 inline-block">
-          <Button variant="outline">제휴 문의</Button>
-        </Link>
-      </Section>
-
-      <Section no="04" label="일하는 조건" tone="paper">
+      <Section no="03" label="일하는 조건" tone="paper">
         <h2 className="text-2xl font-light md:text-3xl">어떻게 일하는지</h2>
         <p className="prose-ko mt-6 max-w-xl text-sm text-ink-500">
           회사 실체를 확인하시는 자리이니, 지금 확정된 것만 적었습니다.

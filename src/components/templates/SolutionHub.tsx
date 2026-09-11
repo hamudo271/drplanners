@@ -1,25 +1,9 @@
 import Link from "next/link";
-import { Section, Media, IconBox, H2, BrassIcon, Button } from "@/components/ui";
+import { Section, Media, IconBox, H2, Button } from "@/components/ui";
 import { PageHero, CtaBand, findHub } from "./shared";
 import { HubDiagram, hasHubDiagram } from "@/components/sections/HubDiagram";
 import { HUB_HERO, hubCard } from "@/config/images";
 import { hubContent } from "@/content/solutions";
-
-/** 사례가 비어 있는 동안, 빈 카드 대신 사례를 다루는 원칙을 보여줍니다 */
-const CASE_PRINCIPLES = [
-  {
-    title: "동의 없이 공개하지 않습니다",
-    body: "병원명·수치·화면은 계약 병원의 승인을 받은 것만 게재합니다. 원장님의 병원도 같은 원칙으로 다뤄집니다.",
-  },
-  {
-    title: "같은 상권, 같은 진료과는 중복해서 맡지 않습니다",
-    body: "사례가 경쟁 병원의 교본이 되지 않도록, 수주 단계에서부터 겹치지 않게 받습니다.",
-  },
-  {
-    title: "숫자는 전환 기준으로만 씁니다",
-    body: "노출·순위 같은 중간 지표가 아니라, 문의와 예약이 어떻게 바뀌었는지로만 사례를 말합니다.",
-  },
-];
 
 /** 템플릿 1 — 솔루션 허브 (/signature /branding /marketing /medical-ai) */
 export function SolutionHub({ href }: { href: string }) {
@@ -116,19 +100,19 @@ export function SolutionHub({ href }: { href: string }) {
             <p className="prose-ko text-sm text-cream-100/70">{c.journey.lead}</p>
           </div>
 
-          <ol className="mt-14 grid gap-px border-t border-l border-cream-100/15 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          <ol className="mt-14 grid gap-px border-t border-l border-cream-100/15 sm:grid-cols-2 lg:grid-cols-3">
             {c.journey.steps.map((s, i) => (
               <li
                 key={s.title}
-                className="flex flex-col border-r border-b border-cream-100/15 p-6"
+                className="flex flex-col border-r border-b border-cream-100/15 p-7"
                 data-reveal
                 style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
               >
                 <span className="display-serif tnum text-3xl leading-none text-brass-400">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <p className="display-ko mt-4 text-lg text-cream-100">{s.title}</p>
-                <p className="prose-ko mt-2.5 text-sm text-cream-100/65">{s.body}</p>
+                <p className="display-ko mt-4 text-xl text-cream-100">{s.title}</p>
+                <p className="prose-ko mt-2.5 text-[15px] text-cream-100/70">{s.body}</p>
 
                 <div className="mt-auto pt-7">
                   <p className="label label-on-dark">
@@ -167,6 +151,38 @@ export function SolutionHub({ href }: { href: string }) {
         </Section>
       )}
 
+      {href === "/signature" && c ? (
+        /* 회사 이름이 곧 프로세스 — 카드 격자가 아니라 여섯 글자가 이끄는 도식으로 */
+        <Section no={no()} label="진행 순서" tone="paper">
+          <div className="editorial-section-heading" data-reveal>
+            <div>
+              <h2 className="editorial-title">{c.processTitle}</h2>
+            </div>
+            <p className="editorial-intro">
+              여섯 단계를 전부 더해도 원장님이 움직이실 시간은 채 10분이 되지 않습니다.
+              각 단계 아래에 원장님이 실제로 하실 일을 적었습니다.
+            </p>
+          </div>
+          <ol className="plan-steps">
+            {c.process.map((step, i) => {
+              const [letter, rest] = step.title.split(" — ");
+              return (
+                <li
+                  key={step.title}
+                  className="plan-step"
+                  data-reveal
+                  style={{ "--reveal-delay": `${i * 100}ms` } as React.CSSProperties}
+                >
+                  <span className="display-serif plan-letter">{letter}</span>
+                  <p className="plan-step-title">{rest}</p>
+                  <p className="prose-ko plan-step-body">{step.body}</p>
+                  {step.you && <p className="plan-step-you">{step.you}</p>}
+                </li>
+              );
+            })}
+          </ol>
+        </Section>
+      ) : (
       <Section no={no()} label="진행 순서" tone="paper">
         <H2>{c?.processTitle ?? "진행 방식"}</H2>
         <div
@@ -198,39 +214,7 @@ export function SolutionHub({ href }: { href: string }) {
           ))}
         </div>
       </Section>
-
-      {/* 사례 — 공개 가능한 것이 생기기 전까지는 원칙으로 신뢰를 대신합니다 */}
-      <Section no={no()} label="함께 보면 좋은 것">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
-          <div data-reveal>
-            <H2>관련 사례</H2>
-            <p className="prose-ko mt-6 max-w-md text-sm text-ink-500">
-              {c?.casesNote ?? "공개 가능한 사례부터 순차적으로 게재할 예정입니다."}
-            </p>
-            <Link href="/signature" className="group mt-8 inline-flex items-center gap-3">
-              <span className="label">사례 대신, 일하는 순서 먼저 보기</span>
-              <span className="transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
-          </div>
-
-          <div className="border border-ink-900/15 bg-cream-50 p-8 md:p-10" data-reveal>
-            <p className="label">사례를 다루는 원칙</p>
-            <ul className="mt-4 divide-y divide-ink-900/10">
-              {CASE_PRINCIPLES.map((p) => (
-                <li key={p.title} className="flex gap-5 py-6">
-                  <BrassIcon size={28} />
-                  <div>
-                    <p className="display-ko text-base">{p.title}</p>
-                    <p className="prose-ko mt-2 text-sm text-ink-500">{p.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </Section>
+      )}
 
       <CtaBand kind="service" />
     </>

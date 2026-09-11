@@ -1,15 +1,15 @@
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "CONTACT",
+  title: "문의하기",
   description: "병원 상황을 알려주시면 담당 플래너가 직접 검토 후 연락드립니다. 월 최대 4개 병원만 새로 맡습니다.",
   path: "/contact",
 });
 
-import { Section, Media, BrassIcon, Button, H2 } from "@/components/ui";
+import { Section, BrassIcon, Button, H2 } from "@/components/ui";
 import { PageHero } from "@/components/templates/shared";
 import { ContactForm } from "@/components/contact/ContactForm";
-import { CONTACT_HERO, cardImage } from "@/config/images";
+import { CONTACT_HERO } from "@/config/images";
 import { COMPANY, ADDRESS_LINE, TEL_HREF } from "@/config/company";
 
 
@@ -17,8 +17,8 @@ export default function Page() {
   return (
     <>
       <PageHero
-        crumbs={[{ label: "contact" }]}
-        title="CONTACT"
+        crumbs={[{ label: "문의하기" }]}
+        title="문의하기"
         lead="병원 상황을 알려주시면 담당 플래너가 직접 검토 후 연락드립니다."
         mediaLabel="컨택트 키비주얼"
         mediaSrc={CONTACT_HERO}
@@ -71,19 +71,13 @@ export default function Page() {
               <p className="prose-ko mt-3.5 text-sm text-ink-700">
                 어떤 솔루션이 필요한지 아직 모르시겠다면
                 <br />
-                5분 진단을 먼저 받아보세요.
+                3분 진단을 먼저 받아보세요.
               </p>
               <a href="/diagnosis" className="mt-5 inline-block">
                 <Button variant="outline">병원 진단 시작하기</Button>
               </a>
             </div>
 
-            <Media
-              label="오시는 길 이미지"
-              ratio="aspect-[4/3]"
-              src={cardImage(6)}
-              sizes="(max-width: 1024px) 100vw, 33vw"
-            />
           </aside>
         </div>
       </Section>

@@ -35,7 +35,7 @@ export const HUB_HERO: Record<string, string> = {
   "/branding": img(33),    // 그린 + 크림 실크
   "/marketing": img(31),   // 그린 + 골드 추상
   "/medical-ai": img(29),  // 실크 + 물방울
-  "/about": img(15),       // 3240x1440 브랜드 배너
+  "/about": img(7),        // 브랜드 컬렉션 — 15번은 옛 태그라인이 박혀 있어 뺐습니다
   "/insight": img(28),     // 그린 + 골드 실크
 };
 
@@ -48,7 +48,7 @@ const WIDE_POOL = [
 
 /** 4:3 본문·카드용 — 구도가 살아있는 목업 포함 전체 */
 const DETAIL_POOL = [
-  img(8), img(10), img(12), img(13), img(19), img(21), img(23), img(24),
+  img(8), img(10), img(12), img(19), img(23),
   img(25), img(27), img(28), img(29), img(30), img(31), img(33), img(34),
 ];
 
@@ -66,19 +66,19 @@ export const relatedWork = (href: string, i: number) => pick(DETAIL_POOL, href, 
 /* ── 어바웃 ─────────────────────────────────────── */
 export const ABOUT = {
   cards: [img(9), img(27)],   // 컬러 팔레트 보드 / 스테이셔너리
-  philosophy: img(22),        // 브랜드 포스터 — 0.8 비율, 4:5 슬롯에 거의 그대로 들어갑니다
+  philosophy: img(19),        // 그린 스테이지 — 22번 포스터는 옛 태그라인이 박혀 있어 뺐습니다
   company: img(11),           // 2.25:1 인테리어 전경
 };
 
 /* ── 인사이트 ───────────────────────────────────── */
 export const INSIGHT = {
-  featured: img(13),
-  articleHero: img(21),
+  featured: img(25),          // 13·21번 꽃 상자는 옛 태그라인이 인쇄돼 있어 뺐습니다
+  articleHero: img(30),       // 21번은 옛 태그라인이 인쇄돼 있어 뺐습니다
   articleBody: img(25),
 };
 
 const CARD_POOL = [
-  img(8), img(13), img(19), img(21), img(23), img(24), img(25),
+  img(8), img(19), img(23), img(25),
   img(27), img(28), img(29), img(30), img(31), img(33), img(34),
 ];
 
@@ -90,13 +90,14 @@ export const CTA_BAND = img(14);   // 손 + 브로슈어 — 다른 슬롯과 �
 
 /* ── 진단 · 컨택트 ─────────────────────────────── */
 export const DIAGNOSIS_HERO = img(19);  // 그린 스테이지 + 올리브 가지
-export const CONTACT_HERO = img(13);    // 크림 봉투 + 박스
+export const CONTACT_HERO = img(29);    // 실크 + 물방울
 
 /* ── 반복 슬롯 피커 ─────────────────────────────
    같은 페이지 안에서 이미지가 겹치지 않도록 오프셋을 벌려둡니다. */
+/* 13 · 15 · 21 · 22 는 옛 태그라인 문구가 사진에 박혀 있고, 24 는 코럴색 소파라 팔레트를 벗어납니다 — 어디에도 쓰지 않습니다 */
 const CARD_IMAGES = [
-  img(8), img(9), img(10), img(12), img(13), img(19), img(21), img(22),
-  img(23), img(24), img(25), img(27), img(30), img(32), img(34),
+  img(8), img(9), img(10), img(12), img(19),
+  img(23), img(25), img(27), img(30), img(32), img(34),
 ];
 
 /** 솔루션 상세 01 — "이런 병원에 필요합니다" 카드 3장 */

@@ -220,15 +220,8 @@ export function RealArticle({ article }: { article: Article }) {
               <span>DR.PLANERS</span>
             </div>
 
-            <Media
-              label="대표 이미지"
-              ratio="aspect-[16/9]"
-              className="mt-10"
-              src={INSIGHT.articleHero}
-              sizes="(max-width: 760px) 100vw, 720px"
-            />
-
-            <div className="mt-12">
+            {/* 대표 이미지는 두지 않습니다 — 24장 목업을 돌려 쓰면 모든 글이 같은 사진으로 시작합니다 */}
+            <div className="mt-10">
               {article.blocks.map((b, i) => {
                 switch (b.t) {
                   case "h2":
