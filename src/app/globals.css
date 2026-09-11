@@ -318,8 +318,8 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
 .site-header { border-bottom: 1px solid rgb(75 70 59 / 10%); }
 .site-header nav a[aria-current="page"]::after { transform: scaleX(1); }
 .site-footer { border-top: 1px solid rgb(75 70 59 / 12%); }
-.editorial-eyebrow { display: flex; align-items: center; gap: 12px; color: var(--color-brass-600); font-size: 12px; font-weight: 400; letter-spacing: .1em; line-height: 1.6; }
-.editorial-eyebrow > span { font-size: 22px; }
+.editorial-eyebrow { display: flex; align-items: center; gap: 14px; color: var(--color-brass-600); font-size: 12.5px; font-weight: 400; letter-spacing: .06em; line-height: 1.6; }
+.eyebrow-rule { width: 32px; height: 1px; background: currentColor; opacity: .75; }
 .editorial-title { font-size: clamp(1.9rem, 3.15vw, 3.1rem); font-weight: 300; line-height: 1.55; letter-spacing: -.055em; }
 .editorial-title > span { color: var(--color-brass-600); }
 .editorial-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; font-size: 14px; font-weight: 400; }

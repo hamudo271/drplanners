@@ -78,8 +78,10 @@ export function HeroSlider() {
             aria-hidden={i !== active}
             inert={i !== active}
           >
+            {/* 반짝이 글리프는 템플릿 냄새가 납니다 — 섹션 라벨과 같은 얇은 선으로 */}
             <p className="editorial-eyebrow">
-              <span aria-hidden="true">✦</span> {s.eyebrow}
+              <span className="eyebrow-rule" aria-hidden="true" />
+              {s.eyebrow}
             </p>
             <p className="hero-title">
               {s.title.map((line) => (
