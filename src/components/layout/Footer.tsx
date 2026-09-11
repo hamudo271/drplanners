@@ -108,9 +108,6 @@ export function Footer() {
           <Link href="/privacy" className="label label-ko -my-3 py-3">
             개인정보처리방침
           </Link>
-          <Link href="/sitemap-view" className="label -my-3 py-3 sm:ml-auto">
-            사이트맵
-          </Link>
         </div>
       </Container>
     </footer>
