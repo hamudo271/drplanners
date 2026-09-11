@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Container, CircleArrow } from "@/components/ui";
+import { Container, Button } from "@/components/ui";
 import { HERO_SLIDES, PRIMARY_CTA, SECONDARY_CTA } from "@/content/home";
 import { HOME } from "@/config/images";
 
@@ -88,10 +88,10 @@ export function HeroSlider() {
             </p>
             <p className="hero-lead">{s.lead}</p>
             <p className="hero-description">{s.description}</p>
-            {/* 버튼은 하나만. 보조는 무게가 다른 텍스트 링크로 둡니다 */}
+            {/* 버튼은 하나만, 그리고 채운 버튼. 보조는 무게가 다른 텍스트 링크로 둡니다 */}
             <div className="hero-actions">
-              <Link href={PRIMARY_CTA.href} className="editorial-link hero-cta">
-                {PRIMARY_CTA.label} <CircleArrow size={44} />
+              <Link href={PRIMARY_CTA.href} className="hero-cta">
+                <Button>{PRIMARY_CTA.label}</Button>
               </Link>
               <Link href={SECONDARY_CTA.href} className="hero-secondary">
                 {SECONDARY_CTA.label}
@@ -121,17 +121,14 @@ export function HeroSlider() {
           {slide.indexNo} <span /> {slide.indexLabel}
         </span>
 
+        {/* 점 대신 선 — 바로 위 페이지네이션 점과 두 줄로 겹쳐 보이지 않게 */}
         <a href="#audience" className="hero-scroll">
           아래로 내려서 보기
-          <span className="scroll-dots" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-            <span />
-          </span>
+          <span className="scroll-line" aria-hidden="true" />
         </a>
 
-        <span className="hero-bottom-note">월 4곳 한정</span>
+        {/* 오른쪽은 비워 둡니다 — 데스크톱 독 버튼이 그 자리에 뜹니다 */}
+        <span aria-hidden="true" />
       </Container>
     </section>
   );

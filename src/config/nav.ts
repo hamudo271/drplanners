@@ -85,17 +85,14 @@ export const NAV: NavItem[] = [
       { label: "공지사항", href: "/insight/notice", blurb: "소식 · 안내" },
     ],
   },
-  {
-    label: "무료 진단",
-    fullLabel: "무료 병원 진단",
-    href: "/diagnosis",
-    children: [{ label: "진단 신청하기", href: "/diagnosis#form", blurb: "5개 항목 확인 후 접수" }],
-  },
 ];
 
 /**
  * 헤더 우측 CTA — 전 사이트의 단일 행동.
  * 문구와 목적지는 content/home.ts 의 PRIMARY_CTA 와 같아야 합니다.
+ *
+ * 진단은 메뉴 항목이 아니라 버튼입니다 — 같은 곳으로 가는 링크가 메뉴와 버튼에
+ * 나란히 있으면 둘 중 하나는 군더더기이고, 남는 쪽은 버튼입니다.
  */
 export const NAV_CTA = { label: "무료 병원 진단", href: "/diagnosis" };
 
@@ -111,6 +108,7 @@ export const SECONDARY_LINKS = [
 /** 전체 리프 경로 (사이트맵 페이지 / QA 체크리스트용) */
 export const ALL_ROUTES = [
   "/",
+  NAV_CTA.href,
   ...NAV.flatMap((item) => [item.href, ...(item.children ?? []).map((c) => c.href)]),
   ...SECONDARY_LINKS.map((l) => l.href),
 ];

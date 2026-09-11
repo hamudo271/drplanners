@@ -48,10 +48,13 @@ export function Dock({ kakaoUrl }: { kakaoUrl?: string }) {
 
       {/* ── 데스크톱: 우측 하단 ── */}
       <div className="dock fixed right-6 bottom-6 z-40 hidden flex-col items-end gap-3 lg:flex xl:right-10 xl:bottom-10">
-        <Link href="/diagnosis" aria-label="무료 병원 진단" className={`${DOCK_SHELL} h-16 w-16 flex-col items-center justify-center gap-1 rounded-full`}>
-          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0Z" /><path d="M7 9h8M7 13h5" /></svg>
-          <span className="text-[11px]">무료 진단</span>
-        </Link>
+        {/* 진단 페이지 자체에서는 진단 버튼이 군더더기입니다 — 모바일 바와 같은 규칙 */}
+        {pathname !== "/diagnosis" && (
+          <Link href="/diagnosis" aria-label="무료 병원 진단" className={`${DOCK_SHELL} h-16 w-16 flex-col items-center justify-center gap-1 rounded-full`}>
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0Z" /><path d="M7 9h8M7 13h5" /></svg>
+            <span className="text-[11px]">무료 진단</span>
+          </Link>
+        )}
         {kakaoUrl && (
           <a
             href={kakaoUrl}

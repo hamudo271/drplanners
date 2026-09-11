@@ -5,6 +5,7 @@ import * as C from "@/content/home";
 import { HOME } from "@/config/images";
 import { latestArticles, readingTime } from "@/content/articles";
 import { ServiceShowcase } from "./ServiceShowcase";
+import { FunnelChart } from "./HubDiagram";
 
 /* ══ 01 히어로 ════════════════════════════════════════
    4매 로테이션이라 상태가 필요합니다 — 클라이언트 컴포넌트로 분리했습니다. */
@@ -130,25 +131,29 @@ export function Bottleneck() {
         <p className="editorial-intro">{C.BOTTLENECK.lead}</p>
       </div>
 
-      <div className="bottleneck-grid">
-        {C.BOTTLENECK.items.map((it, i) => (
-          <Link
-            key={it.no}
-            href={it.href}
-            className="bottleneck-card group"
-            data-reveal
-            style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
-          >
-            <span className="display-serif tnum bottleneck-no">{it.no}</span>
-            <p className="bottleneck-q">{it.q}</p>
-            <p className="prose-ko bottleneck-body">{it.body}</p>
-            <span className="bottleneck-fix">
-              {it.fix}
-              <span aria-hidden="true">→</span>
-            </span>
-          </Link>
-        ))}
+      {/* 카드 대신 그림 — 광고비가 어느 칸에서 새는지가 곧 "어디가 막혔는지"입니다 */}
+      <div className="bottleneck-funnel">
+        <FunnelChart />
       </div>
+
+      {/* 세 원인 — 새는 칸에 따라 처방이 갈립니다. 카드가 아니라 한 줄짜리 갈림길 */}
+      <ul className="bottleneck-routes">
+        {C.BOTTLENECK.items.map((it, i) => (
+          <li key={it.no} data-reveal style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}>
+            <Link href={it.href} className="bottleneck-route group">
+              <span className="display-serif tnum route-no">{it.no}</span>
+              <span className="route-text">
+                <span className="route-q">{it.q}</span>
+                <span className="prose-ko route-body">{it.body}</span>
+                <span className="route-fix">
+                  {it.fix}
+                  <span aria-hidden="true">→</span>
+                </span>
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
 
       {/* 세 가지 중 무엇이든 결국 이 세 축으로 처리됩니다 */}
       <div className="bottleneck-showcase" data-reveal>

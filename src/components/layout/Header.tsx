@@ -6,6 +6,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV, NAV_CTA } from "@/config/nav";
 
+/** 사진 히어로 없이 밝은 배경으로 시작하는 페이지 */
+const LIGHT_TOP = new Set(["/", "/diagnosis"]);
+
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -18,8 +21,8 @@ export function Header() {
     setOpen(false);
   }
 
-  // 메인은 밝은 히어로, 상세 페이지는 기존 사진 위의 밝은 로고를 사용합니다.
-  const overHero = pathname !== "/" && !scrolled && !open;
+  // 밝은 첫 화면(메인 히어로, 진단 폼)에서는 어두운 로고, 사진 히어로 위에서는 밝은 로고.
+  const overHero = !LIGHT_TOP.has(pathname) && !scrolled && !open;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);

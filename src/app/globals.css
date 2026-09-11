@@ -339,7 +339,7 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
 .hero-lead { margin-top: 28px; color: #4b4e44; font-size: clamp(1.05rem, 1.35vw, 1.375rem); font-weight: 300; line-height: 1.7; letter-spacing: -.035em; }
 .hero-description { margin-top: 14px; color: #6d7066; font-size: 15px; line-height: 1.85; letter-spacing: -.01em; }
 .hero-slide > .hero-actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 30px; }
-.hero-cta { color: #3f4238; }
+.hero-cta { display: inline-block; }
 /* 보조 링크 — 버튼보다 확실히 가볍게. 밑줄만으로 클릭 가능함을 알립니다 */
 .hero-secondary {
   display: inline-flex;
@@ -362,7 +362,6 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
 .hero-index > span { width: 66px; height: 1px; background: #b0a68f; }
 .hero-scroll { display: flex; align-items: center; gap: 16px; padding: 12px; }
 .hero-scroll > span { font-size: 20px; }
-.hero-bottom-note { color: #f6f3e9; text-shadow: 0 1px 5px #333; padding-right: 84px; white-space: nowrap; }
 .hero-dots {
   position: absolute;
   bottom: 84px;
@@ -426,15 +425,18 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
 
 /* ── 04 병목 진단 ─────────────────────────────────────── */
 .home-bottleneck { background: var(--color-cream-50); }
-.bottleneck-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.bottleneck-card { display: flex; flex-direction: column; padding: 36px 32px 34px; border: 1px solid #ded9cd; background: var(--color-cream-100); transition: border-color .4s var(--ease-out-soft), background-color .4s var(--ease-out-soft); }
-.bottleneck-card:hover { border-color: var(--color-brass-500); background: #f3f1ea; }
-.bottleneck-no { font-size: 30px; line-height: 1; color: var(--color-brass-500); }
-.bottleneck-q { margin-top: 24px; font-size: 19px; font-weight: 400; line-height: 1.5; letter-spacing: -.035em; color: var(--color-ink-900); }
-.bottleneck-body { margin-top: 12px; font-size: 15px; color: var(--color-ink-500); }
-.bottleneck-fix { display: inline-flex; align-items: center; gap: 9px; margin-top: 26px; padding-top: 18px; border-top: 1px solid rgb(22 35 27 / 12%); font-size: 14px; color: var(--color-brass-600); }
-.bottleneck-fix > span { transition: transform .4s var(--ease-out-soft); }
-.bottleneck-card:hover .bottleneck-fix > span { transform: translateX(4px); }
+.bottleneck-funnel { max-width: 980px; }
+.bottleneck-routes { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 72px; border-top: 1px solid rgb(22 35 27 / 15%); }
+.bottleneck-routes > li + li { border-left: 1px solid rgb(22 35 27 / 12%); }
+.bottleneck-route { display: flex; gap: 18px; height: 100%; padding: 30px 28px 32px 0; transition: background-color .4s var(--ease-out-soft); }
+.bottleneck-routes > li + li .bottleneck-route { padding-left: 28px; }
+.route-no { flex: none; font-size: 26px; line-height: 1; color: var(--color-brass-500); }
+.route-text { display: flex; flex-direction: column; min-width: 0; }
+.route-q { font-size: 18px; font-weight: 400; line-height: 1.5; letter-spacing: -.035em; color: var(--color-ink-900); }
+.route-body { margin-top: 10px; font-size: 14.5px; color: var(--color-ink-500); }
+.route-fix { display: inline-flex; align-items: center; gap: 9px; margin-top: auto; padding-top: 18px; font-size: 14px; color: var(--color-brass-600); }
+.route-fix > span { transition: transform .4s var(--ease-out-soft); }
+.bottleneck-route:hover .route-fix > span { transform: translateX(4px); }
 .bottleneck-showcase { margin-top: 88px; }
 
 /* ── 05 일하는 순서 ───────────────────────────────────── */
@@ -477,7 +479,6 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
   .home-hero { min-height: 820px; }
   .home-hero-image { left: 15%; }
   .home-hero-shade { background: linear-gradient(90deg, #f2efe8 0%, rgb(242 239 232 / 94%) 29%, rgb(242 239 232 / 45%) 70%, rgb(242 239 232 / 12%)); }
-  .hero-bottom-note { display: none; }
   .service-showcase { gap: 30px; }
   .service-option { grid-template-columns: 32px 1fr 18px; gap: 10px; padding: 25px 12px; }
   .service-name { font-size: 19px; }
@@ -486,18 +487,27 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
   .philosophy-copy .prose-ko { font-size: 14px; }
   .audience-grid, .evidence-grid { grid-template-columns: repeat(2, 1fr); }
   .audience-card { padding: 34px 28px 38px; }
-  .bottleneck-grid { grid-template-columns: 1fr; gap: 14px; }
+  .bottleneck-routes { grid-template-columns: 1fr; margin-top: 56px; }
+  .bottleneck-routes > li + li { border-left: 0; border-top: 1px solid rgb(22 35 27 / 12%); }
+  .bottleneck-route, .bottleneck-routes > li + li .bottleneck-route { padding: 24px 0; }
   .bottleneck-showcase { margin-top: 60px; }
   .why-layout, .faq-layout { grid-template-columns: 1fr; gap: 40px; }
   .why-punch { margin-top: 52px; }
 }
 @media (max-width: 767px) {
   html { scroll-padding-top: 88px; }
+  /* 사진을 옆으로 바래게 하면 폰에서는 베이지 덩어리만 남습니다.
+     글 뒤는 크림으로 덮고, 그 아래 사진이 온전히 드러나는 띠를 둡니다. */
   .home-hero { min-height: 780px; min-height: max(720px, 94svh); padding-top: 80px; align-items: flex-start; }
   .home-hero-image { inset: 0; }
-  .home-hero-image img { object-position: 64% center; }
-  .home-hero-shade { background: linear-gradient(90deg, rgb(242 239 232 / 98%), rgb(242 239 232 / 88%) 55%, rgb(242 239 232 / 42%)); }
-  .home-hero-content { padding-top: 83px; padding-bottom: 130px; }
+  .home-hero-image img { object-position: 62% 78%; }
+  .home-hero-shade { background: linear-gradient(180deg, #f2efe8 0%, #f2efe8 56%, rgb(242 239 232 / 90%) 64%, rgb(242 239 232 / 0%) 80%); }
+  .home-hero-content { padding-top: 83px; padding-bottom: 300px; }
+  .hero-slide > .hero-actions > .hero-secondary { flex-basis: 100%; }
+  .hero-bottom, .hero-scroll { color: #f6f3e9; text-shadow: 0 1px 4px rgb(0 0 0 / 45%); }
+  .hero-index > span { background: rgb(246 243 233 / 55%); }
+  .hero-dot { background: rgb(246 243 233 / 55%); }
+  .hero-dot[aria-current="true"] { background: #f6f3e9; box-shadow: 0 0 0 4px rgb(246 243 233 / 30%); }
   .hero-title { font-size: clamp(1.85rem, 7.4vw, 2.6rem); margin-top: 24px; line-height: 1.38; }
   .editorial-eyebrow { font-size: 11px; letter-spacing: .1em; }
   .hero-lead { font-size: 17px; margin-top: 22px; }
@@ -603,20 +613,26 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
 }
 .hero-dot:focus-visible { outline-offset: 6px; }
 
-/* ── SCROLL DOWN 점 행렬 ─────────────────────────────
-   원본 circleFade: 1.6s 무한, 0 / .2 / .4 / .6s 지연. 점이 파도처럼 흐릅니다. */
-.scroll-dots { display: inline-flex; align-items: center; gap: 5px; }
-.scroll-dots > span {
-  width: 5px;
-  height: 5px;
-  border-radius: 9999px;
-  background: currentColor;
-  opacity: 0.22;
-  animation: circle-fade 1.6s infinite ease-in-out;
+/* ── SCROLL DOWN 선 ─────────────────────────────────
+   얇은 가로선 위로 짧은 밝은 구간이 흘러갑니다. 페이지네이션 점과 형태가 달라
+   두 줄의 점으로 읽히지 않습니다. */
+.scroll-line {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 1px;
+  overflow: hidden;
+  background: color-mix(in srgb, currentColor 28%, transparent);
 }
-.scroll-dots > span:nth-child(2) { animation-delay: 0.2s; }
-.scroll-dots > span:nth-child(3) { animation-delay: 0.4s; }
-.scroll-dots > span:nth-child(4) { animation-delay: 0.6s; }
+.scroll-line::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 14px;
+  background: currentColor;
+  animation: scroll-line-run 1.8s infinite var(--ease-out-soft);
+}
+@keyframes scroll-line-run { from { transform: translateX(-16px); } to { transform: translateX(46px); } }
 @keyframes circle-fade {
   0%, 50%, 100% { opacity: 0.22; }
   25%           { opacity: 1; }
@@ -815,7 +831,7 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
   .hero-photo.is-active { animation: none; }
   .hero-slide,
   .hero-slide > * { transition: none; }
-  .scroll-dots > span { animation: none; opacity: 0.5; }
+  .scroll-line::after { animation: none; }
   .plan-panel,
   .plan-number,
   .media-more::before,
@@ -894,4 +910,36 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
   .stack-layer { margin-left: 0; }
   .stack-inner { gap: 16px; padding: 18px 20px; }
   .diagram-closing { margin-top: 32px; font-size: 14px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   무료 병원 진단 — 폼이 첫 화면
+   ═══════════════════════════════════════════════════════════ */
+.diagnosis-top { padding: 150px 0 88px; background: var(--color-cream-50); }
+.diagnosis-top-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 72px; align-items: start; }
+.diagnosis-intro { position: sticky; top: 130px; }
+.diagnosis-title { margin-top: 22px; font-size: clamp(2rem, 3.3vw, 3.1rem); font-weight: 300; line-height: 1.34; letter-spacing: -.045em; color: var(--color-ink-900); }
+.diagnosis-lead { margin-top: 24px; font-size: 16px; color: var(--color-ink-500); }
+.diagnosis-facts { display: grid; gap: 0; margin-top: 40px; border-top: 1px solid rgb(22 35 27 / 15%); }
+.diagnosis-facts > div { display: grid; grid-template-columns: 72px 1fr; gap: 20px; align-items: baseline; padding: 15px 0; border-bottom: 1px solid rgb(22 35 27 / 12%); }
+.diagnosis-facts dd { font-size: 15px; color: var(--color-ink-700); }
+.diagnosis-note { margin-top: 28px; font-size: 12.5px; line-height: 1.75; color: var(--color-ink-500); }
+.diagnosis-card { padding: 36px 40px 40px; border: 1px solid rgb(22 35 27 / 15%); background: var(--color-cream-100); }
+
+@media (max-width: 1023px) {
+  .diagnosis-top { padding: 128px 0 72px; }
+  .diagnosis-top-grid { grid-template-columns: 1fr; gap: 40px; }
+  .diagnosis-intro { position: static; }
+  .diagnosis-facts { grid-template-columns: repeat(3, 1fr); border-top: 0; margin-top: 28px; }
+  .diagnosis-facts > div { grid-template-columns: 1fr; gap: 6px; padding: 14px 0; border-top: 1px solid rgb(22 35 27 / 15%); }
+  .diagnosis-note { display: none; }
+}
+@media (max-width: 767px) {
+  .diagnosis-top { padding: 108px 0 56px; }
+  .diagnosis-title { font-size: clamp(1.75rem, 7vw, 2.4rem); }
+  .diagnosis-lead { font-size: 15px; margin-top: 16px; }
+  .diagnosis-facts { grid-template-columns: 1fr; margin-top: 20px; }
+  .diagnosis-facts > div { grid-template-columns: 56px 1fr; gap: 14px; padding: 11px 0; }
+  .diagnosis-facts dd { font-size: 14px; }
+  .diagnosis-card { padding: 26px 22px 30px; }
 }

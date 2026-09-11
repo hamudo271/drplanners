@@ -71,7 +71,19 @@ function Funnel({ no }: { no: string }) {
   return (
     <Section no={no} label={d.label} tone="paper" className="hub-diagram">
       <DiagramHead title={d.title} lead={d.lead} />
+      <FunnelChart />
+    </Section>
+  );
+}
 
+/**
+ * 깔때기 본체 — 머리말 없이 막대와 맺음말만.
+ * /marketing 허브와 메인 "어디가 막혔는지" 블록이 같은 그림을 씁니다.
+ */
+export function FunnelChart() {
+  const d = BUDGET_FUNNEL;
+  return (
+    <>
       <ol className="funnel">
         {d.steps.map((s, i) => (
           <li
@@ -98,7 +110,7 @@ function Funnel({ no }: { no: string }) {
       <p className="diagram-closing" data-reveal>
         {d.closing}
       </p>
-    </Section>
+    </>
   );
 }
 

@@ -22,7 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     entry("/", 1, "weekly"),
-    entry("/diagnosis", 0.9, "monthly"),
     entry(NAV_CTA.href, 0.9, "monthly"),
 
     // 대메뉴 허브
