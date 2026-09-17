@@ -71,6 +71,13 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
+  // 사이트 소유 확인 — 구글 서치 콘솔 · 네이버 서치어드바이저 (지우면 인증이 풀립니다)
+  verification: {
+    google: "cA5YHi63YaYOZmrfNsiP7EZ7KFrmyWZ5dqRxLcw9SbU",
+    other: {
+      "naver-site-verification": "afbc5d386d4f0a80f49c7ff4f88e63b71643ec4e",
+    },
+  },
 };
 
 /** 검색·AI가 회사 정보를 읽을 수 있도록 구조화 데이터를 제공합니다 */
