@@ -25,8 +25,9 @@ export function Footer() {
   return (
     <footer className="site-footer bg-cream-100 text-ink-900">
       <Container className="py-20 md:py-24">
-        <div className="grid gap-14 lg:grid-cols-[1.1fr_2fr]">
-          <div>
+        {/* 12컬럼 — 브랜드 4 / 링크 2·2·2 / 문의 2. 링크 모음이 아니라 판면으로 잡습니다 */}
+        <div className="grid gap-x-8 gap-y-14 lg:grid-cols-12">
+          <div className="lg:col-span-4 lg:pr-10">
             <Image
               src="/brand/logo-full.png"
               alt="DR.PLANERS — Medical Growth Partners"
@@ -34,16 +35,19 @@ export function Footer() {
               height={340}
               className="h-12 w-auto md:h-14"
             />
-            <p className="prose-ko mt-7 text-sm text-ink-500">
+            <p className="display-ko mt-7 text-lg leading-relaxed text-ink-900 md:text-xl">
               병원은 더 성장하고,
               <br />
               원장님은 더 여유롭게.
             </p>
+            <p className="prose-ko mt-5 max-w-xs text-sm text-ink-500">
+              광고비가 어디서 새는지 진단하고, 방향을 정하고, 실행까지 맡습니다.
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8 sm:gap-y-12">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8 sm:gap-y-12 lg:col-span-8 lg:grid-cols-4">
             {COLUMNS.map((col) => (
-              <div key={col.title}>
+              <div key={col.title} className="lg:col-span-1">
                 <p className="label label-ko mb-5">{col.title}</p>
                 <ul className="space-y-1 sm:space-y-1.5">
                   {col.hrefs.map((h) => (

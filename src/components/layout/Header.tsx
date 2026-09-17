@@ -4,10 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { NAV, NAV_CTA } from "@/config/nav";
+import { NAV, NAV_CTA, ALL_ROUTES } from "@/config/nav";
 
 /** 사진 히어로 없이 밝은 배경으로 시작하는 페이지 */
 const LIGHT_TOP = new Set(["/", "/diagnosis"]);
+
+/**
+ * 밝은 배경 위에 흰 로고를 얹으면 로고가 사라집니다.
+ * 사진 히어로가 있는 페이지에서만 밝은 로고를 쓰는데, 없는 주소(404)는
+ * 경로 목록으로는 알 수 없으므로 "아는 라우트인지"로 판정합니다.
+ */
+function hasPhotoHero(pathname: string) {
+  if (LIGHT_TOP.has(pathname)) return false;
+  const known =
+    ALL_ROUTES.includes(pathname) || pathname.startsWith("/insight/");
+  return known;
+}
 
 export function Header() {
   const pathname = usePathname();
@@ -21,8 +33,8 @@ export function Header() {
     setOpen(false);
   }
 
-  // 밝은 첫 화면(메인 히어로, 진단 폼)에서는 어두운 로고, 사진 히어로 위에서는 밝은 로고.
-  const overHero = !LIGHT_TOP.has(pathname) && !scrolled && !open;
+  // 밝은 첫 화면(메인 히어로, 진단 폼, 404)에서는 어두운 로고, 사진 히어로 위에서는 밝은 로고.
+  const overHero = hasPhotoHero(pathname) && !scrolled && !open;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);

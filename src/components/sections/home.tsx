@@ -38,7 +38,7 @@ export function Audience() {
         {C.AUDIENCE.cards.map((card, i) => (
           <article
             key={card.no}
-            className="audience-card"
+            className={`audience-card ${i === 0 ? "is-primary" : ""}`}
             data-reveal
             style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
           >
@@ -295,7 +295,7 @@ export function Evidence() {
 
 /* ══ 07 인사이트 ══════════════════════════════════════ */
 export function Insight() {
-  const posts = latestArticles("/insight/column").slice(0, 3);
+  const [feature, ...rest] = latestArticles("/insight/column").slice(0, 3);
 
   return (
     <Section no="06" label="읽을거리" tone="paper" className="home-insight">
@@ -318,33 +318,46 @@ export function Insight() {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {posts.map((a, i) => (
+      {/* 대표 글 하나를 크게, 나머지는 줄로 — 셋을 같은 크기로 늘어놓으면 목록이지 편집이 아닙니다 */}
+      <div className="insight-feature-layout">
+        {feature && (
           <Link
-            key={a.slug}
-            href={`${a.list}/${a.slug}`}
-            className="group flex flex-col bg-cream-100"
+            href={`${feature.list}/${feature.slug}`}
+            className="group insight-feature"
             data-reveal
-            style={{ "--reveal-delay": `${i * 120}ms` } as React.CSSProperties}
           >
-            <div className="media-more relative aspect-[16/10] overflow-hidden bg-forest-900" data-more="읽어보기">
+            <div className="media-more insight-feature-media" data-more="읽어보기">
               <Image
-                src={HOME.insight[i]}
+                src={HOME.insight[0]}
                 alt=""
                 fill
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="(max-width: 1024px) 100vw, 58vw"
                 className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
               />
             </div>
-            <div className="flex flex-1 flex-col p-7">
+            <div className="insight-feature-body">
               <p className="label label-ko tnum">
-                {a.category} · {a.date} · {readingTime(a)}분 읽기
+                {feature.category} · {feature.date} · {readingTime(feature)}분 읽기
               </p>
-              <p className="display-ko mt-4 text-base">{a.title}</p>
-              <p className="prose-ko mt-3 line-clamp-2 text-sm text-ink-500">{a.excerpt}</p>
+              <p className="insight-feature-title">{feature.title}</p>
+              <p className="prose-ko insight-feature-excerpt">{feature.excerpt}</p>
             </div>
           </Link>
-        ))}
+        )}
+
+        <ul className="insight-side">
+          {rest.map((a, i) => (
+            <li key={a.slug} data-reveal style={{ "--reveal-delay": `${120 + i * 90}ms` } as React.CSSProperties}>
+              <Link href={`${a.list}/${a.slug}`} className="insight-side-row group">
+                <p className="label label-ko tnum">
+                  {a.category} · {a.date}
+                </p>
+                <p className="insight-side-title">{a.title}</p>
+                <p className="prose-ko insight-side-excerpt">{a.excerpt}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="mt-12 text-center" data-reveal>
