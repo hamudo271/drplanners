@@ -1045,31 +1045,9 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
 .insight-side-row:hover .insight-side-title { color: var(--color-forest-800); }
 .insight-side-excerpt { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 10px; font-size: 14px; color: var(--color-ink-500); }
 
-/* ═══════════════════════════════════════════════════════════
-   404
-   ═══════════════════════════════════════════════════════════ */
-.notfound { padding: 180px 0 96px; background: var(--color-cream-50); }
-.notfound-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
-.notfound-code { font-size: clamp(4rem, 8vw, 7rem); line-height: 1; color: var(--color-brass-400); }
-.notfound-title { margin-top: 26px; font-family: var(--font-display); font-size: clamp(1.75rem, 3vw, 2.75rem); font-weight: 300; line-height: 1.34; letter-spacing: -.045em; color: var(--color-ink-900); }
-.notfound-title > span { display: block; }
-.notfound-lead { margin-top: 24px; max-width: 30rem; font-size: 15px; color: var(--color-ink-500); }
-.notfound-actions { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; }
-.notfound-home { display: inline-flex; align-items: center; gap: 9px; padding-bottom: 3px; border-bottom: 1px solid rgb(22 35 27 / 22%); font-size: 14px; color: var(--color-ink-500); transition: color .3s var(--ease-out-soft), border-color .3s var(--ease-out-soft); }
-.notfound-home:hover { color: var(--color-ink-900); border-bottom-color: var(--color-ink-900); }
-.notfound-map { border-top: 1px solid rgb(22 35 27 / 18%); padding-top: 22px; }
-.notfound-map > ul { margin-top: 18px; }
-.notfound-map > ul > li { padding: 16px 0; border-bottom: 1px solid rgb(22 35 27 / 10%); }
-.notfound-hub { font-size: 16px; letter-spacing: -.03em; color: var(--color-ink-900); }
-.notfound-hub:hover { color: var(--color-forest-800); }
-.notfound-children { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 9px; }
-.notfound-children > a { font-size: 13.5px; color: var(--color-ink-500); }
-.notfound-children > a:hover { color: var(--color-brass-600); }
 
 @media (max-width: 1023px) {
   .insight-feature-layout { grid-template-columns: 1fr; }
-  .notfound { padding: 150px 0 90px; }
-  .notfound-grid { grid-template-columns: 1fr; gap: 48px; }
 }
 @media (max-width: 767px) {
   .evidence-card, .evidence-card + .evidence-card { padding: 28px 0; border-left: 0; }

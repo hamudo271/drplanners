@@ -40,9 +40,6 @@ export function Footer() {
               <br />
               원장님은 더 여유롭게.
             </p>
-            <p className="prose-ko mt-5 max-w-xs text-sm text-ink-500">
-              광고비가 어디서 새는지 진단하고, 방향을 정하고, 실행까지 맡습니다.
-            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8 sm:gap-y-12 lg:col-span-8 lg:grid-cols-4">
