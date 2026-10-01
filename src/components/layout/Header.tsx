@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { NAV, NAV_CTA, ALL_ROUTES } from "@/config/nav";
 
 /** 사진 히어로 없이 밝은 배경으로 시작하는 페이지 */
-const LIGHT_TOP = new Set(["/", "/diagnosis"]);
+const LIGHT_TOP = new Set(["/diagnosis"]);
 
 /**
  * 밝은 배경 위에 흰 로고를 얹으면 로고가 사라집니다.
@@ -25,6 +25,8 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // 헤더 바로 아래가 어두운 판(data-header-theme="dark")인지 — 메인의 고정 연출 구간
+  const [overDark, setOverDark] = useState(false);
   const [lastPath, setLastPath] = useState(pathname);
 
   // 라우트가 바뀌면 모바일 메뉴를 닫습니다 (렌더 중 상태 조정 패턴)
@@ -33,15 +35,26 @@ export function Header() {
     setOpen(false);
   }
 
-  // 밝은 첫 화면(메인 히어로, 진단 폼, 404)에서는 어두운 로고, 사진 히어로 위에서는 밝은 로고.
-  const overHero = hasPhotoHero(pathname) && !scrolled && !open;
+  // 밝은 첫 화면(진단 폼, 404)에서는 어두운 로고, 사진 히어로 위에서는 밝은 로고.
+  // 스크롤해도 아래가 어두운 판이면 투명을 유지합니다 — 크림 띠가 연출을 가리지 않게.
+  const overHero = ((hasPhotoHero(pathname) && !scrolled) || overDark) && !open;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      const probe = 48; // 헤더 높이의 중간쯤
+      const dark = Array.from(
+        document.querySelectorAll<HTMLElement>('[data-header-theme="dark"]'),
+      ).some((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top <= probe && r.bottom > probe;
+      });
+      setOverDark(dark);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
 
   return (
     <header

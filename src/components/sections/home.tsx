@@ -7,108 +7,111 @@ import { latestArticles, readingTime } from "@/content/articles";
 import { ServiceShowcase } from "./ServiceShowcase";
 import { FunnelChart } from "./HubDiagram";
 
-/* ══ 01 히어로 ════════════════════════════════════════
-   4매 로테이션이라 상태가 필요합니다 — 클라이언트 컴포넌트로 분리했습니다. */
-export { HeroSlider as Hero } from "./HeroSlider";
+/* ══ 첫 두 화면(히어로 · Why) ═════════════════════════
+   스크롤 연출이 두 화면에 걸쳐 이어지므로 한 클라이언트 컴포넌트로 묶었습니다. */
+export { HomeIntro } from "./HomeIntro";
 
-/* ══ 02 대상 확인 ═════════════════════════════════════
-   히어로 바로 다음에 "이 사이트가 당신을 위한 것인가"를 닫아줍니다.
-   주력 타겟은 01이지만 나머지 둘도 받아 이탈을 막습니다. */
-export function Audience() {
+/* ══ 세 번째 화면 — 대상 확인 ══════════════════════════
+   더가든 메인 3번 화면의 배치를 따릅니다: 괄호 라벨 + 제목, 대문자 세리프 문장,
+   세로 사진과 오른쪽 목록, 아래로 흐르는 외곽선 글씨.
+   더가든은 오른쪽에 실적 숫자를 세지만, 저희는 확인된 실적이 없으므로
+   지어내지 않고 "어떤 병원인가" 세 가지를 같은 무게로 놓습니다. */
+export function Fit() {
+  const A = C.AUDIENCE;
   return (
-    <Section id="audience" no="01" label="이런 병원입니다" tone="paper" className="home-audience">
-      <div className="editorial-section-heading" data-reveal>
-        <div>
-          <h2 className="editorial-title">
-            {C.AUDIENCE.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
+    <section id="audience" className="fit" aria-labelledby="fit-title">
+      <div className="fit-deco-mark" aria-hidden="true">
+        <Image src="/brand/mark.png" alt="" width={161} height={340} />
+      </div>
+      <div className="fit-lines" aria-hidden="true">
+        <span />
+        <span />
+      </div>
+
+      <Container className="fit-inner">
+        <div className="fit-head" data-reveal>
+          <p className="fit-cate">{A.cate}</p>
+          <h2 id="fit-title" className="fit-title">
+            {A.title.map((l) => (
+              <span key={l}>{l}</span>
             ))}
           </h2>
         </div>
-        <p className="editorial-intro">
-          해당되지 않는다면 굳이 문의하지 않으셔도 됩니다.
-          <br />
-          맞는 병원과만 일합니다.
-        </p>
-      </div>
 
-      <div className="audience-grid">
-        {C.AUDIENCE.cards.map((card, i) => (
-          <article
-            key={card.no}
-            className={`audience-card ${i === 0 ? "is-primary" : ""}`}
-            data-reveal
-            style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
-          >
-            <div className="audience-card-top">
-              <span className="display-serif tnum audience-no">{card.no}</span>
-              {card.tag && <span className="audience-tag">{card.tag}</span>}
-            </div>
-            <p className="audience-title">{card.title}</p>
-            <p className="prose-ko audience-body">{card.body}</p>
-          </article>
-        ))}
-      </div>
-
-      {/* 거르는 장치 — "월 4곳만" 이라는 말이 진짜가 되려면 안 받는 경우도 밝혀야 합니다 */}
-      <div className="exclude-block" data-reveal>
-        <p className="exclude-label">{C.AUDIENCE.excludeLabel}</p>
-        <ul className="exclude-list">
-          {C.AUDIENCE.exclude.map((e) => (
-            <li key={e}>
-              <span className="exclude-mark" aria-hidden="true">
-                ✕
-              </span>
-              <span className="prose-ko">{e}</span>
-            </li>
+        <p className="fit-point" aria-hidden="true" data-reveal>
+          {A.point.map((l) => (
+            <span key={l}>{l}</span>
           ))}
-        </ul>
-      </div>
-    </Section>
-  );
-}
+        </p>
 
-/* ══ 03 원인 재정의 ═══════════════════════════════════
-   이 사이트의 승부처. 경쟁사는 문제 공감과 서비스 나열까지만 하고
-   "왜 안 되는가"를 구조로 설명하지 못합니다. */
-export function Why() {
-  return (
-    <Section no="02" label="왜 안 되는가" className="home-why">
-      <div className="why-layout">
-        <div data-reveal="left">
-          <h2 className="editorial-title">
-            {C.WHY.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </h2>
-          <div className="prose-ko why-body">
-            {C.WHY.body.map((t) => (
-              <p key={t}>{t}</p>
-            ))}
+        <div className="fit-cols">
+          <div className="fit-deco" aria-hidden="true" data-reveal>
+            <span className="fit-deco-box" />
+            <span className="fit-deco-img">
+              <Image src={HOME.fitDeco} alt="" fill sizes="240px" className="object-cover" />
+            </span>
           </div>
+
+          <figure className="fit-photo" data-reveal="left">
+            <Image
+              src={HOME.fitPhoto}
+              alt=""
+              fill
+              sizes="(max-width: 1023px) 100vw, 46vw"
+              className="object-cover"
+            />
+            <figcaption className="fit-photo-note">
+              <span className="fit-photo-ko">
+                {A.photoNote.map((l) => (
+                  <span key={l}>{l}</span>
+                ))}
+              </span>
+              <span className="fit-photo-en">{A.photoNoteEn}</span>
+            </figcaption>
+          </figure>
+
+          <ol className="fit-list">
+            {A.cards.map((card, i) => (
+              <li
+                key={card.no}
+                data-reveal
+                style={{ "--reveal-delay": `${i * 120}ms` } as React.CSSProperties}
+              >
+                <div className="fit-num-row">
+                  <span className="fit-num tnum">{card.no}</span>
+                  {card.tag && <span className="fit-tag">{card.tag}</span>}
+                </div>
+                <p className="fit-item-title">{card.title}</p>
+                <p className="fit-item-body">{card.body}</p>
+              </li>
+            ))}
+          </ol>
         </div>
 
-        {/* 리포트 한 줄 → "그래서요?" — 이 대비가 블록의 전부입니다 */}
-        <figure className="why-report" data-reveal="right">
-          <figcaption className="label label-ko">{C.WHY.report.label}</figcaption>
-          <p className="why-report-line">“{C.WHY.report.line}”</p>
-          <p className="why-retort">{C.WHY.report.retort}</p>
-          <p className="prose-ko why-report-caption">{C.WHY.report.caption}</p>
-        </figure>
-      </div>
+        {/* 거르는 장치 — "월 4곳만"이 진짜가 되려면 안 받는 경우도 밝혀야 합니다 */}
+        <div className="exclude-block" data-reveal>
+          <p className="exclude-label">{A.excludeLabel}</p>
+          <ul className="exclude-list">
+            {A.exclude.map((e) => (
+              <li key={e}>
+                <span className="exclude-mark" aria-hidden="true">
+                  ✕
+                </span>
+                <span className="prose-ko">{e}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
 
-      <p className="why-punch" data-reveal>
-        {C.WHY.punch.map((l, i) => (
-          <span key={l} className={i === 1 ? "why-punch-strong" : undefined}>
-            {l}
-          </span>
-        ))}
-      </p>
-    </Section>
+      <div className="fit-track" aria-hidden="true">
+        <div className="fit-track-inner">
+          {Array.from({ length: 4 }, (_, i) => (
+            <span key={i}>{A.track}&nbsp;—&nbsp;</span>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -117,7 +120,7 @@ export function Why() {
    (서비스 키워드 검색 자산을 지키려고 URL은 그대로 둡니다) */
 export function Bottleneck() {
   return (
-    <Section no="03" label="어디가 막혔는지부터" tone="paper" className="home-bottleneck">
+    <Section no="01" label="어디가 막혔는지부터" tone="paper" className="home-bottleneck">
       <div className="editorial-section-heading" data-reveal>
         <div>
           <h2 className="editorial-title">
@@ -179,7 +182,7 @@ export function Plan() {
     <section className="home-plan bg-cream-50 text-ink-900">
       <Container className="pt-20 md:pt-28 lg:pt-32">
         <div className="mb-12 flex items-center gap-4" data-reveal>
-          <span className="label tnum">04</span>
+          <span className="label tnum">02</span>
           <span className="h-px w-8 bg-ink-900/20" aria-hidden />
           <span className="label label-ko">{C.PLAN.label}</span>
         </div>
@@ -242,7 +245,7 @@ export function Evidence() {
   const { metrics } = C.EVIDENCE;
 
   return (
-    <Section no="05" label="저희가 지키는 것" className="home-evidence">
+    <Section no="03" label="저희가 지키는 것" className="home-evidence">
       <div className="editorial-section-heading" data-reveal>
         <div>
           <h2 className="editorial-title">
@@ -298,7 +301,7 @@ export function Insight() {
   const [feature, ...rest] = latestArticles("/insight/column").slice(0, 3);
 
   return (
-    <Section no="06" label="읽을거리" tone="paper" className="home-insight">
+    <Section no="04" label="읽을거리" tone="paper" className="home-insight">
       <div className="editorial-section-heading" data-reveal>
         <div>
           <h2 className="editorial-title">
@@ -374,7 +377,7 @@ export function Insight() {
    문의 직전에 가장 자주 걸리는 4개. 펼침 애니메이션은 globals.css 에 있습니다. */
 export function Faq() {
   return (
-    <Section no="07" label="묻기 전에" className="home-faq">
+    <Section no="05" label="묻기 전에" className="home-faq">
       <div className="faq-layout">
         <div data-reveal="left">
           <h2 className="editorial-title">

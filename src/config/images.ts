@@ -13,7 +13,6 @@ const img = (n: number) => `/image%20${n}.png`;
 
 /* ── 메인 ───────────────────────────────────────── */
 export const HOME = {
-  hero: img(11),          // 밝은 공간 — 아이보리 히어로
   problem: img(34),       // 어두운 정물
   rest: img(30),          // 잎 + 물방울
   cta: img(28),           // 그린 + 골드 실크
@@ -21,8 +20,18 @@ export const HOME = {
   insight: [img(8), img(29), img(31)],
   solutions: [img(10), img(23), img(17)], // 브랜딩 / 마케팅 / 메디컬 AI
   philosophyTexture: img(25),             // 브랜드 디테일 — 철학 섹션
-  /** 히어로 로테이션 5매 — content/home.ts 의 HERO_SLIDES 와 같은 순서 */
-  heroSlides: [img(11), img(10), img(23), img(17), img(33)],
+  /**
+   * 01 히어로 — 영상 대신 천천히 교차하며 다가오는 3컷.
+   * 따뜻한 책상 → 아이보리 공간 → 짙은 잎사귀(원래 시안의 히어로) 순으로 밝기가 고르게 돕니다.
+   * 로고가 크게 찍힌 목업 컷은 피했습니다 — 태그라인 옆에 로고가 두 번 보입니다.
+   */
+  introFrames: [img(8), img(11), img(32)],
+  /** 02 — 초점이 날아간 공간(01의 아이보리 공간을 흐린 것)과 그 앞에서 열리는 카드 */
+  introWhyBg: "/intro/why-bg.jpg",
+  introWhyCard: img(19),
+  /** 03 — 세로 사진(사람의 손이 닿은 컷)과 작은 장식 컷 */
+  fitPhoto: img(14),
+  fitDeco: img(34),
   /** DR.PLAN 4단 패널의 풀블리드 배경 — 흰 텍스트가 얹히므로 어두운 원본만 */
   planBand: img(32),
 };
