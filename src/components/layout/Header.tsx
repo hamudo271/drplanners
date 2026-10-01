@@ -72,10 +72,6 @@ export function Header() {
             sizes="(max-width: 768px) 150px, 180px"
             className="h-7 w-auto md:h-8"
           />
-          {/* 로고 아래 태그라인 — 무엇을 하는 회사인지 한 줄로 */}
-          <span className="mt-1.5 hidden text-[10px] tracking-[0.06em] opacity-70 sm:block">
-            병원 마케팅, 방향부터 결정합니다
-          </span>
         </Link>
 
         <nav aria-label="주 메뉴" className="ml-auto hidden items-center xl:flex">
