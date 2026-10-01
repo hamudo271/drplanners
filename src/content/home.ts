@@ -117,6 +117,8 @@ export const AUDIENCE = {
    (서비스 키워드 검색 자산을 지키기 위해 URL은 건드리지 않습니다) */
 export const BOTTLENECK = {
   label: "어디가 막혔는지부터",
+  /** 괄호 라벨 — 더가든식 섹션 머리. 영문은 장식이고 한글 제목이 뜻을 집니다 */
+  cate: "( Where It Leaks )",
   title: ["같은 '신환이 없다'도", "원인은 셋으로 갈립니다."],
   lead:
     "사람이 안 들어오는 병원과, 들어오는데 예약이 안 되는 병원은 처방이 완전히 다릅니다. 진단 없이 시작하면 돈만 씁니다.",
@@ -148,6 +150,7 @@ export const BOTTLENECK = {
 /* ══ 05 해결 방식 ════════════════════════════════════════ */
 export const PLAN = {
   label: "일하는 순서",
+  cate: "( Process )",
   title: ["맡기시면", "이 순서로 갑니다."],
   lead: [
     "병원에서 뽑아 내려오는 계획은 없습니다.",
@@ -188,6 +191,8 @@ export const PLAN = {
       수치가 들어오면 { label, value } 를 채우기만 하면 켜집니다. */
 export const EVIDENCE = {
   label: "저희가 지키는 것",
+  cate: "( Our Promise )",
+  intro: ["지키지 못할 약속은 쓰지 않습니다.", "아래는 오늘부터 지키는 것들입니다."],
   title: ["사례를 공개할 수 없는 동안,", "지킬 수 있는 약속부터 보여드립니다."],
   promises: [
     {
@@ -219,6 +224,8 @@ export const EVIDENCE = {
 export const INSIGHT = {
   title: ["원장님이 직접 판단하실 수 있도록,", "저희가 아는 것을 먼저 씁니다."],
   label: "읽을거리",
+  cate: "( Insight )",
+  lead: "현장에서 확인한 것만 씁니다. 대행사에 묻기 전에 먼저 읽어보셔도 됩니다.",
   tabs: [
     { label: "칼럼", href: "/insight/column" },
     { label: "블로그", href: "/insight/blog" },
@@ -233,6 +240,7 @@ export const INSIGHT = {
    문구는 원문 그대로 유지합니다. */
 export const FAQ_HOME = {
   label: "묻기 전에",
+  cate: "( Before You Ask )",
   title: ["문의 전에", "가장 많이 확인하시는 것들."],
   items: [
     {
@@ -258,6 +266,9 @@ export const FAQ_HOME = {
 /* ══ 09 마지막 행동 ══════════════════════════════════════ */
 export const CTA = {
   label: "무료 병원 진단",
+  cate: "( Contact Us )",
+  /** 진단 말고 그냥 물어보고 싶은 분의 길 */
+  second: { label: "문의하기", href: "/contact" },
   title: ["광고비가 어디서 새는지,", "먼저 확인해보십시오."],
   body: "5개 항목만 확인하면 됩니다. 그 결과를 바탕으로 병원 상황에 맞는 순서를 제안드립니다.",
   stepsLabel: "신청하시면",
@@ -361,6 +372,8 @@ export const WORKS = {
  */
 export const SOLUTIONS = {
   title: "병원에 필요한 것 전부",
+  cate: "( Our Solutions )",
+  heading: ["병원에 필요한 것,", "세 갈래로 맡습니다."],
   cards: [
     {
       title: "환자가 우리 병원을 기억하게",

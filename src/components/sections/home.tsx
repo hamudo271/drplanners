@@ -1,15 +1,67 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Container, Section, Button, CircleArrow } from "@/components/ui";
+import { Container } from "@/components/ui";
 import * as C from "@/content/home";
+import { BUDGET_FUNNEL } from "@/content/diagrams";
 import { HOME } from "@/config/images";
-import { latestArticles, readingTime } from "@/content/articles";
-import { ServiceShowcase } from "./ServiceShowcase";
-import { FunnelChart } from "./HubDiagram";
+import { latestArticles, readingTime, type Article } from "@/content/articles";
+import { ProcessTrack } from "./ProcessTrack";
 
 /* ══ 첫 두 화면(히어로 · Why) ═════════════════════════
    스크롤 연출이 두 화면에 걸쳐 이어지므로 한 클라이언트 컴포넌트로 묶었습니다. */
 export { HomeIntro } from "./HomeIntro";
+
+/* ═══════════════════════════════════════════════════════════
+   공통 조각 — 더가든 메인의 어휘
+   · 섹션 머리: ( 영문 괄호 라벨 ) + 한글 제목. 영문은 장식, 뜻은 한글이 집니다.
+   · 양옆 세로선: 콘텐츠 폭의 바깥 모서리에 같은 자리로 이어집니다.
+   · VIEW MORE: 작은 테두리 버튼. 링크의 뜻은 aria-label 로 한글로 붙입니다.
+   ═══════════════════════════════════════════════════════════ */
+
+function TitleBox({
+  id,
+  cate,
+  title,
+  light = false,
+  center = false,
+}: {
+  id: string;
+  cate: string;
+  title: readonly string[];
+  light?: boolean;
+  center?: boolean;
+}) {
+  return (
+    <div className={`gt ${light ? "gt--light" : ""} ${center ? "gt--center" : ""}`} data-reveal>
+      <p className="gt-cate">{cate}</p>
+      <h2 id={id} className="gt-title">
+        {title.map((l) => (
+          <span key={l}>{l}</span>
+        ))}
+      </h2>
+    </div>
+  );
+}
+
+function FrameLines({ dark = false }: { dark?: boolean }) {
+  return (
+    <div className={`frame-lines ${dark ? "frame-lines--dark" : ""}`} aria-hidden="true">
+      <span />
+      <span />
+    </div>
+  );
+}
+
+function MoreButton({ href, label, text = "VIEW MORE" }: { href: string; label: string; text?: string }) {
+  return (
+    <Link href={href} className="more-btn" aria-label={label}>
+      <span>{text}</span>
+      <svg width="7" height="8" viewBox="0 0 7 8" fill="currentColor" aria-hidden="true">
+        <path d="M7 4 0 8V0z" />
+      </svg>
+    </Link>
+  );
+}
 
 /* ══ 세 번째 화면 — 대상 확인 ══════════════════════════
    더가든 메인 3번 화면의 배치를 따릅니다: 괄호 라벨 + 제목, 대문자 세리프 문장,
@@ -23,20 +75,10 @@ export function Fit() {
       <div className="fit-deco-mark" aria-hidden="true">
         <Image src="/brand/mark.png" alt="" width={161} height={340} />
       </div>
-      <div className="fit-lines" aria-hidden="true">
-        <span />
-        <span />
-      </div>
+      <FrameLines />
 
       <Container className="fit-inner">
-        <div className="fit-head" data-reveal>
-          <p className="fit-cate">{A.cate}</p>
-          <h2 id="fit-title" className="fit-title">
-            {A.title.map((l) => (
-              <span key={l}>{l}</span>
-            ))}
-          </h2>
-        </div>
+        <TitleBox id="fit-title" cate={A.cate} title={A.title} />
 
         <p className="fit-point" aria-hidden="true" data-reveal>
           {A.point.map((l) => (
@@ -115,372 +157,411 @@ export function Fit() {
   );
 }
 
-/* ══ 04 병목 진단 ═════════════════════════════════════
-   문제 기준으로 안내하되 목적지는 기존 서비스 페이지입니다.
-   (서비스 키워드 검색 자산을 지키려고 URL은 그대로 둡니다) */
+/* ══ 어디가 막혔는지 — 어두운 판 ═════════════════════════
+   더가든 4번(어두운 사진 판)의 자리. 광고비가 여섯 칸을 지나 신환이 되는 길을
+   가는 막대로 그리고, 칸마다 새는 이유를 옆에 붙입니다. 막대는 화면에 들어올 때
+   왼쪽에서부터 그어집니다. /marketing 의 깔때기와 같은 데이터를 씁니다. */
 export function Bottleneck() {
+  const B = C.BOTTLENECK;
+  const F = BUDGET_FUNNEL;
+  const last = F.steps.length - 1;
+
   return (
-    <Section no="01" label="어디가 막혔는지부터" tone="paper" className="home-bottleneck">
-      <div className="editorial-section-heading" data-reveal>
-        <div>
-          <h2 className="editorial-title">
-            {C.BOTTLENECK.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </h2>
+    <section id="bottleneck" className="bn" aria-labelledby="bn-title">
+      <div className="bn-bg" aria-hidden="true">
+        <Image src={HOME.bottleneckBg} alt="" fill sizes="100vw" className="object-cover" />
+      </div>
+      <FrameLines dark />
+
+      <Container className="bn-inner">
+        <div className="bn-head">
+          <TitleBox id="bn-title" cate={B.cate} title={B.title} light />
+          <p className="bn-lead" data-reveal>
+            {B.lead}
+          </p>
         </div>
-        <p className="editorial-intro">{C.BOTTLENECK.lead}</p>
-      </div>
 
-      {/* 카드 대신 그림 — 광고비가 어느 칸에서 새는지가 곧 "어디가 막혔는지"입니다 */}
-      <div className="bottleneck-funnel">
-        <FunnelChart />
-      </div>
+        <ol className="bn-funnel" aria-label={F.title}>
+          {F.steps.map((s, i) => (
+            <li
+              key={s.name}
+              className={`bn-row ${i === last ? "is-last" : ""}`}
+              data-reveal
+              style={
+                {
+                  // 아래로 갈수록 좁아집니다 — 남는 양이 줄어드는 걸 폭으로
+                  "--w": `${100 - i * 11}%`,
+                  "--reveal-delay": `${i * 90}ms`,
+                } as React.CSSProperties
+              }
+            >
+              <span className="bn-no tnum">{String(i + 1).padStart(2, "0")}</span>
+              <span className="bn-lane">
+                <span className="bn-bar">
+                  <span className="bn-name">{s.name}</span>
+                </span>
+                {s.leak && <span className="bn-leak">{s.leak}</span>}
+              </span>
+            </li>
+          ))}
+        </ol>
+        <p className="bn-closing" data-reveal>
+          {F.closing}
+        </p>
 
-      {/* 세 원인 — 새는 칸에 따라 처방이 갈립니다. 카드가 아니라 한 줄짜리 갈림길 */}
-      <ul className="bottleneck-routes">
-        {C.BOTTLENECK.items.map((it, i) => (
-          <li key={it.no} data-reveal style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}>
-            <Link href={it.href} className="bottleneck-route group">
-              <span className="display-serif tnum route-no">{it.no}</span>
-              <span className="route-text">
-                <span className="route-q">{it.q}</span>
-                <span className="prose-ko route-body">{it.body}</span>
-                <span className="route-fix">
+        {/* 세 원인 — 새는 칸에 따라 처방이 갈립니다 */}
+        <ul className="bn-routes">
+          {B.items.map((it, i) => (
+            <li key={it.no} data-reveal style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}>
+              <Link href={it.href} className="bn-route">
+                <span className="bn-route-no tnum">{it.no}</span>
+                <span className="bn-route-q">{it.q}</span>
+                <span className="bn-route-body">{it.body}</span>
+                <span className="bn-route-fix">
                   {it.fix}
                   <span aria-hidden="true">→</span>
                 </span>
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-      {/* 세 가지 중 무엇이든 결국 이 세 축으로 처리됩니다 */}
-      <div className="bottleneck-showcase" data-reveal>
-        <ServiceShowcase />
-      </div>
-
-      {/* CTA 2회차 — 상단·중단·하단 3회 정책 */}
-      <div className="mt-16 text-center" data-reveal>
-        <Link href={C.PRIMARY_CTA.href}>
-          <Button>{C.PRIMARY_CTA.label}</Button>
-        </Link>
-        <p className="prose-ko mt-4 text-sm text-ink-500">
-          어디가 막혔는지 모르시겠다면, 진단부터 받아보십시오.
-        </p>
-      </div>
-    </Section>
+        {/* CTA 2회차 — 상단·중단·하단 3회 정책 */}
+        <div className="bn-cta" data-reveal>
+          <Link href={C.PRIMARY_CTA.href} className="pill pill--cream">
+            {C.PRIMARY_CTA.label}
+            <span aria-hidden="true">→</span>
+          </Link>
+          <p className="bn-cta-note">어디가 막혔는지 모르시겠다면, 진단부터 받아보십시오.</p>
+        </div>
+      </Container>
+    </section>
   );
 }
 
-/* ══ 05 일하는 순서 ═══════════════════════════════════ */
-export function Plan() {
+/* ══ 솔루션 — 더가든 '맞춤 솔루션' 판 ══════════════════════
+   가는 선으로 나뉜 편집형 그리드. 칸마다 사진과 큰 숫자가 엇갈려 놓이고
+   VIEW MORE 로 서비스 페이지에 닿습니다. (예전 서비스 3축 아코디언의 자리) */
+export function Solutions() {
+  const S = C.SOLUTIONS;
   return (
-    <section className="home-plan bg-cream-50 text-ink-900">
-      <Container className="pt-20 md:pt-28 lg:pt-32">
-        <div className="mb-12 flex items-center gap-4" data-reveal>
-          <span className="label tnum">02</span>
-          <span className="h-px w-8 bg-ink-900/20" aria-hidden />
-          <span className="label label-ko">{C.PLAN.label}</span>
-        </div>
+    <section className="sol" aria-labelledby="sol-title">
+      <FrameLines />
+      <Container>
+        <TitleBox id="sol-title" cate={S.cate} title={S.heading} />
 
-        <div
-          className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-end lg:gap-24"
-          data-reveal
-        >
-          <h2 className="editorial-title">
-            {C.PLAN.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </h2>
-          <p className="prose-ko text-sm text-ink-500">
-            {C.PLAN.lead.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
+        <div className="sol-board">
+          {S.cards.map((card, i) => (
+            <article key={card.href} className={`sol-item sol-item--${i + 1}`}>
+              <div className="sol-text" data-reveal>
+                <p className="sol-tag">{card.tag}</p>
+                <h3 className="sol-title">{card.title}</h3>
+                <p className="sol-blurb">{card.blurb}</p>
+                <p className="sol-items">{card.items.join(" · ")}</p>
+                <MoreButton href={card.href} label={`${card.tag} 자세히 보기`} />
+              </div>
+              <div className="sol-media" data-reveal="wipe">
+                <div className="sol-img">
+                  <Image
+                    src={HOME.solutions[i]}
+                    alt=""
+                    fill
+                    sizes={i === 2 ? "(max-width: 1023px) 100vw, 52vw" : "(max-width: 1023px) 100vw, 34vw"}
+                    className="object-cover"
+                  />
+                </div>
+                <span className="sol-num" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ══ 일하는 순서 — 더가든 '진료 여정' ════════════════════
+   왼쪽에 제목과 PREV/NEXT, 오른쪽에 아치형 사진 카드가 화면 밖까지 이어집니다.
+   카드마다 "원장님이 하실 일"을 붙여 철학(시간을 덜어드린다)을 숫자로 보입니다. */
+export function Plan() {
+  const P = C.PLAN;
+  return (
+    <section className="proc" aria-labelledby="proc-title">
+      <FrameLines />
+      <div className="proc-grid">
+        <div className="proc-left">
+          <TitleBox id="proc-title" cate={P.cate} title={P.title} />
+          <p className="proc-lead" data-reveal>
+            {P.lead.map((l) => (
+              <span key={l}>{l}</span>
             ))}
           </p>
         </div>
-      </Container>
 
-      {/* 풀블리드 4분할 패널 — 손이 닿은 칸만 켜지는 전환은 전부 CSS에 있습니다 */}
-      <div className="plan-band">
-        <div className="plan-band-photo">
-          <Image src={HOME.planBand} alt="" fill sizes="100vw" className="object-cover" />
+        <ProcessTrack>
+          {P.steps.map((s, i) => (
+            <article key={s.no} className="proc-card">
+              <div className="proc-media">
+                <div className="proc-arch">
+                  <Image
+                    src={HOME.process[i]}
+                    alt=""
+                    fill
+                    sizes="(max-width: 767px) 78vw, 380px"
+                    className="object-cover"
+                  />
+                </div>
+                <span className="proc-num" aria-hidden="true">
+                  {s.no}
+                </span>
+              </div>
+              <h3 className="proc-name">{s.name}</h3>
+              <p className="proc-ko">{s.ko}</p>
+              <p className="proc-you">
+                <span>원장님이 하실 일</span>
+                {s.you}
+              </p>
+            </article>
+          ))}
+        </ProcessTrack>
+      </div>
+    </section>
+  );
+}
+
+/* ══ 지키는 것 — 더가든 '프라이빗 룸' 판 ═══════════════════
+   어두운 사진 위 가운데 워드마크 → 세로선 → 제목, 그 아래 흰 알약 줄 넷.
+   ⚠️ metrics 가 비어 있으면 수치 줄은 통째로 숨겨집니다 — 지어내지 않습니다. */
+export function Evidence() {
+  const E = C.EVIDENCE;
+  return (
+    <section className="prm" aria-labelledby="prm-title">
+      <div className="prm-bg" aria-hidden="true">
+        <Image src={HOME.promiseBg} alt="" fill sizes="100vw" className="object-cover" />
+      </div>
+      <FrameLines dark />
+
+      <Container className="prm-inner">
+        <div className="prm-head" data-reveal>
+          <Image
+            src="/intro/wordmark-light.png"
+            alt=""
+            width={1569}
+            height={136}
+            className="prm-logo"
+          />
+          <span className="prm-vline" aria-hidden="true" />
+        </div>
+        <TitleBox id="prm-title" cate={E.cate} title={E.title} light center />
+
+        <p className="prm-desc" data-reveal>
+          {E.intro.map((l) => (
+            <span key={l}>{l}</span>
+          ))}
+        </p>
+
+        <ul className="prm-list">
+          {E.promises.map((p, i) => (
+            <li
+              key={p.v}
+              className="prm-row"
+              data-reveal
+              style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
+            >
+              <span className="prm-icon tnum" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <p className="prm-title">
+                <strong>{p.v}</strong> {p.k}
+              </p>
+              <p className="prm-text">{p.d}</p>
+            </li>
+          ))}
+        </ul>
+
+        {E.metrics.length > 0 && (
+          <ul className="prm-metrics" data-reveal>
+            {E.metrics.map((m) => (
+              <li key={m.label}>
+                <span className="prm-metric-value tnum">{m.value}</span>
+                <span className="prm-metric-label">{m.label}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <p className="prm-note" data-reveal>
+          {E.note}
+        </p>
+      </Container>
+    </section>
+  );
+}
+
+/* ══ 읽을거리 — 더가든 '컴포트 케어' 판 ═══════════════════
+   왼쪽은 크림 바탕에 제목과 글 목록(흰 상자 줄), 오른쪽은 옅은 판 위에
+   포개진 카드 두 장. 가장 최근 두 편이 카드, 그다음 세 편이 목록입니다. */
+function InsightCard({ a, src, back = false }: { a: Article; src: string; back?: boolean }) {
+  return (
+    <Link
+      href={`${a.list}/${a.slug}`}
+      className={`ins-card ${back ? "is-back" : "is-front"}`}
+      tabIndex={back ? -1 : undefined}
+      aria-hidden={back || undefined}
+    >
+      <span className="ins-card-bg">
+        <Image src={src} alt="" fill sizes="(max-width: 1023px) 90vw, 36vw" className="object-cover" />
+      </span>
+      <span className="ins-card-body">
+        <span className="ins-card-meta tnum">
+          {a.category} · {a.date} · {readingTime(a)}분 읽기
+        </span>
+        <span className="ins-card-title">{a.title}</span>
+        {!back && <span className="ins-card-excerpt">{a.excerpt}</span>}
+      </span>
+    </Link>
+  );
+}
+
+export function Insight() {
+  const I = C.INSIGHT;
+  const [front, back, ...rest] = latestArticles();
+  const rows = rest.slice(0, 3);
+
+  return (
+    <section className="ins" aria-labelledby="ins-title">
+      <div className="ins-layout">
+        <div className="ins-left">
+          <TitleBox id="ins-title" cate={I.cate} title={I.title} />
+          <p className="ins-lead" data-reveal>
+            {I.lead}
+          </p>
+          <nav className="ins-tabs" aria-label="읽을거리 분류" data-reveal>
+            {I.tabs.map((t) => (
+              <Link key={t.href} href={t.href} className="ins-tab">
+                {t.label}
+              </Link>
+            ))}
+          </nav>
+
+          <ol className="ins-list">
+            {rows.map((a, i) => (
+              <li
+                key={a.slug}
+                data-reveal
+                style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
+              >
+                <Link href={`${a.list}/${a.slug}`} className="ins-row">
+                  <span className="ins-row-head">
+                    <span className="ins-no tnum">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="ins-slash" aria-hidden="true" />
+                    <span className="ins-row-title">{a.title}</span>
+                  </span>
+                  <span className="ins-row-meta tnum">
+                    {a.category} · {a.date}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+
+          <div className="ins-more" data-reveal>
+            <MoreButton href="/insight" label="읽을거리 전체 보기" text="VIEW ALL" />
+          </div>
         </div>
 
-        <div className="plan-panels">
-          {C.PLAN.steps.map((s, i) => (
-            <div key={s.no} className="plan-panel">
-              <div
-                className="plan-panel-inner"
-                data-reveal
-                style={{ "--reveal-delay": `${i * 110}ms` } as React.CSSProperties}
-              >
-                <p className="plan-number tnum">{s.no}</p>
-                <p className="plan-en">{s.name}</p>
-                <p className="plan-ko">{s.ko}</p>
-                <p className="plan-you">
-                  <span>원장님이 하실 일</span>
-                  {s.you}
-                </p>
-              </div>
-            </div>
-          ))}
+        <div className="ins-right">
+          <div className="ins-stack" data-reveal>
+            {back && <InsightCard a={back} src={HOME.insight[1]} back />}
+            {front && <InsightCard a={front} src={HOME.insight[0]} />}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/* ══ 06 증거 ══════════════════════════════════════════
-   ⚠️ metrics 가 비어 있으면 수치 블록은 통째로 숨겨집니다.
-      실제 운영 수치가 확보되면 content/home.ts 의 EVIDENCE.metrics 만 채우면 켜집니다. */
-export function Evidence() {
-  const { metrics } = C.EVIDENCE;
-
-  return (
-    <Section no="03" label="저희가 지키는 것" className="home-evidence">
-      <div className="editorial-section-heading" data-reveal>
-        <div>
-          <h2 className="editorial-title">
-            {C.EVIDENCE.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </h2>
-        </div>
-        <p className="editorial-intro">
-          지키지 못할 약속은 쓰지 않습니다.
-          <br />
-          아래는 오늘부터 지키는 것들입니다.
-        </p>
-      </div>
-
-      <div className="evidence-grid">
-        {C.EVIDENCE.promises.map((p, i) => (
-          <div
-            key={p.v}
-            className="evidence-card"
-            data-reveal
-            style={{ "--reveal-delay": `${i * 100}ms` } as React.CSSProperties}
-          >
-            <p className="evidence-value tnum">{p.v}</p>
-            <p className="evidence-key">{p.k}</p>
-            <p className="prose-ko evidence-desc">{p.d}</p>
-          </div>
-        ))}
-      </div>
-
-      {metrics.length > 0 && (
-        <div className="evidence-metrics" data-reveal>
-          {metrics.map((m) => (
-            <div key={m.label} className="evidence-metric">
-              <p className="evidence-value tnum">{m.value}</p>
-              <p className="evidence-key">{m.label}</p>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <p className="evidence-note" data-reveal>
-        {C.EVIDENCE.note}
-      </p>
-    </Section>
-  );
-}
-
-/* ══ 07 인사이트 ══════════════════════════════════════ */
-export function Insight() {
-  const [feature, ...rest] = latestArticles("/insight/column").slice(0, 3);
-
-  return (
-    <Section no="04" label="읽을거리" tone="paper" className="home-insight">
-      <div className="editorial-section-heading" data-reveal>
-        <div>
-          <h2 className="editorial-title">
-            {C.INSIGHT.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </h2>
-        </div>
-        <div className="insight-tabs">
-          {C.INSIGHT.tabs.map((t) => (
-            <Link key={t.href} href={t.href} className="insight-tab">
-              {t.label}
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* 대표 글 하나를 크게, 나머지는 줄로 — 셋을 같은 크기로 늘어놓으면 목록이지 편집이 아닙니다 */}
-      <div className="insight-feature-layout">
-        {feature && (
-          <Link
-            href={`${feature.list}/${feature.slug}`}
-            className="group insight-feature"
-            data-reveal
-          >
-            <div className="media-more insight-feature-media" data-more="읽어보기">
-              <Image
-                src={HOME.insight[0]}
-                alt=""
-                fill
-                sizes="(max-width: 1024px) 100vw, 58vw"
-                className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
-              />
-            </div>
-            <div className="insight-feature-body">
-              <p className="label label-ko tnum">
-                {feature.category} · {feature.date} · {readingTime(feature)}분 읽기
-              </p>
-              <p className="insight-feature-title">{feature.title}</p>
-              <p className="prose-ko insight-feature-excerpt">{feature.excerpt}</p>
-            </div>
-          </Link>
-        )}
-
-        <ul className="insight-side">
-          {rest.map((a, i) => (
-            <li key={a.slug} data-reveal style={{ "--reveal-delay": `${120 + i * 90}ms` } as React.CSSProperties}>
-              <Link href={`${a.list}/${a.slug}`} className="insight-side-row group">
-                <p className="label label-ko tnum">
-                  {a.category} · {a.date}
-                </p>
-                <p className="insight-side-title">{a.title}</p>
-                <p className="prose-ko insight-side-excerpt">{a.excerpt}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mt-12 text-center" data-reveal>
-        <Link href="/insight" className="group inline-flex items-center gap-3">
-          <span className="label label-ko">{C.INSIGHT.more}</span>
-          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-        </Link>
-      </div>
-    </Section>
-  );
-}
-
-/* ══ 08 자주 묻는 질문 ════════════════════════════════
-   문의 직전에 가장 자주 걸리는 4개. 펼침 애니메이션은 globals.css 에 있습니다. */
+/* ══ 묻기 전에 ═════════════════════════════════════════
+   흰 상자 줄로 — 더가든의 단계 목록 상자와 같은 결. 펼침 애니메이션은 globals.css. */
 export function Faq() {
+  const F = C.FAQ_HOME;
   return (
-    <Section no="05" label="묻기 전에" className="home-faq">
-      <div className="faq-layout">
-        <div data-reveal="left">
-          <h2 className="editorial-title">
-            {C.FAQ_HOME.title.map((l) => (
-              <span key={l} className="block">
-                {l}
-              </span>
-            ))}
-          </h2>
-          <Link href="/insight/faq" className="editorial-link mt-9 inline-flex">
-            {C.FAQ_HOME.more} <CircleArrow size={44} />
-          </Link>
+    <section className="faqx" aria-labelledby="faq-title">
+      <FrameLines />
+      <Container className="faqx-inner">
+        <div className="faqx-left">
+          <TitleBox id="faq-title" cate={F.cate} title={F.title} />
+          <div className="faqx-more" data-reveal>
+            <MoreButton href="/insight/faq" label={F.more} />
+          </div>
         </div>
 
-        <div className="faq-list">
-          {C.FAQ_HOME.items.map((f, i) => (
+        <div className="faqx-list">
+          {F.items.map((f, i) => (
             <details
               key={f.q}
-              className="faq-item"
+              className="faqx-item"
               data-reveal
               style={{ "--reveal-delay": `${i * 80}ms` } as React.CSSProperties}
             >
-              <summary className="faq-q">
-                <span>{f.q}</span>
-                <span className="label faq-plus" aria-hidden="true">
+              <summary className="faqx-q">
+                <span className="faqx-no tnum" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="faqx-q-text">{f.q}</span>
+                <span className="label faqx-plus" aria-hidden="true">
                   +
                 </span>
               </summary>
-              <p className="prose-ko faq-a">{f.a}</p>
+              <p className="faqx-a">{f.a}</p>
             </details>
           ))}
         </div>
-      </div>
-    </Section>
+      </Container>
+    </section>
   );
 }
 
-/* ══ 09 마지막 행동 ═══════════════════════════════════ */
+/* ══ 마지막 행동 — 더가든 '상담문의' 배너 ═════════════════
+   로고가 양각된 상자가 오른쪽에 걸린 와이드 사진, 왼쪽에 제목과 알약 버튼 둘. */
 export function ClosingCta() {
+  const T = C.CTA;
   return (
-    <section className="relative overflow-hidden bg-forest-800 text-cream-100">
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-2/3 opacity-[0.17]">
-        <Image src={HOME.cta} alt="" fill sizes="66vw" className="object-cover" />
+    <section className="ctab" aria-labelledby="cta-title">
+      <div className="ctab-bg" aria-hidden="true">
+        <Image src={HOME.cta} alt="" fill sizes="100vw" className="object-cover" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-forest-800 via-forest-800/92 to-transparent" />
-      <div
-        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brass-500/55 to-transparent"
-        aria-hidden
-      />
 
-      <Container className="relative py-24 md:py-32">
-        <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-24">
-          <div data-reveal>
-            <div className="mb-9 flex items-center gap-4">
-              <span className="label label-on-dark tnum">08</span>
-              <span className="h-px w-8 bg-cream-100/30" aria-hidden />
-              <span className="label label-ko label-on-dark">{C.CTA.label}</span>
-            </div>
+      <Container className="ctab-inner">
+        <TitleBox id="cta-title" cate={T.cate} title={T.title} light />
+        <p className="ctab-body" data-reveal>
+          {T.body}
+        </p>
 
-            <h2 className="display-ko text-[1.75rem] md:text-[2.375rem] lg:text-[2.75rem]" data-lines>
-              {C.CTA.title.map((l) => (
-                <span key={l} className="block">
-                  {l}
-                </span>
-              ))}
-            </h2>
-
-            <p className="prose-ko mt-7 max-w-md text-sm text-cream-100/70 md:text-base">
-              {C.CTA.body}
-            </p>
-
-            <div className="mt-11">
-              <Link href={C.PRIMARY_CTA.href}>
-                <Button variant="cream">{C.PRIMARY_CTA.label}</Button>
-              </Link>
-            </div>
-          </div>
-
-          {/* 버튼을 누르면 무슨 일이 일어나는지 — 빈 공간 대신 답을 둡니다 */}
-          <div data-reveal style={{ "--reveal-delay": "140ms" } as React.CSSProperties}>
-            <p className="label label-ko label-on-dark">{C.CTA.stepsLabel}</p>
-            <ol className="mt-6 border-t border-cream-100/15">
-              {C.CTA.steps.map((s, i) => (
-                <li key={s.title} className="flex gap-6 border-b border-cream-100/15 py-6">
-                  <span className="display-serif tnum text-2xl leading-none text-brass-400">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-sm tracking-[0.04em] text-cream-100">{s.title}</p>
-                    <p className="prose-ko mt-1.5 text-sm text-cream-100/60">{s.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <p className="mt-6 flex items-start gap-2.5 text-sm text-cream-100/55">
-              <span
-                className="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-brass-400"
-                aria-hidden
-              />
-              {C.CTA.note}
-            </p>
-          </div>
+        <div className="ctab-btns" data-reveal>
+          <Link href={C.PRIMARY_CTA.href} className="pill pill--cream">
+            {C.PRIMARY_CTA.label}
+            <span aria-hidden="true">→</span>
+          </Link>
+          <Link href={T.second.href} className="pill pill--ghost">
+            {T.second.label}
+          </Link>
         </div>
+
+        {/* 누르면 무슨 일이 일어나는지 — 한 줄로 */}
+        <ol className="ctab-steps" aria-label={T.stepsLabel} data-reveal>
+          {T.steps.map((s, i) => (
+            <li key={s.title}>
+              <span className="tnum">{String(i + 1).padStart(2, "0")}</span>
+              {s.title}
+            </li>
+          ))}
+        </ol>
+        <p className="ctab-note" data-reveal>
+          {T.note}
+        </p>
       </Container>
     </section>
   );

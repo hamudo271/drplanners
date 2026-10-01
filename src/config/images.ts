@@ -15,9 +15,11 @@ const img = (n: number) => `/image%20${n}.png`;
 export const HOME = {
   problem: img(34),       // 어두운 정물
   rest: img(30),          // 잎 + 물방울
-  cta: img(28),           // 그린 + 골드 실크
+  /** 마지막 문의 배너 — 로고가 양각된 상자가 오른쪽에 걸리는 와이드 컷(더가든의 양각 벽 자리) */
+  cta: img(7),
   works: [img(27), img(25), img(19)],
-  insight: [img(8), img(29), img(31)],
+  /** 인사이트 카드 더미 — 앞 장, 뒤 장 */
+  insight: [img(21), img(31)],
   solutions: [img(10), img(23), img(17)], // 브랜딩 / 마케팅 / 메디컬 AI
   philosophyTexture: img(25),             // 브랜드 디테일 — 철학 섹션
   /**
@@ -32,8 +34,12 @@ export const HOME = {
   /** 03 — 세로 사진(사람의 손이 닿은 컷)과 작은 장식 컷 */
   fitPhoto: img(14),
   fitDeco: img(34),
-  /** DR.PLAN 4단 패널의 풀블리드 배경 — 흰 텍스트가 얹히므로 어두운 원본만 */
-  planBand: img(32),
+  /** "어디가 막혔는지" 어두운 판의 질감 배경 */
+  bottleneckBg: img(30),
+  /** 일하는 순서 4장 — 아치 카드 (진단 · 방향 결정 · 설계 · 실행·관리) */
+  process: [img(12), img(13), img(27), img(25)],
+  /** "지키는 것" 어두운 판의 배경 */
+  promiseBg: img(33),
 };
 
 /* ── 솔루션 허브 키비주얼 (21:9) ──────────────────
