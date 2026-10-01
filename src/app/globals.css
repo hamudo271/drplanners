@@ -909,18 +909,24 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
 .intro-cta > span { transition: transform .35s var(--ease-out-soft); }
 .intro-cta:hover > span { transform: translateX(3px); }
 
-/* 하단 "Scroll to explore" — 바깥 a 는 스크롤 때 GSAP가 흐리게 하므로 등장은 안쪽에 겁니다 */
-.intro-scroll { position: absolute; left: 50%; bottom: 3rem; z-index: 2; display: flex; align-items: center; gap: 1.3rem; color: #fff; transform: translateX(-50%); font-family: var(--font-serif); font-size: 17px; letter-spacing: -.01em; white-space: nowrap; }
-.intro-scroll > * { opacity: 0; animation: intro-fade 1s ease var(--d) forwards; }
-.intro-scroll svg { width: 4.8rem; height: auto; overflow: visible; }
-.intro-scroll-dot { transform-box: fill-box; transform-origin: center; animation: intro-scroll-dot 1.6s ease-in-out infinite alternate; }
+/* 하단 스크롤 표시 — 작은 자간 라벨 + 1px 세로선, 선 위로 엷은 황동빛이 천천히 흘러내립니다.
+   바깥 a 는 스크롤 때 GSAP가 흐리게 하므로 등장 애니메이션은 안쪽 요소에 겁니다. */
+.intro-scroll { position: absolute; left: 50%; bottom: 2.4rem; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 8px 14px 0; color: #fff; transform: translateX(-50%); }
+.intro-scroll > * { opacity: 0; animation: intro-fade 1.2s ease var(--d) forwards; }
+.intro-scroll-label { margin-right: -.42em; font-family: var(--font-sans); font-size: 10.5px; font-weight: 400; line-height: 1; letter-spacing: .42em; text-transform: uppercase; color: rgb(255 255 255 / 70%); transition: color .5s var(--ease-out-soft); }
+.intro-scroll-line { position: relative; display: block; width: 1px; height: 68px; overflow: hidden; background: rgb(255 255 255 / 18%); transition: background-color .5s var(--ease-out-soft); }
+.intro-scroll-line::after { content: ""; position: absolute; inset: 0 0 auto; height: 42%; background: linear-gradient(180deg, rgb(201 185 157 / 0%) 0%, rgb(201 185 157 / 85%) 62%, #fff 100%); transform: translateY(-100%); animation: intro-scroll-flow 2.8s cubic-bezier(.65, 0, .35, 1) infinite; }
+.intro-scroll:hover .intro-scroll-label { color: #fff; }
+.intro-scroll:hover .intro-scroll-line { background-color: rgb(255 255 255 / 34%); }
+.intro-scroll:focus-visible { outline-offset: 6px; }
 
 @keyframes intro-fade { to { opacity: 1; } }
 @keyframes intro-fade-up { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: none; } }
 @keyframes intro-char { to { opacity: 1; transform: none; } }
 @keyframes intro-line-x { to { transform: scaleX(1); } }
 @keyframes intro-line-y { to { transform: scaleY(1); } }
-@keyframes intro-scroll-dot { from { transform: translateY(-9px); } to { transform: translateY(3px); } }
+/* 위에서 내려와 아래로 빠진 뒤 잠시 쉬었다 다시 — 쉬는 구간이 있어야 재촉하지 않습니다 */
+@keyframes intro-scroll-flow { 0% { transform: translateY(-100%); } 70%, 100% { transform: translateY(240%); } }
 
 /* ── 02 Why ──────────────────────────────────────────
    기본은 "움직이지 않는 판": 열린 카드 위에 문장이 모두 보입니다.
@@ -1050,8 +1056,8 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
   .intro-side { padding-bottom: 0; }
   .intro-desc { white-space: normal; font-size: 16px; }
   /* 모바일 하단 고정 바(56px) 위로 올립니다 */
-  .intro-scroll { bottom: calc(56px + 1.5rem + env(safe-area-inset-bottom)); gap: .75rem; font-size: 13px; }
-  .intro-scroll svg { width: 56px; }
+  .intro-scroll { bottom: calc(56px + 1.25rem + env(safe-area-inset-bottom)); gap: 12px; }
+  .intro-scroll-line { height: 52px; }
   .intro-flymark { height: 104px; }
 
   .fit { padding-top: 96px; }
@@ -1091,5 +1097,6 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
   .intro-frame { animation: none; }
   .intro-frame:first-child { opacity: 1; }
   .intro-mark, .intro-line, .intro-char, .intro-cta, .intro-scroll > * { animation: none; opacity: 1; transform: none; }
-  .intro-scroll-dot, .why-track-inner, .fit-track-inner { animation: none; }
+  .why-track-inner, .fit-track-inner { animation: none; }
+  .intro-scroll-line::after { animation: none; transform: none; height: 100%; opacity: .35; }
 }

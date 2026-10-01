@@ -24,7 +24,7 @@ export const INTRO = {
     h1: "닥터플래너스 — 광고비는 쓰는데 신환이 늘지 않는 병원의 마케팅을 진단부터 실행까지 맡습니다",
     title: ["A Sanctuary", "for Doctors."],
     desc: ["병원은 더 성장하고,", "원장님은 마케팅에서 벗어나십시오."],
-    scroll: "Scroll to explore",
+    scroll: "Scroll",
   },
   why: {
     /** 카드 뒤로 흐르는 외곽선 글씨 — 장식 */

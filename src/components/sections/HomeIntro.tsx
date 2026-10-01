@@ -305,23 +305,17 @@ export function HomeIntro() {
           </div>
         </div>
 
+        {/* 원 안에서 튀는 점 대신, 히어로의 가로선과 같은 결의 세로 헤어라인 위로 빛이 흘러내립니다 */}
         <a
           href="#why"
           className="intro-scroll"
+          aria-label="다음 화면으로"
           style={{ "--d": `${CTA_AT + 300}ms` } as React.CSSProperties}
         >
-          <svg viewBox="0 0 78 78" fill="none" aria-hidden="true">
-            <circle cx="39" cy="39" r="38.5" stroke="currentColor" strokeOpacity="0.6" />
-            <line x1="39" y1="18" x2="39" y2="42" stroke="url(#intro-scroll-grad)" strokeWidth="3" />
-            <circle className="intro-scroll-dot" cx="39" cy="46" r="5.5" fill="currentColor" />
-            <defs>
-              <linearGradient id="intro-scroll-grad" x1="39" y1="20" x2="39" y2="38" gradientUnits="userSpaceOnUse">
-                <stop stopColor="currentColor" stopOpacity="0" />
-                <stop offset="1" stopColor="currentColor" />
-              </linearGradient>
-            </defs>
-          </svg>
-          <span>{hero.scroll}</span>
+          <span className="intro-scroll-label" aria-hidden="true">
+            {hero.scroll}
+          </span>
+          <span className="intro-scroll-line" aria-hidden="true" />
         </a>
       </section>
 
