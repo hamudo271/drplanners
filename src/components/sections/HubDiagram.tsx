@@ -32,7 +32,7 @@ export function HubDiagram({ href, no }: { href: string; no: string }) {
 function Touchpoints({ no }: { no: string }) {
   const d = TOUCHPOINTS;
   return (
-    <Section no={no} label={d.label} className="hub-diagram">
+    <Section no={no} label={d.label} en="Touchpoints" className="hub-diagram">
       <DiagramHead title={d.title} lead={d.lead} />
 
       <ol className="touchpoint-chain">
@@ -69,7 +69,7 @@ function Funnel({ no }: { no: string }) {
   const d = BUDGET_FUNNEL;
 
   return (
-    <Section no={no} label={d.label} tone="paper" className="hub-diagram">
+    <Section no={no} label={d.label} en="Budget Flow" tone="paper" className="hub-diagram">
       <DiagramHead title={d.title} lead={d.lead} />
       <FunnelChart />
     </Section>
@@ -118,7 +118,7 @@ export function FunnelChart() {
 function Stack({ no }: { no: string }) {
   const d = SEARCH_STACK;
   return (
-    <Section no={no} label={d.label} tone="forest" className="hub-diagram">
+    <Section no={no} label={d.label} en="Search Layers" tone="forest" className="hub-diagram">
       <DiagramHead title={d.title} lead={d.lead} dark />
 
       <ol className="search-stack">
@@ -156,7 +156,7 @@ function Stack({ no }: { no: string }) {
   );
 }
 
-/* ── 공통 머리말 ───────────────────────────────────────── */
+/* ── 공통 머리말 — 서브페이지 제목 스타일(sx-h2)과 같은 결 ── */
 function DiagramHead({
   title,
   lead,
@@ -167,11 +167,9 @@ function DiagramHead({
   dark?: boolean;
 }) {
   return (
-    <div className="editorial-section-heading" data-reveal>
-      <div>
-        <h2 className={`editorial-title ${dark ? "text-cream-100" : ""}`}>{title}</h2>
-      </div>
-      <p className={`editorial-intro ${dark ? "text-cream-100/70!" : ""}`}>{lead}</p>
+    <div className="sx-diagram-head" data-reveal>
+      <h2 className="sx-h2">{title}</h2>
+      <p className={`sx-text ${dark ? "is-dark" : ""}`}>{lead}</p>
     </div>
   );
 }

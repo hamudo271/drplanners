@@ -8,6 +8,7 @@ export const metadata = pageMeta({
 });
 
 import { Section } from "@/components/ui";
+import { enFor } from "@/config/nav";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { InsightTabs } from "@/components/templates/Insight";
 
@@ -54,30 +55,34 @@ export default function Page() {
       <PageHero
         crumbs={[{ label: "메디컬 인사이트", href: "/insight" }, { label: "FAQ" }]}
         title="자주 묻는 질문"
+        en={enFor("/insight/faq")}
         lead="원장님들이 가장 많이 물어보시는 내용을 모았습니다."
       />
       <InsightTabs current="/insight/faq" />
 
       <Section>
-        <div className="max-w-3xl">
-          {/* 아코디언 — 네이티브 details 사용 (JS 불필요) */}
-          <div className="border-t border-ink-900/15">
-            {FAQS.map((f, i) => (
-              <details key={f.q} open={i === 0} className="group border-b border-ink-900/15">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5">
-                  <span className="flex flex-1 items-start gap-4">
-                    <span className="label pt-1">Q</span>
-                    <span className="display-ko text-base md:text-lg">{f.q}</span>
-                  </span>
-                  <span className="label shrink-0">+</span>
-                </summary>
-                <div className="flex gap-4 pb-7">
-                  <span className="label pt-0.5">A</span>
-                  <p className="prose-ko max-w-2xl flex-1 text-sm text-ink-500">{f.a}</p>
-                </div>
-              </details>
-            ))}
-          </div>
+        {/* 아코디언 — 네이티브 details 사용 (JS 불필요). 메인과 같은 흰 상자 줄 */}
+        <div className="sx-faq">
+          {FAQS.map((f, i) => (
+            <details
+              key={f.q}
+              open={i === 0}
+              className="faqx-item"
+              data-reveal
+              style={{ "--reveal-delay": `${i * 60}ms` } as React.CSSProperties}
+            >
+              <summary className="faqx-q">
+                <span className="faqx-no tnum" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="faqx-q-text">{f.q}</span>
+                <span className="label faqx-plus" aria-hidden="true">
+                  +
+                </span>
+              </summary>
+              <p className="faqx-a">{f.a}</p>
+            </details>
+          ))}
         </div>
       </Section>
 

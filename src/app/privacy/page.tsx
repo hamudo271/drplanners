@@ -1,6 +1,7 @@
 import { pageMeta } from "@/lib/seo";
 import { Container, Section } from "@/components/ui";
 import { PageHero } from "@/components/templates/shared";
+import { enFor } from "@/config/nav";
 import { SITE } from "@/config/site";
 import { COMPANY, ADDRESS_LINE } from "@/config/company";
 
@@ -171,17 +172,18 @@ export default function Page() {
   return (
     <>
       <PageHero
+        en={enFor("/privacy")}
         crumbs={[{ label: "개인정보처리방침" }]}
         title="개인정보처리방침"
         lead={`${CO}는 정보주체의 개인정보를 「개인정보 보호법」에 따라 보호하며, 아래와 같이 처리합니다.`}
       />
 
-      <Section no="01" label="처리방침">
+      <Section en="Privacy Policy">
         <Container className="!px-0">
           <div className="max-w-3xl">
-            <dl className="mb-14 grid gap-px border border-ink-900/15 bg-ink-900/12 sm:grid-cols-2">
+            <dl className="sx-metrics mb-14">
               {COMPANY_INFO.map((c) => (
-                <div key={c.label} className="bg-cream-100 p-5">
+                <div key={c.label} className="sx-metric">
                   <dt className="label label-ko">{c.label}</dt>
                   <dd className="mt-2 text-sm text-ink-700">{c.value}</dd>
                 </div>

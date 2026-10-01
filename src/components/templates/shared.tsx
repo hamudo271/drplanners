@@ -1,72 +1,58 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Container, Button } from "@/components/ui";
 import { CTA_BAND, DEFAULT_PAGE_HERO } from "@/config/images";
 import { NAV } from "@/config/nav";
 import { PRIMARY_CTA } from "@/content/home";
 
-/** 하위 페이지 공통 상단 — 메인과 같은 풀블리드 다크 히어로 */
+/**
+ * 하위 페이지 공통 상단 — 더가든 서브 비주얼.
+ *
+ * 사진 띠 가운데에 큰 세리프 영문(장식) → 굵은 한글 제목(h1) → 가는 세로선 → 짧은 설명.
+ * 영문이 없으면 한글 제목이 그 자리를 크게 맡습니다. 경로 표시는 아래 왼쪽에 작게 둡니다.
+ */
 export function PageHero({
   crumbs,
   title,
+  en,
   lead,
   mediaSrc,
 }: {
   crumbs: { label: string; href?: string }[];
   title: string;
+  /** 큰 세리프 영문 제목 — nav.ts 의 enFor(href) 로 넘깁니다 */
+  en?: string;
   lead?: string;
   /** 배경 이미지 라벨 — 배경으로 흡수되어 더 이상 표시되지 않습니다 */
   mediaLabel?: string;
   mediaSrc?: string;
 }) {
   const src = mediaSrc ?? DEFAULT_PAGE_HERO;
-  const isEn = /^[A-Za-z0-9 .·&|-]+$/.test(title);
   return (
-    <section className="relative flex min-h-[340px] items-end sm:min-h-[400px] md:min-h-[480px]">
-      <div className="veil-left absolute inset-0">
+    <section className={`subv ${en ? "has-en" : ""}`}>
+      <div className="subv-bg" aria-hidden="true">
         <Image src={src} alt="" fill preload sizes="100vw" className="object-cover" />
       </div>
-      <Container className="relative pt-40 pb-14 md:pt-48 md:pb-20">
-        <nav
-          className="label label-on-dark flex flex-wrap items-center gap-2.5"
-          aria-label="breadcrumb"
-          data-reveal
-        >
-          <Link href="/" className="-my-3 py-3 transition-colors hover:text-cream-100">
-            HOME
-          </Link>
-          {crumbs.map((c) => (
-            <span key={c.label} className="flex items-center gap-2.5">
-              <span aria-hidden>/</span>
-              {c.href ? (
-                <Link href={c.href} className="-my-3 py-3 transition-colors hover:text-cream-100">
-                  {c.label}
-                </Link>
-              ) : (
-                <span className="text-cream-100/85">{c.label}</span>
-              )}
-            </span>
-          ))}
-        </nav>
-        <h1
-          className={`mt-7 text-cream-100 ${
-            isEn
-              ? "display-en text-[2.25rem] md:text-[3rem] lg:text-[3.5rem]"
-              : "display-ko text-[1.875rem] md:text-[2.5rem] lg:text-[3rem]"
-          }`}
-          data-reveal
-        >
-          {title}
-        </h1>
-        {lead && (
-          <p
-            className="prose-ko mt-6 max-w-2xl text-sm text-cream-100/75 md:text-base"
-            data-reveal
-          >
-            {lead}
+
+      <div className="subv-inner">
+        {en && (
+          <p className="subv-en" aria-hidden="true">
+            {en}
           </p>
         )}
-      </Container>
+        <h1 className="subv-title">{title}</h1>
+        <span className="subv-line" aria-hidden="true" />
+        {lead && <p className="subv-lead">{lead}</p>}
+      </div>
+
+      <nav className="subv-crumbs" aria-label="breadcrumb">
+        <Link href="/">HOME</Link>
+        {crumbs.map((c) => (
+          <span key={c.label}>
+            <span aria-hidden="true">/</span>
+            {c.href ? <Link href={c.href}>{c.label}</Link> : <span aria-current="page">{c.label}</span>}
+          </span>
+        ))}
+      </nav>
     </section>
   );
 }
@@ -103,36 +89,26 @@ const CTA_COPY: Record<CtaKind, { title: string[]; body: string }> = {
 export function CtaBand({ kind = "default" }: { kind?: CtaKind }) {
   const copy = CTA_COPY[kind];
 
+  /* 더가든 서브페이지 마지막 배너 — 사진 위 가운데 정렬, 알약 버튼 하나 */
   return (
-    <section className="relative flex min-h-[380px] items-center md:min-h-[440px]">
-      <div className="veil-soft absolute inset-0">
+    <section className="subcta" aria-label={PRIMARY_CTA.short}>
+      <div className="subcta-bg" aria-hidden="true">
         <Image src={CTA_BAND} alt="" fill sizes="100vw" className="object-cover" />
       </div>
-      <Container className="relative py-20">
-        <div
-          className="flex flex-col items-start justify-between gap-10 text-cream-100 lg:flex-row lg:items-end"
-          data-reveal
-        >
-          <div>
-            <p className="label label-ko label-on-dark">{PRIMARY_CTA.short}</p>
-            <p className="display-ko mt-6 text-2xl leading-snug md:text-3xl lg:text-[2.25rem]">
-              {copy.title.map((l, i) => (
-                <span key={l}>
-                  {l}
-                  {i === 0 && <br />}
-                </span>
-              ))}
-            </p>
-            <p className="prose-ko mt-5 text-sm text-cream-100/70">{copy.body}</p>
-          </div>
-          {/* CTA는 하나만 둡니다 — 두 개를 나란히 두면 행동이 갈립니다 */}
-          <div className="shrink-0">
-            <Link href={PRIMARY_CTA.href}>
-              <Button variant="cream">{PRIMARY_CTA.label}</Button>
-            </Link>
-          </div>
-        </div>
-      </Container>
+      <div className="subcta-inner" data-reveal>
+        <p className="subcta-cate">( Free Diagnosis )</p>
+        <p className="subcta-title">
+          {copy.title.map((l) => (
+            <span key={l}>{l}</span>
+          ))}
+        </p>
+        <p className="subcta-body">{copy.body}</p>
+        {/* CTA는 하나만 둡니다 — 두 개를 나란히 두면 행동이 갈립니다 */}
+        <Link href={PRIMARY_CTA.href} className="pill pill--cream">
+          {PRIMARY_CTA.label}
+          <span aria-hidden="true">→</span>
+        </Link>
+      </div>
     </section>
   );
 }

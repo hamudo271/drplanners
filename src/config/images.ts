@@ -81,6 +81,7 @@ export const relatedWork = (href: string, i: number) => pick(DETAIL_POOL, href, 
 /* ── 어바웃 ─────────────────────────────────────── */
 export const ABOUT = {
   cards: [img(9), img(27)],   // 컬러 팔레트 보드 / 스테이셔너리
+  intro: img(25),             // 밝은 브랜드 카드 + 잎 — 회사 소개 첫 블록의 둥근 사진
   philosophy: img(19),        // 그린 스테이지 — 22번 포스터는 옛 태그라인이 박혀 있어 뺐습니다
   company: img(11),           // 2.25:1 인테리어 전경
 };

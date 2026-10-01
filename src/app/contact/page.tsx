@@ -6,7 +6,8 @@ export const metadata = pageMeta({
   path: "/contact",
 });
 
-import { Section, BrassIcon, Button, H2 } from "@/components/ui";
+import { enFor } from "@/config/nav";
+import { Section, BrassIcon, H2 } from "@/components/ui";
 import { PageHero } from "@/components/templates/shared";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { CONTACT_HERO } from "@/config/images";
@@ -19,18 +20,19 @@ export default function Page() {
       <PageHero
         crumbs={[{ label: "문의하기" }]}
         title="문의하기"
+        en={enFor("/contact")}
         lead="병원 상황을 알려주시면 담당 플래너가 직접 검토 후 연락드립니다."
         mediaLabel="컨택트 키비주얼"
         mediaSrc={CONTACT_HERO}
       />
 
-      <Section no="01" label="문의">
+      <Section en="Inquiry">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
           <ContactForm />
 
           <aside className="space-y-8">
-            <div className="border border-ink-900/15 p-6">
-              <p className="label">바로 연락</p>
+            <div className="contact-card">
+              <p className="sx-chip-label">바로 연락</p>
               <div className="mt-5 space-y-5">
                 {[
                   { k: "대표번호", v: COMPANY.tel, href: TEL_HREF },
@@ -58,23 +60,26 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="border border-ink-900/15 bg-forest-800 p-6 text-cream-100">
-              <p className="label label-on-dark">신규 수주 안내</p>
+            <div className="contact-card is-dark">
+              <p className="sx-chip-label">신규 수주 안내</p>
               <p className="prose-ko mt-3.5 text-sm text-cream-100/90">
                 닥터플래너스는 월 최대 4개 병원만 새로 맡습니다. 동일 상권의
                 동일 진료과는 중복해서 맡지 않습니다.
               </p>
             </div>
 
-            <div className="border border-ink-900/15 p-6">
-              <p className="label">진단부터 시작하기</p>
+            <div className="contact-card">
+              <p className="sx-chip-label">진단부터 시작하기</p>
               <p className="prose-ko mt-3.5 text-sm text-ink-700">
                 어떤 솔루션이 필요한지 아직 모르시겠다면
                 <br />
                 3분 진단을 먼저 받아보세요.
               </p>
-              <a href="/diagnosis" className="mt-5 inline-block">
-                <Button variant="outline">병원 진단 시작하기</Button>
+              <a href="/diagnosis" className="more-btn mt-5">
+                <span>병원 진단 시작하기</span>
+                <svg width="7" height="8" viewBox="0 0 7 8" fill="currentColor" aria-hidden="true">
+                  <path d="M7 4 0 8V0z" />
+                </svg>
               </a>
             </div>
 
@@ -83,9 +88,9 @@ export default function Page() {
       </Section>
 
       {/* 문의 전에 원장님이 품으실 의문 — 답은 사이트 곳곳에 있지만 여기 모읍니다 */}
-      <Section no="02" label="묻기 전에" tone="paper">
+      <Section en="Before You Ask" tone="paper">
         <H2>문의 전에, 이런 게 궁금하실 겁니다</H2>
-        <div className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-2">
+        <ol className="sx-cards sx-cards--2 is-light">
           {[
             {
               q: "마케팅 대행사와 뭐가 다른가요?",
@@ -112,20 +117,18 @@ export default function Page() {
               a: "병원 상황과 범위에 따라 달라 일률적으로 안내드리지 않습니다. 다만 3개월 미만 단발성 계약은 지양합니다 — 마케팅은 최소 분기 단위로 검증해야 하기 때문입니다.",
             },
           ].map((f, i) => (
-            <div
+            <li
               key={f.q}
-              className="border-r border-b border-ink-900/12 bg-cream-100 p-8"
+              className="sx-card"
               data-reveal
-              style={{ "--reveal-delay": `${i * 80}ms` } as React.CSSProperties}
+              style={{ "--reveal-delay": `${(i % 2) * 90}ms` } as React.CSSProperties}
             >
-              <div className="flex items-baseline gap-3">
-                <span className="label tnum">{String(i + 1).padStart(2, "0")}</span>
-                <p className="display-ko text-base md:text-lg">{f.q}</p>
-              </div>
-              <p className="prose-ko mt-4 text-sm text-ink-500">{f.a}</p>
-            </div>
+              <span className="sx-card-no tnum">{String(i + 1).padStart(2, "0")}</span>
+              <p className="sx-card-title">{f.q}</p>
+              <p className="sx-card-body">{f.a}</p>
+            </li>
           ))}
-        </div>
+        </ol>
       </Section>
     </>
   );

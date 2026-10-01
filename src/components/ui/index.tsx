@@ -22,15 +22,18 @@ export function Container({
  * tone: cream(기본) / forest(딥그린 밴드) / paper(살짝 밝은 크림)
  */
 export function Section({
-  no,
   label,
+  en,
   tone = "cream",
   children,
   className = "",
   id,
 }: {
+  /** 예전 "01 ──" 번호 — 더가든 문법에는 번호가 없어 표시하지 않습니다(호출부 호환용) */
   no?: string;
   label?: string;
+  /** 괄호 영문 라벨 "( Process )" — 있으면 한글 라벨 대신 이걸 씁니다 */
+  en?: string;
   tone?: "cream" | "forest" | "paper";
   children: ReactNode;
   className?: string;
@@ -39,30 +42,16 @@ export function Section({
   const tones = {
     cream: "bg-cream-100 text-ink-900",
     paper: "bg-cream-50 text-ink-900",
-    forest: "bg-forest-800 text-cream-100",
+    forest: "bg-forest-900 text-cream-100",
   };
   const dark = tone === "forest";
   return (
-    <section id={id} className={`${tones[tone]} ${className}`}>
+    <section id={id} className={`sx ${tones[tone]} ${className}`}>
       <Container className="py-20 md:py-28 lg:py-32">
-        {(no || label) && (
-          <div className="mb-12 flex items-center gap-4" data-reveal>
-            {no && <span className={`label ${dark ? "label-on-dark" : ""}`}>{no}</span>}
-            <span
-              className={`h-px w-8 ${dark ? "bg-cream-100/30" : "bg-ink-900/20"}`}
-              aria-hidden
-            />
-            {/* 라벨이 한글이면 자간을 좁힙니다 — .label 의 .2em 은 한글에서 너무 벌어집니다 */}
-            {label && (
-              <span
-                className={`label ${/[가-힣]/.test(label) ? "label-ko" : ""} ${
-                  dark ? "label-on-dark" : ""
-                }`}
-              >
-                {label}
-              </span>
-            )}
-          </div>
+        {(en || label) && (
+          <p className={`sx-cate ${en ? "" : "is-ko"} ${dark ? "is-dark" : ""}`} data-reveal>
+            {en ? `( ${en} )` : label}
+          </p>
         )}
         {children}
       </Container>
@@ -138,11 +127,9 @@ export function H2({
   /** 줄 단위로 차례차례 올라오게 합니다 (자식이 <span class="block"> 구조일 때) */
   lines?: boolean;
 }) {
+  // 색은 섹션 글자색을 물려받습니다 — 어두운 판에서도 따로 지정할 필요가 없습니다
   return (
-    <h2
-      className={`display-ko text-[1.75rem] leading-[1.32] md:text-[2.5rem] lg:text-[2.875rem] ${className}`}
-      data-lines={lines ? "" : undefined}
-    >
+    <h2 className={`sx-h2 ${className}`} data-lines={lines ? "" : undefined}>
       {children}
     </h2>
   );

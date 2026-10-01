@@ -7,7 +7,7 @@ export const metadata = pageMeta({
 });
 
 import { DiagnosisFlow } from "@/components/templates/DiagnosisFlow";
-import { Section, Container, BrassIcon, H2 } from "@/components/ui";
+import { Section, Container, H2 } from "@/components/ui";
 import { DIAGNOSIS } from "@/content/home";
 import { DIAGNOSIS_QUESTIONS } from "@/content/diagnosis";
 
@@ -118,66 +118,70 @@ export default function Page() {
       </section>
 
       {/* 01 — 무엇을 보는가 */}
-      <Section no="01" label="무엇을 보는가" tone="paper">
+      <Section en="What We Check" tone="paper">
         <H2>5가지를 봅니다</H2>
-        <div className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-2 lg:grid-cols-3">
+        <ol className="sx-cards sx-cards--3 is-light">
           {AREAS.map((a, i) => (
-            <div
+            <li
               key={a.area}
-              className="border-r border-b border-ink-900/12 bg-cream-100 p-8"
+              className="sx-card"
               data-reveal
-              style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
+              style={{ "--reveal-delay": `${(i % 3) * 90}ms` } as React.CSSProperties}
             >
-              <div className="flex items-center gap-3">
-                <span className="label tnum">{String(i + 1).padStart(2, "0")}</span>
-                <BrassIcon size={26} />
-              </div>
-              <p className="display-ko mt-5 text-lg">{a.area}</p>
-              <p className="prose-ko mt-3 text-sm text-ink-500">{a.why}</p>
-            </div>
+              <span className="sx-card-no tnum">{String(i + 1).padStart(2, "0")}</span>
+              <p className="sx-card-title">{a.area}</p>
+              <p className="sx-card-body">{a.why}</p>
+            </li>
           ))}
-          <div className="flex flex-col justify-center border-r border-b border-ink-900/12 bg-forest-800 p-8 text-cream-100">
-            <p className="label label-on-dark">왜 진단부터인가</p>
-            <p className="display-ko mt-4 text-xl">처방보다 진단이 먼저입니다.</p>
-            <p className="prose-ko mt-3 text-sm text-cream-100/70">
+          <li className="sx-card is-dark">
+            <p className="sx-chip-label">왜 진단부터인가</p>
+            <p className="sx-card-title">처방보다 진단이 먼저입니다.</p>
+            <p className="sx-card-body">
               유입이 없는 병원과, 유입은 있는데 예약으로 이어지지 않는 병원은 처방이
               완전히 다릅니다. 어디가 막혀 있는지 모르는 채로 실행이 빨라지면, 틀린
               곳에 더 빨리 도착할 뿐입니다.
             </p>
-          </div>
-        </div>
+          </li>
+        </ol>
       </Section>
 
       {/* 02 — 진행 순서 */}
-      <Section no="02" label="진행 방식">
+      <Section en="How It Works">
         <H2>어떻게 진행되나요</H2>
-        <ol className="mt-12 grid gap-px border-t border-l border-ink-900/12 md:grid-cols-4">
+        <ol className="sx-steps">
           {STEPS.map((s, i) => (
             <li
               key={s.t}
-              className="border-r border-b border-ink-900/12 bg-cream-100 p-7"
+              className="sx-step"
               data-reveal
               style={{ "--reveal-delay": `${i * 100}ms` } as React.CSSProperties}
             >
-              <span className="label tnum">STEP {i + 1}</span>
-              <p className="display-ko mt-4 text-base">{s.t}</p>
-              <p className="prose-ko mt-3 text-sm text-ink-500">{s.d}</p>
+              <div className="sx-step-top">
+                <span className="sx-step-no tnum">STEP {String(i + 1).padStart(2, "0")}</span>
+              </div>
+              <p className="sx-card-title">{s.t}</p>
+              <p className="sx-card-body">{s.d}</p>
             </li>
           ))}
         </ol>
       </Section>
 
       {/* 03 — 시작 전 궁금증 */}
-      <Section no="03" label="시작 전에" tone="paper">
+      <Section en="Before You Start" tone="paper">
         <H2>시작 전에 궁금하실 것</H2>
-        <div className="mt-10 border-t border-ink-900/15">
+        <div className="sx-faq is-left">
           {FAQ.map((f, i) => (
-            <details key={f.q} open={i === 0} className="border-b border-ink-900/15">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5">
-                <span className="display-ko text-base md:text-lg">{f.q}</span>
-                <span className="label shrink-0">+</span>
+            <details key={f.q} open={i === 0} className="faqx-item">
+              <summary className="faqx-q">
+                <span className="faqx-no tnum" aria-hidden="true">
+                  Q
+                </span>
+                <span className="faqx-q-text">{f.q}</span>
+                <span className="label faqx-plus" aria-hidden="true">
+                  +
+                </span>
               </summary>
-              <p className="prose-ko max-w-2xl pb-7 text-sm text-ink-500">{f.a}</p>
+              <p className="faqx-a">{f.a}</p>
             </details>
           ))}
         </div>

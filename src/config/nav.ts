@@ -7,6 +7,8 @@
 export type NavChild = {
   label: string;
   href: string;
+  /** 서브 히어로의 큰 세리프 영문 제목 — 장식입니다. 뜻은 한글 h1 이 집니다 */
+  en?: string;
   /** 솔루션 상세에서 부제로 쓰이는 한 줄 설명 */
   blurb?: string;
 };
@@ -17,6 +19,8 @@ export type NavItem = {
   /** 대표 명칭 — 헤더 대메뉴 / 드롭다운 헤딩 / 페이지 타이틀 */
   fullLabel: string;
   href: string;
+  /** 서브 히어로의 큰 세리프 영문 제목 — 장식입니다 */
+  en?: string;
   children?: NavChild[];
 };
 
@@ -24,65 +28,65 @@ export const NAV: NavItem[] = [
   {
     label: "닥터플래너스",
     fullLabel: "닥터플래너스",
-    href: "/about",
+    href: "/about", en: "About Dr.Planers",
     children: [
-      { label: "닥터플래너스 철학", href: "/about/philosophy", blurb: "We plan. You practice." },
-      { label: "회사소개", href: "/about/company", blurb: "조직 · 연혁 · 파트너" },
+      { label: "닥터플래너스 철학", href: "/about/philosophy", en: "Our Philosophy", blurb: "We plan. You practice." },
+      { label: "회사소개", href: "/about/company", en: "Company", blurb: "조직 · 연혁 · 파트너" },
     ],
   },
   {
     label: "성장 플래닝",
     fullLabel: "병원 성장 플래닝",
-    href: "/signature",
+    href: "/signature", en: "Growth Planning",
     children: [
-      { label: "원장 개인 브랜딩", href: "/signature/doctor", blurb: "원장님을 아는 사람이 병원을 찾습니다" },
-      { label: "개원 준비", href: "/signature/opening", blurb: "개원 준비부터 오픈까지" },
-      { label: "성장 재설계", href: "/signature/growth", blurb: "운영 중인 병원의 다음 구간" },
+      { label: "원장 개인 브랜딩", href: "/signature/doctor", en: "Doctor Branding", blurb: "원장님을 아는 사람이 병원을 찾습니다" },
+      { label: "개원 준비", href: "/signature/opening", en: "Opening Planning", blurb: "개원 준비부터 오픈까지" },
+      { label: "성장 재설계", href: "/signature/growth", en: "Growth Redesign", blurb: "운영 중인 병원의 다음 구간" },
     ],
   },
   {
     label: "브랜딩",
     fullLabel: "병원 브랜딩",
-    href: "/branding",
+    href: "/branding", en: "Clinic Branding",
     children: [
-      { label: "계정 운영", href: "/branding/account", blurb: "인스타 · 유튜브 · 블로그 채널 운영" },
-      { label: "플레이스 최적화", href: "/branding/place", blurb: "네이버 플레이스 상위 노출" },
-      { label: "언론보도", href: "/branding/press", blurb: "기사 · 인터뷰 · PR" },
-      { label: "대기실 영상 제작", href: "/branding/in-clinic-video", blurb: "대기실 · 진료실 화면에 트는 영상" },
-      { label: "영상 브랜딩", href: "/branding/video", blurb: "브랜드 필름 · 숏폼" },
+      { label: "계정 운영", href: "/branding/account", en: "Channel Management", blurb: "인스타 · 유튜브 · 블로그 채널 운영" },
+      { label: "플레이스 최적화", href: "/branding/place", en: "Place Optimization", blurb: "네이버 플레이스 상위 노출" },
+      { label: "언론보도", href: "/branding/press", en: "Press & PR", blurb: "기사 · 인터뷰 · PR" },
+      { label: "대기실 영상 제작", href: "/branding/in-clinic-video", en: "Waiting Room Film", blurb: "대기실 · 진료실 화면에 트는 영상" },
+      { label: "영상 브랜딩", href: "/branding/video", en: "Brand Film", blurb: "브랜드 필름 · 숏폼" },
     ],
   },
   {
     label: "마케팅",
     fullLabel: "병원 마케팅",
-    href: "/marketing",
+    href: "/marketing", en: "Clinic Marketing",
     children: [
-      { label: "검색 · 배너 광고", href: "/marketing/paid-ads", blurb: "네이버 · 구글 · 인스타 광고 집행" },
-      { label: "바이럴마케팅", href: "/marketing/viral", blurb: "카페 · 커뮤니티 · 체험단" },
-      { label: "의료광고심의 대행", href: "/marketing/review", blurb: "심의 접수부터 승인까지" },
-      { label: "인플루언서", href: "/marketing/influencer", blurb: "국내 · 해외 섭외부터 집행까지" },
-      { label: "해외 환자 유치", href: "/marketing/global-patients", blurb: "글로벌 채널 · 다국어" },
+      { label: "검색 · 배너 광고", href: "/marketing/paid-ads", en: "Search & Display Ads", blurb: "네이버 · 구글 · 인스타 광고 집행" },
+      { label: "바이럴마케팅", href: "/marketing/viral", en: "Viral Marketing", blurb: "카페 · 커뮤니티 · 체험단" },
+      { label: "의료광고심의 대행", href: "/marketing/review", en: "Ad Review Agency", blurb: "심의 접수부터 승인까지" },
+      { label: "인플루언서", href: "/marketing/influencer", en: "Influencer", blurb: "국내 · 해외 섭외부터 집행까지" },
+      { label: "해외 환자 유치", href: "/marketing/global-patients", en: "Global Patients", blurb: "글로벌 채널 · 다국어" },
     ],
   },
   {
     label: "홈페이지·검색",
     fullLabel: "홈페이지 · 검색 노출",
-    href: "/medical-ai",
+    href: "/medical-ai", en: "Website & Search",
     children: [
-      { label: "홈페이지 제작", href: "/medical-ai/website", blurb: "반응형 · 예약 연동" },
-      { label: "검색 노출 최적화", href: "/medical-ai/seo", blurb: "검색해서 들어오는 길 만들기" },
-      { label: "AI 검색 노출", href: "/medical-ai/aeo-geo", blurb: "챗GPT · AI 답변에 병원이 언급되게" },
+      { label: "홈페이지 제작", href: "/medical-ai/website", en: "Clinic Website", blurb: "반응형 · 예약 연동" },
+      { label: "검색 노출 최적화", href: "/medical-ai/seo", en: "Search Optimization", blurb: "검색해서 들어오는 길 만들기" },
+      { label: "AI 검색 노출", href: "/medical-ai/aeo-geo", en: "AI Search", blurb: "챗GPT · AI 답변에 병원이 언급되게" },
     ],
   },
   {
     label: "읽을거리",
     fullLabel: "읽을거리",
-    href: "/insight",
+    href: "/insight", en: "Insight",
     children: [
-      { label: "칼럼", href: "/insight/column", blurb: "병원 마케팅을 보는 관점" },
-      { label: "블로그", href: "/insight/blog", blurb: "실무 노트" },
-      { label: "자주 묻는 질문", href: "/insight/faq", blurb: "계약 · 기간 · 비용" },
-      { label: "공지사항", href: "/insight/notice", blurb: "소식 · 안내" },
+      { label: "칼럼", href: "/insight/column", en: "Column", blurb: "병원 마케팅을 보는 관점" },
+      { label: "블로그", href: "/insight/blog", en: "Blog", blurb: "실무 노트" },
+      { label: "자주 묻는 질문", href: "/insight/faq", en: "FAQ", blurb: "계약 · 기간 · 비용" },
+      { label: "공지사항", href: "/insight/notice", en: "Notice", blurb: "소식 · 안내" },
     ],
   },
 ];
@@ -151,4 +155,20 @@ export function findByHref(href: string) {
     if (child) return { ...child, parent: item.fullLabel };
   }
   return null;
+}
+
+/** 메뉴에 없는 페이지의 영문 이름 */
+const EXTRA_EN: Record<string, string> = {
+  "/contact": "Contact",
+  "/privacy": "Privacy Policy",
+};
+
+/** 경로의 영문 이름 — 서브 히어로에서 씁니다 */
+export function enFor(href: string): string | undefined {
+  for (const item of NAV) {
+    if (item.href === href) return item.en;
+    const child = item.children?.find((c) => c.href === href);
+    if (child) return child.en;
+  }
+  return EXTRA_EN[href];
 }

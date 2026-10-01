@@ -7,7 +7,8 @@ export const metadata = pageMeta({
 });
 
 import Link from "next/link";
-import { Section } from "@/components/ui";
+import { Section, H2 } from "@/components/ui";
+import { enFor } from "@/config/nav";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { ABOUT } from "@/config/images";
 import { COMPANY, ADDRESS_LINE } from "@/config/company";
@@ -52,72 +53,78 @@ export default function Page() {
       <PageHero
         crumbs={[{ label: "닥터플래너스", href: "/about" }, { label: "회사소개" }]}
         title="회사소개"
+        en={enFor("/about/company")}
         lead="조직 · 연혁 · 일하는 조건 · 오시는 길"
         mediaLabel="회사 전경 이미지"
         mediaSrc={ABOUT.company}
       />
 
       {/* 사진이 없는 팀에 빈 사각형을 그려두면 빠진 이미지로 읽힙니다 — 글로만 둡니다 */}
-      <Section no="01" label="조직">
-        <h2 className="text-2xl font-light md:text-3xl">조직</h2>
-        <ol className="team-list">
+      <Section en="Organization">
+        <H2>조직</H2>
+        <ol className="sx-cards sx-cards--4 is-light">
           {[
             { t: "전략", d: "진단과 플래닝 — 병원의 계획을 세우고 지킵니다." },
             { t: "브랜딩", d: "콘텐츠·디자인·영상 — 병원의 톤을 만듭니다." },
             { t: "퍼포먼스", d: "광고·데이터 — 예산이 예약이 되게 합니다." },
             { t: "메디컬 AI", d: "검색·AI 노출 — 발견되는 구조를 만듭니다." },
           ].map(({ t, d }, i) => (
-            <li key={t} data-reveal style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}>
-              <span className="display-serif tnum team-no">{String(i + 1).padStart(2, "0")}</span>
-              <p className="team-name">{t} 팀</p>
-              <p className="prose-ko team-body">{d}</p>
+            <li
+              key={t}
+              className="sx-card"
+              data-reveal
+              style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
+            >
+              <span className="sx-card-no tnum">{String(i + 1).padStart(2, "0")}</span>
+              <p className="sx-card-title">{t} 팀</p>
+              <p className="sx-card-body">{d}</p>
             </li>
           ))}
         </ol>
       </Section>
 
-      <Section no="02" label="연혁" tone="paper">
-        <h2 className="text-2xl font-light md:text-3xl">연혁</h2>
-        <ul className="mt-10 border-t border-ink-900/15">
-          {HISTORY.map((h) => (
+      <Section en="History" tone="paper">
+        <H2>연혁</H2>
+        <ol className="sx-rows">
+          {HISTORY.map((h, i) => (
             <li
               key={h.y}
-              className="grid gap-6 border-b border-ink-900/15 py-8 md:grid-cols-[160px_1fr]"
+              className="sx-row is-history"
+              data-reveal
+              style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
             >
-              <p className="display-ko text-xl font-light md:text-2xl">{h.y}</p>
-              <p className="prose-ko max-w-2xl text-sm text-ink-700">{h.body}</p>
+              <span className="sx-row-title">{h.y}</span>
+              <span className="sx-row-body">{h.body}</span>
             </li>
           ))}
-        </ul>
+        </ol>
       </Section>
 
-      <Section no="03" label="일하는 조건" tone="paper">
-        <h2 className="text-2xl font-light md:text-3xl">어떻게 일하는지</h2>
-        <p className="prose-ko mt-6 max-w-xl text-sm text-ink-500">
-          회사 실체를 확인하시는 자리이니, 지금 확정된 것만 적었습니다.
-        </p>
+      <Section en="How We Work">
+        <H2>어떻게 일하는지</H2>
+        <p className="sx-text">회사 실체를 확인하시는 자리이니, 지금 확정된 것만 적었습니다.</p>
 
-        <dl className="mt-10 grid gap-px border border-ink-900/12 bg-ink-900/12 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="sx-metrics sx-metrics--4">
           {FACTS.map((f) => (
-            <div key={f.k} className="bg-cream-50 p-6">
-              <dt className="label label-ko">{f.k}</dt>
-              <dd className="mt-3 text-lg font-light text-ink-900">{f.v}</dd>
-              <dd className="prose-ko mt-2 text-sm text-ink-500">{f.d}</dd>
+            <div key={f.k} className="sx-metric">
+              <dt className="sx-chip-label">{f.k}</dt>
+              <dd className="sx-metric-value">{f.v}</dd>
+              <dd className="sx-metric-note">{f.d}</dd>
             </div>
           ))}
         </dl>
 
         {OFFICE.length > 0 ? (
-          <dl className="mt-10 grid gap-px border border-ink-900/12 bg-ink-900/12 sm:grid-cols-3">
+          <dl className="sx-metrics sx-metrics--3">
             {OFFICE.map((o) => (
-              <div key={o.k} className="bg-cream-50 p-6">
-                <dt className="label label-ko">{o.k}</dt>
-                <dd className="prose-ko mt-2 text-sm text-ink-700">{o.v}</dd>
+              <div key={o.k} className="sx-metric">
+                <dt className="sx-chip-label">{o.k}</dt>
+                <dd className="sx-metric-note is-strong">{o.v}</dd>
               </div>
             ))}
           </dl>
         ) : (
-          <p className="mt-10 border-l-2 border-brass-500 py-3 pl-5 text-sm leading-relaxed text-ink-500">
+          <p className="sx-note">
             사무실 주소와 대표번호는 확정되는 대로 이 자리에 게재합니다. 그 전까지는{" "}
             <Link href="/contact" className="underline underline-offset-2">
               문의하기

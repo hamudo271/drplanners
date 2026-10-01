@@ -6,8 +6,10 @@ export const metadata = pageMeta({
   path: "/insight",
 });
 
+import Image from "next/image";
 import Link from "next/link";
-import { Section, Media } from "@/components/ui";
+import { Section, H2 } from "@/components/ui";
+import { enFor } from "@/config/nav";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { InsightTabs } from "@/components/templates/Insight";
 import { HUB_HERO, INSIGHT } from "@/config/images";
@@ -26,51 +28,52 @@ export default function Page() {
       <PageHero
         crumbs={[{ label: "메디컬 인사이트" }]}
         title="읽을거리"
+        en={enFor("/insight")}
         lead="의료 마케팅에 대한 닥터플래너스의 관점과 실무 기록입니다."
         mediaLabel="인사이트 키비주얼"
         mediaSrc={HUB_HERO["/insight"]}
       />
       <InsightTabs current="/insight" />
 
-      <Section no="01" label="추천 글">
-        <Link
-          href={`${featured.list}/${featured.slug}`}
-          className="grid gap-8 border border-ink-900/15 md:grid-cols-2"
-        >
-          <Media
-            label="대표 아티클 이미지"
-            ratio="aspect-[4/3]"
-            src={INSIGHT.featured}
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-          <div className="flex flex-col justify-center p-8">
-            <p className="label tnum">
+      <Section en="Featured">
+        <Link href={`${featured.list}/${featured.slug}`} className="feature-card" data-reveal>
+          <span className="feature-card-media">
+            <Image
+              src={INSIGHT.featured}
+              alt=""
+              fill
+              sizes="(max-width: 767px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </span>
+          <span className="feature-card-body">
+            <span className="post-card-meta tnum">
               {featured.category} · {featured.date} · {readingTime(featured)}분 읽기
-            </p>
-            <p className="display-ko mt-4 text-2xl leading-snug">{featured.title}</p>
-            <p className="prose-ko mt-5 text-sm text-ink-500">{featured.excerpt}</p>
-            <span className="label mt-8">읽어보기 →</span>
-          </div>
+            </span>
+            <span className="feature-card-title">{featured.title}</span>
+            <span className="post-card-excerpt">{featured.excerpt}</span>
+            <span className="post-card-more">VIEW MORE</span>
+          </span>
         </Link>
       </Section>
 
-      <Section no="02" label="최신 글" tone="paper">
-        <div className="flex items-baseline justify-between" data-reveal>
-          <h2 className="text-2xl font-light md:text-3xl">최신 글</h2>
-          <p className="label tnum">전체 {ARTICLES.length}건</p>
+      <Section en="Latest" tone="paper">
+        <div className="flex items-baseline justify-between gap-6" data-reveal>
+          <H2>최신 글</H2>
+          <p className="post-count tnum">전체 {ARTICLES.length}건</p>
         </div>
-        <ol className="latest-list">
+        <ol className="ins-list">
           {rest.map((a, i) => (
             <li key={a.slug} data-reveal style={{ "--reveal-delay": `${i * 60}ms` } as React.CSSProperties}>
-              <Link href={`${a.list}/${a.slug}`} className="latest-row group">
-                <span className="label tnum latest-meta">
-                  {a.category} · {a.date}
+              <Link href={`${a.list}/${a.slug}`} className="ins-row">
+                <span className="ins-row-head">
+                  <span className="ins-no tnum">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="ins-slash" aria-hidden="true" />
+                  <span className="ins-row-title">{a.title}</span>
                 </span>
-                <span className="latest-text">
-                  <span className="latest-title">{a.title}</span>
-                  <span className="prose-ko latest-excerpt">{a.excerpt}</span>
+                <span className="ins-row-meta tnum">
+                  {a.category} · {a.date} · {readingTime(a)}분 읽기
                 </span>
-                <span className="label tnum latest-time">{readingTime(a)}분</span>
               </Link>
             </li>
           ))}

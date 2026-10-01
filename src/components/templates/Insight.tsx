@@ -1,26 +1,32 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Section, Media, TextLines, BrassIcon, Button } from "@/components/ui";
 import { PageHero, CtaBand, findHub } from "./shared";
+import { enFor } from "@/config/nav";
 import { INSIGHT, cardImage } from "@/config/images";
 import { ARTICLES, readingTime, type Article } from "@/content/articles";
 
-/** 인사이트 4개 탭 — nav.ts에서 파생 */
+/** 인사이트 4개 탭 — nav.ts에서 파생. 메인 읽을거리와 같은 알약 버튼 */
 export function InsightTabs({ current }: { current: string }) {
   const hub = findHub("/insight");
   return (
-    <div className="border-b border-ink-900/15 bg-cream-100">
-      <div className="mx-auto flex w-full max-w-[1240px] gap-6 overflow-x-auto px-6 md:px-10">
+    <nav className="sx-tabs" aria-label="읽을거리 분류">
+      <div className="sx-tabs-inner">
+        <Link href="/insight" className="ins-tab" aria-current={current === "/insight" ? "page" : undefined}>
+          전체
+        </Link>
         {hub.children?.map((c) => (
           <Link
             key={c.href}
             href={c.href}
-            className={`shrink-0 py-4 text-sm ${ c.href === current ? "border-b-2 border-ink-900" : "text-ink-500" }`}
+            className="ins-tab"
+            aria-current={c.href === current ? "page" : undefined}
           >
             {c.label}
           </Link>
         ))}
       </div>
-    </div>
+    </nav>
   );
 }
 
@@ -36,7 +42,7 @@ export function ListTemplate({
 }) {
   return (
     <>
-      <PageHero crumbs={[{ label: "메디컬 인사이트", href: "/insight" }, { label: title }]} title={title} lead={lead} />
+      <PageHero crumbs={[{ label: "읽을거리", href: "/insight" }, { label: title }]} title={title} en={enFor(href)} lead={lead} />
       <InsightTabs current={href} />
 
       <Section>
@@ -44,10 +50,7 @@ export function ListTemplate({
           const posts = ARTICLES.filter((a) => a.list === href);
           if (posts.length === 0) {
             return (
-              <div
-                className="flex flex-col items-center border border-ink-900/15 bg-cream-50 px-8 py-24 text-center"
-                data-reveal
-              >
+              <div className="sx-empty" data-reveal>
                 <BrassIcon size={44} />
                 <p className="display-ko mt-8 text-lg md:text-xl">
                   첫 글을 준비하고 있습니다.
@@ -64,38 +67,36 @@ export function ListTemplate({
           }
           return (
             <>
-              <div className="flex items-baseline justify-between" data-reveal>
-                <p className="label tnum">전체 {posts.length}건</p>
-              </div>
+              <p className="post-count tnum" data-reveal>
+                전체 {posts.length}건
+              </p>
 
-              <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="post-grid">
                 {posts.map((a, i) => (
                   <Link
                     key={a.slug}
                     href={`${href}/${a.slug}`}
-                    className="group border border-ink-900/15 bg-cream-50"
+                    className="post-card"
                     data-reveal
-                    style={{ "--reveal-delay": `${i * 100}ms` } as React.CSSProperties}
+                    style={{ "--reveal-delay": `${(i % 3) * 100}ms` } as React.CSSProperties}
                   >
-                    <div className="overflow-hidden">
-                      <Media
-                        label="썸네일"
-                        ratio="aspect-[16/10]"
-                        className="border-b!"
+                    <span className="post-card-media">
+                      <Image
                         src={cardImage(i)}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        alt=""
+                        fill
+                        sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
+                        className="object-cover"
                       />
-                    </div>
-                    <div className="p-6">
-                      <p className="label tnum">
+                    </span>
+                    <span className="post-card-body">
+                      <span className="post-card-meta tnum">
                         {a.category} · {a.date} · {readingTime(a)}분 읽기
-                      </p>
-                      <p className="display-ko mt-3 text-base">{a.title}</p>
-                      <p className="prose-ko mt-3 line-clamp-3 text-sm text-ink-500">
-                        {a.excerpt}
-                      </p>
-                      <span className="label mt-6 block">읽어보기 →</span>
-                    </div>
+                      </span>
+                      <span className="post-card-title">{a.title}</span>
+                      <span className="post-card-excerpt">{a.excerpt}</span>
+                      <span className="post-card-more">VIEW MORE</span>
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -204,16 +205,17 @@ export function RealArticle({ article }: { article: Article }) {
       <article>
         <PageHero
           crumbs={[
-            { label: "메디컬 인사이트", href: "/insight" },
+            { label: "읽을거리", href: "/insight" },
             { label: article.category, href: article.list },
             { label: article.title },
           ]}
           title={article.title}
+          en={enFor(article.list)}
         />
 
         <Section>
           <div className="mx-auto max-w-[720px]">
-            <div className="label flex items-center justify-between border-b border-ink-900/15 pb-5">
+            <div className="article-meta">
               <span className="tnum">
                 {article.category} · {article.date} · {readingTime(article)}분 읽기
               </span>
