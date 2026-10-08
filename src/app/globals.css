@@ -530,10 +530,10 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
 
 /* 회사소개 — 팀 */
 
-/* 읽을거리 — 최신 글 */
+/* 인사이트 — 최신 글 */
 
 /* ═══════════════════════════════════════════════════════════
-   홈 읽을거리 — 대표 글 하나를 크게, 나머지는 줄로
+   홈 인사이트 — 대표 글 하나를 크게, 나머지는 줄로
    ═══════════════════════════════════════════════════════════ */
 
 /* ═══════════════════════════════════════════════════════════
@@ -914,7 +914,7 @@ html.js .bn-row[data-reveal]:not(.is-in) .bn-name { opacity: 0; }
 .prm-metric-label { font-size: 13px; color: rgb(255 255 255 / 60%); }
 .prm-note { margin-top: 40px; text-align: center; font-size: 13.5px; color: rgb(255 255 255 / 50%); }
 
-/* ── 읽을거리 (크림 + 옅은 판 · 포개진 카드) ── */
+/* ── 인사이트 (크림 + 옅은 판 · 포개진 카드) ── */
 .ins { position: relative; background: var(--color-cream-100); }
 .ins-layout { --gutter: 24px; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); min-height: 860px; }
 .ins-left { padding: 130px clamp(40px, 5vw, 90px) 130px var(--gutter); }
@@ -1307,7 +1307,7 @@ html.js .bn-row[data-reveal]:not(.is-in) .bn-name { opacity: 0; }
 .contact-card.is-dark .sx-chip-label { color: var(--color-brass-400); }
 .contact-card.is-dark p { color: rgb(255 255 255 / 86%) !important; }
 
-/* 읽을거리 탭 — 알약 */
+/* 인사이트 탭 — 알약 */
 .sx-tabs { position: relative; z-index: 2; background: var(--color-cream-100); border-bottom: 1px solid var(--hair); }
 .sx-tabs-inner { display: flex; justify-content: center; gap: 8px; max-width: 1400px; margin: 0 auto; padding: 22px 24px; overflow-x: auto; scrollbar-width: none; }
 .sx-tabs-inner::-webkit-scrollbar { display: none; }

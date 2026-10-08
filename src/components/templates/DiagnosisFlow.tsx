@@ -268,7 +268,7 @@ export function DiagnosisFlow() {
                 <Button variant="outline">홈으로</Button>
               </Link>
               <Link href="/insight">
-                <Button>읽을거리 보기</Button>
+                <Button>인사이트 보기</Button>
               </Link>
             </div>
           </div>

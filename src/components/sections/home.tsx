@@ -400,7 +400,7 @@ export function Evidence() {
   );
 }
 
-/* ══ 읽을거리 — 더가든 '컴포트 케어' 판 ═══════════════════
+/* ══ 인사이트 — 더가든 '컴포트 케어' 판 ═══════════════════
    왼쪽은 크림 바탕에 제목과 글 목록(흰 상자 줄), 오른쪽은 옅은 판 위에
    포개진 카드 두 장. 가장 최근 두 편이 카드, 그다음 세 편이 목록입니다. */
 function InsightCard({ a, src, back = false }: { a: Article; src: string; back?: boolean }) {
@@ -438,7 +438,7 @@ export function Insight() {
           <p className="ins-lead" data-reveal>
             {I.lead}
           </p>
-          <nav className="ins-tabs" aria-label="읽을거리 분류" data-reveal>
+          <nav className="ins-tabs" aria-label="인사이트 분류" data-reveal>
             {I.tabs.map((t) => (
               <Link key={t.href} href={t.href} className="ins-tab">
                 {t.label}
@@ -468,7 +468,7 @@ export function Insight() {
           </ol>
 
           <div className="ins-more" data-reveal>
-            <MoreButton href="/insight" label="읽을거리 전체 보기" text="VIEW ALL" />
+            <MoreButton href="/insight" label="인사이트 전체 보기" text="VIEW ALL" />
           </div>
         </div>
 

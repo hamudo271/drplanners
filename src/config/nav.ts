@@ -79,8 +79,8 @@ export const NAV: NavItem[] = [
     ],
   },
   {
-    label: "읽을거리",
-    fullLabel: "읽을거리",
+    label: "인사이트",
+    fullLabel: "인사이트",
     href: "/insight", en: "Insight",
     children: [
       { label: "칼럼", href: "/insight/column", en: "Column", blurb: "병원 마케팅을 보는 관점" },

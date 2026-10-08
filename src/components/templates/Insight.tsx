@@ -6,11 +6,11 @@ import { enFor } from "@/config/nav";
 import { INSIGHT, cardImage } from "@/config/images";
 import { ARTICLES, readingTime, type Article } from "@/content/articles";
 
-/** 인사이트 4개 탭 — nav.ts에서 파생. 메인 읽을거리와 같은 알약 버튼 */
+/** 인사이트 4개 탭 — nav.ts에서 파생. 메인 인사이트와 같은 알약 버튼 */
 export function InsightTabs({ current }: { current: string }) {
   const hub = findHub("/insight");
   return (
-    <nav className="sx-tabs" aria-label="읽을거리 분류">
+    <nav className="sx-tabs" aria-label="인사이트 분류">
       <div className="sx-tabs-inner">
         <Link href="/insight" className="ins-tab" aria-current={current === "/insight" ? "page" : undefined}>
           전체
@@ -42,7 +42,7 @@ export function ListTemplate({
 }) {
   return (
     <>
-      <PageHero crumbs={[{ label: "읽을거리", href: "/insight" }, { label: title }]} title={title} en={enFor(href)} lead={lead} />
+      <PageHero crumbs={[{ label: "인사이트", href: "/insight" }, { label: title }]} title={title} en={enFor(href)} lead={lead} />
       <InsightTabs current={href} />
 
       <Section>
@@ -205,7 +205,7 @@ export function RealArticle({ article }: { article: Article }) {
       <article>
         <PageHero
           crumbs={[
-            { label: "읽을거리", href: "/insight" },
+            { label: "인사이트", href: "/insight" },
             { label: article.category, href: article.list },
             { label: article.title },
           ]}

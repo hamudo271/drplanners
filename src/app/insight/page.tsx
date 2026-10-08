@@ -16,7 +16,7 @@ import { HUB_HERO, INSIGHT } from "@/config/images";
 import { ARTICLES, readingTime } from "@/content/articles";
 
 /**
- * 읽을거리 허브 — 분류 안내 카드가 아니라 실제 글 목록.
+ * 인사이트 허브 — 분류 안내 카드가 아니라 실제 글 목록.
  * 추천 글 하나를 크게, 나머지는 날짜순으로 전부 보여줍니다.
  * 글이 여덟 편뿐인데 "무엇을 다루나요" 카드로 가려두면 있는 것도 없어 보입니다.
  */
@@ -27,7 +27,7 @@ export default function Page() {
     <>
       <PageHero
         crumbs={[{ label: "메디컬 인사이트" }]}
-        title="읽을거리"
+        title="인사이트"
         en={enFor("/insight")}
         lead="의료 마케팅에 대한 닥터플래너스의 관점과 실무 기록입니다."
         mediaLabel="인사이트 키비주얼"

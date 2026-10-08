@@ -8,7 +8,7 @@ import { COMPANY, ADDRESS_LINE, TEL_HREF, LEGAL_LINE } from "@/config/company";
 const COLUMNS = [
   { title: "회사", hrefs: ["/about", "/about/philosophy", "/about/company"] },
   { title: "서비스", hrefs: ["/signature", "/branding", "/marketing", "/medical-ai"] },
-  { title: "읽을거리", hrefs: ["/insight/column", "/insight/blog", "/insight/faq", "/insight/notice"] },
+  { title: "인사이트", hrefs: ["/insight/column", "/insight/blog", "/insight/faq", "/insight/notice"] },
 ];
 
 /** nav.ts에서 라벨을 찾아옵니다 — 메뉴 변경 시 푸터도 같이 따라갑니다 */
