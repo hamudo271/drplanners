@@ -7,6 +7,7 @@ import { Reveal } from "@/components/layout/Reveal";
 import { Dock } from "@/components/layout/Dock";
 import { SITE } from "@/config/site";
 import { COMPANY, ADDRESS_LINE } from "@/config/company";
+import { RSS_ALTERNATE } from "@/lib/seo";
 
 /* 영문 디스플레이 — 라이트 웨이트 + 넓은 트래킹 */
 const jost = Jost({
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     "개원 마케팅",
     "닥터플래너스",
   ],
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", types: RSS_ALTERNATE },
   openGraph: {
     type: "website",
     locale: SITE.locale,

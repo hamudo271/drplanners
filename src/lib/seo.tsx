@@ -2,6 +2,14 @@ import type { Metadata } from "next";
 import { SITE } from "@/config/site";
 
 /**
+ * 페이지마다 alternates를 새로 쓰면 layout의 값이 통째로 덮이므로
+ * RSS 자동 탐지 링크를 여기서 함께 붙입니다.
+ */
+export const RSS_ALTERNATE = {
+  "application/rss+xml": [{ url: SITE.rss.path, title: SITE.rss.title }],
+};
+
+/**
  * 페이지 메타데이터 생성기.
  * title은 layout의 template(`%s | 닥터플래너스`)을 통해 자동 조합됩니다.
  */
@@ -22,7 +30,7 @@ export function pageMeta({
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: path, types: RSS_ALTERNATE },
     openGraph: {
       type,
       locale: SITE.locale,

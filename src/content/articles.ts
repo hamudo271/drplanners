@@ -457,3 +457,6 @@ export const latestArticles = (list?: Article["list"]) =>
   [...ARTICLES]
     .filter((a) => !list || a.list === list)
     .sort((a, b) => b.date.localeCompare(a.date));
+
+/** "2026.08.29" → 그날 오전 9시(KST) — 사이트맵 lastmod · RSS pubDate가 같은 시각을 씁니다 */
+export const articleDate = (a: Article) => new Date(`${a.date.replace(/\./g, "-")}T09:00:00+09:00`);

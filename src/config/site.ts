@@ -7,6 +7,8 @@ export const SITE = {
   description:
     "광고비는 쓰는데 신환이 늘지 않는 병원을 위한 마케팅 플래닝. 어디서 새는지 진단하고, 방향을 정하고, 실행까지 맡습니다. 브랜딩 · 플레이스 · 콘텐츠 · 광고 · 홈페이지 · 검색 노출.",
   locale: "ko_KR",
+  /** RSS 피드 — <head>의 자동 탐지 링크 · robots.txt · 서치 콘솔 제출에 같이 씁니다 */
+  rss: { path: "/rss.xml", title: "닥터플래너스 인사이트" },
   /** 카카오톡 채널 URL — 비어 있으면 플로팅 버튼을 그리지 않습니다 */
   kakaoChannel: process.env.NEXT_PUBLIC_KAKAO_CHANNEL_URL ?? "",
 } as const;

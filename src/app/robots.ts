@@ -7,6 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: `${SITE.url}/sitemap.xml`,
+    // 구글은 RSS도 사이트맵으로 받습니다 — 새 글이 더 빨리 잡힙니다
+    sitemap: [`${SITE.url}/sitemap.xml`, `${SITE.url}${SITE.rss.path}`],
   };
 }
