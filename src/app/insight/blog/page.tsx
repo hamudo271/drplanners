@@ -7,13 +7,18 @@ export const metadata = pageMeta({
 });
 
 import { ListTemplate } from "@/components/templates/Insight";
+import { getFeed } from "@/lib/cms/posts";
 
-export default function Page() {
+export const dynamic = "force-dynamic";
+
+export default async function Page() {
+  const posts = await getFeed("BLOG");
   return (
     <ListTemplate
       href="/insight/blog"
       title="블로그"
       lead="실무에서 쌓인 기록과 노트."
+      posts={posts}
     />
   );
 }

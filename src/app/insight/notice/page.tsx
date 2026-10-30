@@ -11,8 +11,12 @@ import { Section, BrassIcon } from "@/components/ui";
 import { enFor } from "@/config/nav";
 import { PageHero } from "@/components/templates/shared";
 import { InsightTabs } from "@/components/templates/Insight";
+import { getFeed } from "@/lib/cms/posts";
 
-export default function Page() {
+export const dynamic = "force-dynamic";
+
+export default async function Page() {
+  const notices = await getFeed("NOTICE");
   return (
     <>
       <PageHero
@@ -24,6 +28,27 @@ export default function Page() {
       <InsightTabs current="/insight/notice" />
 
       <Section>
+        {notices.length > 0 ? (
+          <>
+            <p className="post-count tnum" data-reveal>
+              전체 {notices.length}건
+            </p>
+            <ol className="ins-list">
+              {notices.map((n, i) => (
+                <li key={n.slug} data-reveal style={{ "--reveal-delay": `${Math.min(i, 6) * 60}ms` } as React.CSSProperties}>
+                  <Link href={`/insight/notice/${n.slug}`} className="ins-row">
+                    <span className="ins-row-head">
+                      <span className="ins-no tnum">{String(notices.length - i).padStart(2, "0")}</span>
+                      <span className="ins-slash" aria-hidden="true" />
+                      <span className="ins-row-title">{n.title}</span>
+                    </span>
+                    <span className="ins-row-meta tnum">{n.date}</span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </>
+        ) : (
         <div className="sx-empty" data-reveal>
           <BrassIcon size={44} />
           <p className="display-ko mt-8 text-lg md:text-xl">
@@ -40,8 +65,8 @@ export default function Page() {
             </svg>
           </Link>
         </div>
+        )}
       </Section>
-
     </>
   );
 }

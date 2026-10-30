@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Reveal } from "@/components/layout/Reveal";
 import { Dock } from "@/components/layout/Dock";
+import { HideOnAdmin } from "@/components/layout/HideOnAdmin";
 import { SITE } from "@/config/site";
 import { COMPANY, ADDRESS_LINE } from "@/config/company";
 import { RSS_ALTERNATE } from "@/lib/seo";
@@ -149,11 +150,15 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
         />
         <Reveal />
-        <a href="#main-content" className="skip-link">본문으로 바로가기</a>
-        <Header />
+        <HideOnAdmin>
+          <a href="#main-content" className="skip-link">본문으로 바로가기</a>
+          <Header />
+        </HideOnAdmin>
         <main id="main-content">{children}</main>
-        <Footer />
-        <Dock kakaoUrl={SITE.kakaoChannel || undefined} />
+        <HideOnAdmin>
+          <Footer />
+          <Dock kakaoUrl={SITE.kakaoChannel || undefined} />
+        </HideOnAdmin>
       </body>
     </html>
   );

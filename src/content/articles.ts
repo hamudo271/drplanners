@@ -460,3 +460,31 @@ export const latestArticles = (list?: Article["list"]) =>
 
 /** "2026.08.29" → 그날 오전 9시(KST) — 사이트맵 lastmod · RSS pubDate가 같은 시각을 씁니다 */
 export const articleDate = (a: Article) => new Date(`${a.date.replace(/\./g, "-")}T09:00:00+09:00`);
+
+const escHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/**
+ * 블록 → HTML. 관리자 에디터가 만드는 HTML과 같은 모양이라,
+ * 공개 페이지 · RSS · "기존 글 가져오기"가 모두 이 결과를 씁니다.
+ */
+export function articleHtml(a: Article) {
+  return a.blocks
+    .map((b) => {
+      switch (b.t) {
+        case "p":
+          return `<p>${escHtml(b.text)}</p>`;
+        case "lead":
+          return `<p><strong>${escHtml(b.text)}</strong></p>`;
+        case "h2":
+          return `<h2>${escHtml(b.text)}</h2>`;
+        case "h3":
+          return `<h3>${escHtml(b.text)}</h3>`;
+        case "quote":
+          return `<blockquote><p>${escHtml(b.text)}</p></blockquote>`;
+        case "ul":
+          return `<ul>${b.items.map((i) => `<li><p>${escHtml(i)}</p></li>`).join("")}</ul>`;
+      }
+    })
+    .join("");
+}

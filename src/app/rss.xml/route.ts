@@ -1,16 +1,17 @@
 import { SITE } from "@/config/site";
 import { COMPANY } from "@/config/company";
 import { INSIGHT } from "@/config/images";
-import { latestArticles, articleDate, type Article, type ArticleBlock } from "@/content/articles";
+import { getFeed, type FeedPost } from "@/lib/cms/posts";
 
 /**
  * RSS 2.0 피드 — 네이버 서치어드바이저 "RSS 제출" · 구글 서치 콘솔 사이트맵 제출용 (/rss.xml)
  *
  * 네이버는 RSS로 새 글을 빠르게 수집하고, 본문이 들어 있을수록 잘 읽습니다.
  * 그래서 요약(description)만이 아니라 전문(content:encoded)을 함께 싣습니다.
- * 빌드 때 한 번 만들어 정적 파일처럼 내보냅니다 — 글은 articles.ts에서 옵니다.
+ * 글은 관리자(DB)에서, DB가 없으면 articles.ts 에서 옵니다.
+ * 발행하면 즉시 다시 만들고(revalidatePath), 그 외에는 한 시간마다 갱신합니다.
  */
-export const dynamic = "force-static";
+export const revalidate = 3600;
 
 const FEED_PATH = "/rss.xml";
 const FEED_TITLE = `${SITE.name} 인사이트`;
@@ -28,37 +29,23 @@ const esc = (s: string) =>
 /** CDATA 안에 "]]>"가 들어가면 구간이 끊기므로 쪼개서 이어 붙입니다 */
 const cdata = (s: string) => `<![CDATA[${s.replace(/]]>/g, "]]]]><![CDATA[>")}]]>`;
 
-/** 본문 블록 → HTML (content:encoded) */
-function blockHtml(b: ArticleBlock): string {
-  switch (b.t) {
-    case "p":
-      return `<p>${esc(b.text)}</p>`;
-    case "lead":
-      return `<p><strong>${esc(b.text)}</strong></p>`;
-    case "h2":
-      return `<h2>${esc(b.text)}</h2>`;
-    case "h3":
-      return `<h3>${esc(b.text)}</h3>`;
-    case "quote":
-      return `<blockquote><p>${esc(b.text)}</p></blockquote>`;
-    case "ul":
-      return `<ul>${b.items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`;
-  }
-}
+/** 본문 속 /media/... 같은 상대 주소는 리더기에서 깨지므로 절대 주소로 바꿉니다 */
+const absolutize = (html: string) => html.replace(/(src|href)="\/(?!\/)/g, `$1="${SITE.url}/`);
 
-function item(a: Article) {
+function item(a: FeedPost) {
   const url = `${SITE.url}${a.list}/${a.slug}`;
-  const image = `${SITE.url}${INSIGHT.articleHero}`;
+  const thumb = a.thumbnail ?? INSIGHT.articleHero;
+  const image = thumb.startsWith("/") ? `${SITE.url}${thumb}` : thumb;
   const body =
     `<p><img src="${image}" alt="${esc(a.title)}" /></p>` +
-    a.blocks.map(blockHtml).join("\n") +
+    absolutize(a.html) +
     `\n<p><a href="${SITE.url}/diagnosis">무료 병원 진단 받기 →</a></p>`;
 
   return `    <item>
       <title>${esc(a.title)}</title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
-      <pubDate>${articleDate(a).toUTCString()}</pubDate>
+      <pubDate>${a.publishedAt.toUTCString()}</pubDate>
       <dc:creator>${esc(SITE.name)}</dc:creator>
       <category>${esc(a.category)}</category>
       <description>${cdata(a.excerpt)}</description>
@@ -67,9 +54,9 @@ function item(a: Article) {
     </item>`;
 }
 
-export function GET() {
-  const articles = latestArticles();
-  const updated = articles[0] ? articleDate(articles[0]) : new Date();
+export async function GET() {
+  const articles = await getFeed();
+  const updated = articles[0]?.publishedAt ?? new Date();
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"

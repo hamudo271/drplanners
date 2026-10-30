@@ -4,7 +4,7 @@ import { Section, Media, TextLines, BrassIcon, Button } from "@/components/ui";
 import { PageHero, CtaBand, findHub } from "./shared";
 import { enFor } from "@/config/nav";
 import { INSIGHT, cardImage } from "@/config/images";
-import { ARTICLES, readingTime, type Article } from "@/content/articles";
+import type { FeedPost } from "@/lib/cms/posts";
 
 /** 인사이트 4개 탭 — nav.ts에서 파생. 메인 인사이트와 같은 알약 버튼 */
 export function InsightTabs({ current }: { current: string }) {
@@ -35,10 +35,12 @@ export function ListTemplate({
   href,
   title,
   lead,
+  posts,
 }: {
   href: string;
   title: string;
   lead: string;
+  posts: FeedPost[];
 }) {
   return (
     <>
@@ -47,7 +49,6 @@ export function ListTemplate({
 
       <Section>
         {(() => {
-          const posts = ARTICLES.filter((a) => a.list === href);
           if (posts.length === 0) {
             return (
               <div className="sx-empty" data-reveal>
@@ -82,7 +83,7 @@ export function ListTemplate({
                   >
                     <span className="post-card-media">
                       <Image
-                        src={cardImage(i)}
+                        src={a.thumbnail ?? cardImage(i)}
                         alt=""
                         fill
                         sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
@@ -91,7 +92,7 @@ export function ListTemplate({
                     </span>
                     <span className="post-card-body">
                       <span className="post-card-meta tnum">
-                        {a.category} · {a.date} · {readingTime(a)}분 읽기
+                        {a.category} · {a.date} · {a.minutes}분 읽기
                       </span>
                       <span className="post-card-title">{a.title}</span>
                       <span className="post-card-excerpt">{a.excerpt}</span>
@@ -110,96 +111,8 @@ export function ListTemplate({
   );
 }
 
-/** 템플릿 5 — 아티클 상세 */
-export function ArticleTemplate({
-  backHref,
-  category,
-}: {
-  backHref: string;
-  category: string;
-}) {
-  return (
-    <>
-      <article>
-        <PageHero
-          crumbs={[
-            { label: "메디컬 인사이트", href: "/insight" },
-            { label: category, href: backHref },
-            { label: "아티클 제목" },
-          ]}
-          title="아티클 제목이 이 자리에 들어갑니다"
-        />
-
-        <Section>
-          <div className="mx-auto max-w-[720px]">
-            <div className="label flex items-center justify-between border-b border-ink-900/15 pb-4">
-              <span>{category} · 2026.05.20</span>
-              <span>공유 · 링크복사</span>
-            </div>
-
-            <Media
-              label="대표 이미지"
-              ratio="aspect-[16/9]"
-              className="mt-8"
-              src={INSIGHT.articleHero}
-              sizes="(max-width: 760px) 100vw, 720px"
-            />
-
-            {/* 본문 — 문단 / 소제목 / 인용 / 이미지 반복 */}
-            <TextLines n={5} className="mt-10" />
-            <h2 className="mt-12 text-xl font-medium">소제목이 들어갑니다</h2>
-            <TextLines n={6} className="mt-5" />
-            <blockquote className="mt-10 border-l-2 border-ink-900 pl-6">
-              <TextLines n={2} />
-            </blockquote>
-            <Media
-              label="본문 이미지"
-              ratio="aspect-[16/9]"
-              className="mt-10"
-              src={INSIGHT.articleBody}
-              sizes="(max-width: 760px) 100vw, 720px"
-            />
-            <TextLines n={7} className="mt-10" />
-
-            {/* 하단 CTA + 태그 */}
-            <div className="mt-14 flex flex-wrap gap-2 border-t border-ink-900/15 pt-8">
-              {["의료마케팅", "SEO", "브랜딩"].map((t) => (
-                <span key={t} className="border border-ink-900/15 px-3 py-1.5 text-xs text-ink-500">
-                  #{t}
-                </span>
-              ))}
-            </div>
-          </div>
-        </Section>
-
-        <Section label="함께 보면 좋은 것" tone="paper">
-          <h2 className="text-xl font-light md:text-2xl">함께 읽으면 좋은 글</h2>
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
-            {[0, 1, 2].map((i) => (
-              <Link key={i} href={`${backHref}/sample-post`} className="border border-ink-900/15 bg-cream-100">
-                <Media
-                  label="썸네일"
-                  ratio="aspect-[16/10]"
-                  className="border-b!"
-                  src={cardImage(i + 4)}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-                <div className="p-5">
-                  <TextLines n={2} />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Section>
-      </article>
-      <CtaBand kind="insight" />
-    </>
-  );
-}
-
-
-/* ── 실제 아티클 뷰 — content/articles.ts 기반 ─────────── */
-export function RealArticle({ article }: { article: Article }) {
+/* ── 실제 아티클 뷰 — 관리자(DB) 글과 정적 글이 같은 HTML 본문을 씁니다 ─── */
+export function RealArticle({ article }: { article: FeedPost }) {
   return (
     <>
       <article>
@@ -217,70 +130,21 @@ export function RealArticle({ article }: { article: Article }) {
           <div className="mx-auto max-w-[720px]">
             <div className="article-meta">
               <span className="tnum">
-                {article.category} · {article.date} · {readingTime(article)}분 읽기
+                {article.category} · {article.date} · {article.minutes}분 읽기
               </span>
               <span>DR.PLANERS</span>
             </div>
 
-            {/* 대표 이미지는 두지 않습니다 — 24장 목업을 돌려 쓰면 모든 글이 같은 사진으로 시작합니다 */}
-            <div className="mt-10">
-              {article.blocks.map((b, i) => {
-                switch (b.t) {
-                  case "h2":
-                    return (
-                      <h2
-                        key={i}
-                        className="display-ko mt-16 mb-6 text-xl md:text-2xl"
-                      >
-                        {b.text}
-                      </h2>
-                    );
-                  case "h3":
-                    return (
-                      <h3
-                        key={i}
-                        className="mt-10 mb-3 text-base font-medium tracking-wide text-ink-900"
-                      >
-                        {b.text}
-                      </h3>
-                    );
-                  case "lead":
-                    return (
-                      <p
-                        key={i}
-                        className="display-ko my-8 text-lg text-ink-900 md:text-xl"
-                      >
-                        {b.text}
-                      </p>
-                    );
-                  case "quote":
-                    return (
-                      <blockquote
-                        key={i}
-                        className="display-ko my-8 border-l-2 border-brass-500 pl-6 text-lg text-ink-700"
-                      >
-                        “{b.text}”
-                      </blockquote>
-                    );
-                  case "ul":
-                    return (
-                      <ul key={i} className="my-5 space-y-2.5 pl-1">
-                        {b.items.map((it) => (
-                          <li key={it} className="prose-ko flex gap-3 text-[0.9375rem] text-ink-700">
-                            <span className="mt-[0.7em] h-1 w-1 shrink-0 rounded-full bg-brass-500" />
-                            {it}
-                          </li>
-                        ))}
-                      </ul>
-                    );
-                  default:
-                    return (
-                      <p key={i} className="prose-ko mb-5 text-[0.9375rem] text-ink-700">
-                        {b.text}
-                      </p>
-                    );
-                }
-              })}
+            {/* 본문 HTML 은 저장할 때 허용 태그만 남겨 둔 것입니다 (lib/cms/sanitize.ts) */}
+            <div className="article-body" dangerouslySetInnerHTML={{ __html: article.html }} />
+
+            <div className="article-foot">
+              <Link href={article.list} className="more-btn">
+                <span>목록으로</span>
+                <svg width="7" height="8" viewBox="0 0 7 8" fill="currentColor" aria-hidden="true">
+                  <path d="M7 4 0 8V0z" />
+                </svg>
+              </Link>
             </div>
           </div>
         </Section>

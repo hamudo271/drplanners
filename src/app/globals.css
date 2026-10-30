@@ -1338,6 +1338,37 @@ html.js .bn-row[data-reveal]:not(.is-in) .bn-name { opacity: 0; }
 /* 글 상세 머리줄 */
 .article-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--hair); font-size: 13px; letter-spacing: .04em; color: var(--color-ink-500); }
 
+/* ── 아티클 본문 — 관리자 에디터가 만드는 HTML 과 정적 글이 같은 모양으로 ──
+   에디터 화면에도 같은 클래스를 입혀, 보이는 그대로 발행됩니다. */
+.article-body { margin-top: 40px; font-size: 0.9375rem; line-height: 1.9; font-weight: 300; color: var(--color-ink-700); overflow-wrap: anywhere; }
+.article-body > :first-child { margin-top: 0; }
+.article-body p { margin: 0 0 1.25rem; }
+.article-body strong { font-weight: 500; color: var(--color-ink-900); }
+.article-body h2 { margin: 4rem 0 1.5rem; font-family: var(--font-display); font-weight: 300; line-height: 1.32; letter-spacing: -0.015em; font-size: 1.25rem; color: var(--color-ink-900); }
+.article-body h3 { margin: 2.5rem 0 .75rem; font-size: 1rem; font-weight: 500; letter-spacing: .02em; color: var(--color-ink-900); }
+.article-body blockquote { margin: 2rem 0; padding-left: 1.5rem; border-left: 2px solid var(--color-brass-500); font-family: var(--font-display); font-size: 1.125rem; line-height: 1.6; color: var(--color-ink-700); }
+.article-body blockquote p { margin: 0; }
+.article-body blockquote p:first-child::before { content: "“"; }
+.article-body blockquote p:last-child::after { content: "”"; }
+.article-body ul, .article-body ol { margin: 1.25rem 0; padding-left: 0; list-style: none; }
+.article-body li { position: relative; margin: .625rem 0; padding-left: 1.25rem; }
+.article-body li p { margin: 0; }
+.article-body ul > li::before { content: ""; position: absolute; left: .25rem; top: .85em; width: 4px; height: 4px; border-radius: 50%; background: var(--color-brass-500); }
+.article-body ol { counter-reset: ol; }
+.article-body ol > li { counter-increment: ol; padding-left: 1.75rem; }
+.article-body ol > li::before { content: counter(ol, decimal-leading-zero); position: absolute; left: 0; font-size: .8em; letter-spacing: .04em; color: var(--color-brass-600); font-variant-numeric: lining-nums tabular-nums; top: .2em; }
+.article-body a { color: var(--color-ink-900); text-decoration: underline; text-decoration-color: var(--color-brass-500); text-underline-offset: 4px; }
+.article-body img { display: block; width: 100%; height: auto; margin: 2.5rem 0; border-radius: 14px; }
+.article-body hr { margin: 3rem auto; width: 40px; border: 0; border-top: 1px solid var(--color-brass-500); }
+@media (min-width: 768px) { .article-body h2 { font-size: 1.5rem; } }
+.article-foot { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--hair); display: flex; justify-content: center; }
+
+/* 관리자 에디터 — 공개 본문 스타일 위에 편집용 여백만 */
+.admin-editor-body { margin-top: 0; min-height: 460px; padding: 28px 32px 48px; outline: none; }
+.admin-editor-body img.ProseMirror-selectednode { outline: 2px solid var(--color-forest-700); outline-offset: 2px; }
+.admin-editor-body p.is-editor-empty:first-child::before { content: attr(data-placeholder); float: left; height: 0; pointer-events: none; color: var(--color-ink-400); }
+@media (max-width: 767px) { .admin-editor-body { padding: 20px 18px 36px; } }
+
 @media (max-width: 1023px) {
   .sx-split.is-reverse { grid-template-columns: 1fr; }
   .sx-split.is-reverse .sx-photo { order: 2; }

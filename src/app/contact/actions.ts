@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { parseContactForm, type ContactState } from "@/lib/contact";
 import { sendContactEmail } from "@/lib/mailer";
+import { saveInquiry, markMailed } from "@/lib/cms/inquiries";
 import {
   guard,
   rateLimited,
@@ -49,7 +50,23 @@ export async function submitContact(
     return { status: "error", message: RATE_LIMITED, values };
   }
 
-  const result = await sendContactEmail(parsed.data);
+  const d = parsed.data;
+  const saved = await saveInquiry({
+    kind: "CONTACT",
+    clinic: d.clinic,
+    department: d.department,
+    name: d.name,
+    position: d.title,
+    phone: d.phone,
+    email: d.email,
+    interests: d.interests,
+    message: d.message,
+  });
+
+  const result = await sendContactEmail(d);
+  await markMailed(saved, result.ok && !result.devMode);
+  // 메일이 실패해도 DB에 남았으면 접수된 것입니다 — 관리자 화면에서 확인
+  if (saved !== null) return { status: "success", message: SUCCESS };
   if (!result.ok) {
     return { status: "error", message: failureMessage(result.reason), values };
   }

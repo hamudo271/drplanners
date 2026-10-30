@@ -7,13 +7,18 @@ export const metadata = pageMeta({
 });
 
 import { ListTemplate } from "@/components/templates/Insight";
+import { getFeed } from "@/lib/cms/posts";
 
-export default function Page() {
+export const dynamic = "force-dynamic";
+
+export default async function Page() {
+  const posts = await getFeed("COLUMN");
   return (
     <ListTemplate
       href="/insight/column"
       title="칼럼"
       lead="의료 마케팅을 바라보는 관점을 정리한 글입니다."
+      posts={posts}
     />
   );
 }

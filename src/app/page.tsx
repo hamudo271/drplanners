@@ -22,6 +22,9 @@ import {
  * CTA는 상단(히어로 링크) · 중단(병목) · 하단(마지막) 3회만 나옵니다.
  * 목적지는 전부 /diagnosis 하나입니다.
  */
+/** 메인의 인사이트 카드가 관리자에서 올린 새 글을 따라오도록 1분마다 다시 그립니다 */
+export const revalidate = 60;
+
 export default function HomePage() {
   return (
     <div className="home-page">

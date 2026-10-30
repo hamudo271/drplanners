@@ -13,15 +13,18 @@ import { enFor } from "@/config/nav";
 import { PageHero, CtaBand } from "@/components/templates/shared";
 import { InsightTabs } from "@/components/templates/Insight";
 import { HUB_HERO, INSIGHT } from "@/config/images";
-import { ARTICLES, readingTime } from "@/content/articles";
+import { getFeed } from "@/lib/cms/posts";
+
+export const dynamic = "force-dynamic";
 
 /**
  * 인사이트 허브 — 분류 안내 카드가 아니라 실제 글 목록.
  * 추천 글 하나를 크게, 나머지는 날짜순으로 전부 보여줍니다.
  * 글이 여덟 편뿐인데 "무엇을 다루나요" 카드로 가려두면 있는 것도 없어 보입니다.
  */
-export default function Page() {
-  const [featured, ...rest] = [...ARTICLES].sort((a, b) => (a.date < b.date ? 1 : -1));
+export default async function Page() {
+  const all = (await getFeed()).filter((a) => a.board !== "NOTICE");
+  const [featured, ...rest] = all;
 
   return (
     <>
@@ -35,11 +38,12 @@ export default function Page() {
       />
       <InsightTabs current="/insight" />
 
+      {featured && (
       <Section en="Featured">
         <Link href={`${featured.list}/${featured.slug}`} className="feature-card" data-reveal>
           <span className="feature-card-media">
             <Image
-              src={INSIGHT.featured}
+              src={featured.thumbnail ?? INSIGHT.featured}
               alt=""
               fill
               sizes="(max-width: 767px) 100vw, 50vw"
@@ -48,7 +52,7 @@ export default function Page() {
           </span>
           <span className="feature-card-body">
             <span className="post-card-meta tnum">
-              {featured.category} · {featured.date} · {readingTime(featured)}분 읽기
+              {featured.category} · {featured.date} · {featured.minutes}분 읽기
             </span>
             <span className="feature-card-title">{featured.title}</span>
             <span className="post-card-excerpt">{featured.excerpt}</span>
@@ -56,11 +60,12 @@ export default function Page() {
           </span>
         </Link>
       </Section>
+      )}
 
       <Section en="Latest" tone="paper">
         <div className="flex items-baseline justify-between gap-6" data-reveal>
           <H2>최신 글</H2>
-          <p className="post-count tnum">전체 {ARTICLES.length}건</p>
+          <p className="post-count tnum">전체 {all.length}건</p>
         </div>
         <ol className="ins-list">
           {rest.map((a, i) => (
@@ -72,7 +77,7 @@ export default function Page() {
                   <span className="ins-row-title">{a.title}</span>
                 </span>
                 <span className="ins-row-meta tnum">
-                  {a.category} · {a.date} · {readingTime(a)}분 읽기
+                  {a.category} · {a.date} · {a.minutes}분 읽기
                 </span>
               </Link>
             </li>

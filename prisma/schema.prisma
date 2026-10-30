@@ -1,0 +1,89 @@
+// 닥터플래너스 CMS — Railway Postgres (DATABASE_URL)
+// 스키마를 바꾸면: npx prisma migrate dev --name <이름>  (로컬 DB 필요)
+// 배포 때는 scripts/start.sh 가 prisma migrate deploy 로 적용합니다.
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// 인사이트 글 — 칼럼 · 블로그 · 공지사항
+enum PostBoard {
+  COLUMN
+  BLOG
+  NOTICE
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Post {
+  id           Int        @id @default(autoincrement())
+  board        PostBoard
+  title        String
+  slug         String     @unique
+  /// 본문 HTML (Tiptap) — 저장 전에 허용 태그만 남깁니다
+  content      String
+  excerpt      String?
+  thumbnailUrl String?
+  status       PostStatus @default(DRAFT)
+  /// 처음 발행한 시각 — 임시저장으로 돌렸다 다시 발행해도 유지됩니다
+  publishedAt  DateTime?
+  viewCount    Int        @default(0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([board, status, publishedAt])
+}
+
+/// 관리자에서 올린 이미지 — 별도 스토리지 없이 DB에 보관하고 /media/[id] 로 내보냅니다
+model Media {
+  id        String   @id @default(cuid())
+  filename  String
+  mimeType  String
+  size      Int
+  data      Bytes
+  createdAt DateTime @default(now())
+}
+
+enum InquiryKind {
+  CONTACT
+  DIAGNOSIS
+}
+
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  DONE
+}
+
+/// 문의 · 무료 진단 접수 — 메일 발송과 별개로 항상 저장됩니다
+model Inquiry {
+  id         Int           @id @default(autoincrement())
+  kind       InquiryKind
+  status     InquiryStatus @default(NEW)
+  clinic     String
+  department String
+  name       String
+  position   String?
+  phone      String
+  email      String
+  interests  String[]
+  message    String?
+  /// 진단 문항 응답 — [{ q, a }]
+  answers    Json?
+  /// 메일 발송 결과 — 실패했다면 관리자 화면에서 바로 보이게
+  mailed     Boolean       @default(false)
+  memo       String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}

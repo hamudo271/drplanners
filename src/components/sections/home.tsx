@@ -4,7 +4,7 @@ import { Container } from "@/components/ui";
 import * as C from "@/content/home";
 import { BUDGET_FUNNEL } from "@/content/diagrams";
 import { HOME } from "@/config/images";
-import { latestArticles, readingTime, type Article } from "@/content/articles";
+import { getFeed, type FeedPost } from "@/lib/cms/posts";
 import { ProcessTrack } from "./ProcessTrack";
 
 /* ══ 첫 두 화면(히어로 · Why) ═════════════════════════
@@ -403,7 +403,7 @@ export function Evidence() {
 /* ══ 인사이트 — 더가든 '컴포트 케어' 판 ═══════════════════
    왼쪽은 크림 바탕에 제목과 글 목록(흰 상자 줄), 오른쪽은 옅은 판 위에
    포개진 카드 두 장. 가장 최근 두 편이 카드, 그다음 세 편이 목록입니다. */
-function InsightCard({ a, src, back = false }: { a: Article; src: string; back?: boolean }) {
+function InsightCard({ a, src, back = false }: { a: FeedPost; src: string; back?: boolean }) {
   return (
     <Link
       href={`${a.list}/${a.slug}`}
@@ -412,11 +412,11 @@ function InsightCard({ a, src, back = false }: { a: Article; src: string; back?:
       aria-hidden={back || undefined}
     >
       <span className="ins-card-bg">
-        <Image src={src} alt="" fill sizes="(max-width: 1023px) 90vw, 36vw" className="object-cover" />
+        <Image src={a.thumbnail ?? src} alt="" fill sizes="(max-width: 1023px) 90vw, 36vw" className="object-cover" />
       </span>
       <span className="ins-card-body">
         <span className="ins-card-meta tnum">
-          {a.category} · {a.date} · {readingTime(a)}분 읽기
+          {a.category} · {a.date} · {a.minutes}분 읽기
         </span>
         <span className="ins-card-title">{a.title}</span>
         {!back && <span className="ins-card-excerpt">{a.excerpt}</span>}
@@ -425,9 +425,10 @@ function InsightCard({ a, src, back = false }: { a: Article; src: string; back?:
   );
 }
 
-export function Insight() {
+export async function Insight() {
   const I = C.INSIGHT;
-  const [front, back, ...rest] = latestArticles();
+  // 공지사항은 메인 카드에 올리지 않습니다 — 칼럼 · 블로그만
+  const [front, back, ...rest] = (await getFeed()).filter((a) => a.board !== "NOTICE");
   const rows = rest.slice(0, 3);
 
   return (

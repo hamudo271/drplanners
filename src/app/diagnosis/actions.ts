@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { parseDiagnosisForm, type ContactState } from "@/lib/contact";
 import { sendDiagnosisEmail } from "@/lib/mailer";
+import { saveInquiry, markMailed } from "@/lib/cms/inquiries";
 import {
   guard,
   rateLimited,
@@ -54,7 +55,25 @@ export async function submitDiagnosis(
     return { status: "error", message: RATE_LIMITED, values };
   }
 
-  const result = await sendDiagnosisEmail(parsed.data);
+  const d = parsed.data;
+  const saved = await saveInquiry({
+    kind: "DIAGNOSIS",
+    clinic: d.clinic,
+    department: d.department,
+    name: d.name,
+    phone: d.phone,
+    email: d.email,
+    // "브랜드|대략적인 방향은 있다" → { q, a }
+    answers: d.answers.map((x) => {
+      const [q, ...a] = x.split("|");
+      return { q, a: a.join("|") };
+    }),
+  });
+
+  const result = await sendDiagnosisEmail(d);
+  await markMailed(saved, result.ok && !result.devMode);
+  // 메일이 실패해도 DB에 남았으면 접수된 것입니다 — 관리자 화면에서 확인
+  if (saved !== null) return { status: "success", message: SUCCESS };
   if (!result.ok) {
     return { status: "error", message: failureMessage(result.reason), values };
   }

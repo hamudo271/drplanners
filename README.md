@@ -45,3 +45,25 @@ About(철학·회사소개), FAQ 아코디언, 공지 목록은 성격이 달라
 4. `/sitemap-view` 제거 (또는 비공개 유지)
 
 레이아웃 구조와 라우팅은 그대로 두고 위 4가지만 바꾸면 됩니다.
+
+## 관리자 CMS (`/admin`)
+
+웹스랩 관리자와 같은 구성입니다. Prisma + Railway Postgres, 공용 비밀번호 로그인.
+
+| 메뉴 | 하는 일 |
+|---|---|
+| 대시보드 | 새 접수 · 이번 달 접수 · 발행 글 · 누적 조회수, 최근 접수, 많이 읽힌 글 |
+| 문의 · 진단 | `/contact` · `/diagnosis` 접수 전부 (메일 발송과 별개로 저장). 상태(새 접수/상담 중/완료) · 메모 |
+| 글 목록 · 새 글 쓰기 | 칼럼 · 블로그 · 공지사항. Tiptap 에디터, 이미지 업로드(DB 보관 → `/media/<id>`), 임시저장 자동 저장 |
+
+**Railway 설정** — 웹 서비스 → Variables
+
+- `DATABASE_URL` — Add Reference → Postgres → `DATABASE_URL`
+- `ADMIN_PASSWORD` — 관리자 비밀번호
+- `ADMIN_JWT_SECRET` — `openssl rand -base64 32` 결과
+
+배포 때 `scripts/start.sh` 가 `prisma migrate deploy` 로 테이블을 만듭니다.
+DB가 없거나 끊겨도 공개 사이트는 `src/content/articles.ts` 의 글로 그대로 동작합니다.
+관리자 → 글 목록의 "기존 글 7편 가져오기"를 한 번 누르면 그 뒤로는 DB가 정본입니다.
+
+스키마를 바꿀 때: `prisma/schema.prisma` 수정 → `npx prisma migrate dev --name <이름>` (로컬 Postgres 필요) → 커밋.

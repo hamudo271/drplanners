@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/config/site";
 import { NAV, NAV_CTA } from "@/config/nav";
-import { ARTICLES, articleDate, latestArticles } from "@/content/articles";
+import { getFeed, BOARDS, boardByPath, type FeedPost } from "@/lib/cms/posts";
 import {
   HUB_HERO,
   detailHero,
@@ -14,7 +14,7 @@ import {
 /**
  * 사이트맵 — 구글 서치 콘솔 · 네이버 서치어드바이저 제출용 (/sitemap.xml)
  *
- * nav.ts와 articles.ts에서 자동 생성됩니다. 메뉴나 글이 추가되면 별도 수정 없이 반영됩니다.
+ * nav.ts와 인사이트 글(관리자 DB, 없으면 articles.ts)에서 자동 생성됩니다. 메뉴나 글이 추가되면 별도 수정 없이 반영됩니다.
  *
  * - lastmod: 글은 실제 발행일, 글 목록은 그 목록의 최신 글 날짜, 나머지는 배포 시각.
  *   구글은 lastmod가 정확할 때만 신뢰하므로 글에는 배포 시각을 쓰지 않습니다.
@@ -22,13 +22,17 @@ import {
  * - priority·changefreq — 구글은 무시하지만 네이버는 참고하므로 남겨둡니다.
  */
 
-const abs = (path: string) => `${SITE.url}${path}`;
+const abs = (path: string) => (path.startsWith("http") ? path : `${SITE.url}${path}`);
 
-export default function sitemap(): MetadataRoute.Sitemap {
+/** 관리자에서 글을 발행하면 즉시 다시 만들고(revalidatePath), 그 외에는 한 시간마다 */
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const deployed = new Date();
-  const newest = (list?: Parameters<typeof latestArticles>[0]) => {
-    const top = latestArticles(list)[0];
-    return top ? articleDate(top) : deployed;
+  const posts = await getFeed();
+  const newest = (list?: string) => {
+    const top = list ? posts.find((p: FeedPost) => p.list === list) : posts[0];
+    return top ? top.publishedAt : deployed;
   };
 
   type Entry = MetadataRoute.Sitemap[number];
@@ -45,7 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(opts.image ? { images: [abs(opts.image)] } : {}),
   });
 
-  const insightLists = new Set<string>(["/insight/column", "/insight/blog"]);
+  const insightLists = new Set<string>(Object.values(BOARDS).map((b) => b.path));
 
   return [
     entry("/", 1, "weekly", { image: HOME.cta }),
@@ -65,7 +69,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         .map((c) =>
           insightLists.has(c.href)
             ? entry(c.href, 0.7, "weekly", {
-                lastModified: newest(c.href as Parameters<typeof latestArticles>[0]),
+                lastModified: newest(boardByPath(c.href) ? c.href : undefined),
               })
             : c.href.startsWith("/insight/")
               ? entry(c.href, 0.5, "monthly")
@@ -73,11 +77,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ),
     ),
 
-    // 실제 발행된 아티클 — 발행일이 곧 lastmod
-    ...ARTICLES.map((a) =>
-      entry(`${a.list}/${a.slug}`, 0.6, "yearly", {
-        lastModified: articleDate(a),
-        image: INSIGHT.articleHero,
+    // 발행된 글 — 발행일이 곧 lastmod (관리자에서 올린 글 포함)
+    ...posts.map((a) =>
+      entry(`${a.list}/${a.slug}`, a.board === "NOTICE" ? 0.4 : 0.6, "yearly", {
+        lastModified: a.publishedAt,
+        image: a.thumbnail ?? INSIGHT.articleHero,
       }),
     ),
 
