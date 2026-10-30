@@ -20,6 +20,8 @@ export async function saveInquiry(data: {
   interests?: string[];
   message?: string;
   answers?: { q: string; a: string }[];
+  /** 브라우저의 방문 번호 (Tracker) — 어느 채널로 들어왔는지 잇는 열쇠 */
+  visitId?: string | null;
 }): Promise<number | null> {
   if (!hasDb()) return null;
   try {
@@ -35,6 +37,7 @@ export async function saveInquiry(data: {
         interests: data.interests ?? [],
         message: data.message || null,
         ...(data.answers ? { answers: data.answers } : {}),
+        visitId: data.visitId && /^[a-z0-9]{8,40}$/i.test(data.visitId) ? data.visitId : null,
       },
       select: { id: true },
     });

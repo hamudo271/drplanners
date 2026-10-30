@@ -37,11 +37,14 @@ export function ContactForm() {
   // 제출 실패 시 에러 요약으로 포커스 이동
   useEffect(() => {
     if (state.status === "error") errorRef.current?.focus();
+    if (state.status === "success") window.drpTrack?.send("form", location.pathname);
   }, [state]);
 
   // 봇 판별용 경과시간을 붙여서 전송
   const action = (fd: FormData) => {
     fd.set("elapsed", mountedAt.current ? String(Date.now() - mountedAt.current) : "0");
+    // 방문 통계의 방문 번호 — 접수가 어느 채널에서 왔는지 관리자에서 보입니다
+    fd.set("v", window.drpTrack?.ids().sid ?? "");
     return formAction(fd);
   };
 

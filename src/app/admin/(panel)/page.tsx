@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma, hasDb } from "@/lib/cms/db";
 import { BOARDS } from "@/lib/cms/posts";
 import { INQUIRY_STATUS } from "@/lib/cms/validators";
+import { kstDayStart } from "@/lib/cms/stats";
 import { Card, PageTitle, Pill, Empty, PrimaryLink, fmt } from "@/components/admin/ui";
 
 /** 대시보드 — 새 문의, 이번 달 접수, 글 현황, 많이 읽힌 글 */
@@ -20,6 +21,8 @@ export default async function Dashboard() {
     prisma.post.count({ where: { status: "DRAFT" } }),
     prisma.post.aggregate({ _sum: { viewCount: true } }),
     prisma.inquiry.findMany({ orderBy: { createdAt: "desc" }, take: 6 }),
+    prisma.visit.count({ where: { startedAt: { gte: kstDayStart(0) } } }),
+    prisma.visit.count({ where: { startedAt: { gte: kstDayStart(6) } } }),
     prisma.post.findMany({
       where: { status: "PUBLISHED" },
       orderBy: { viewCount: "desc" },
@@ -40,12 +43,12 @@ export default async function Dashboard() {
     );
   }
 
-  const [newCount, monthCount, totalInquiries, published, drafts, views, recent, top] = data;
-  const tiles = [
+  const [newCount, monthCount, totalInquiries, published, drafts, views, recent, todayVisits, weekVisits, top] = data;
+  const tiles: { label: string; value: number; href: string; strong?: boolean; sub?: string }[] = [
     { label: "새 접수", value: newCount, href: "/admin/inquiries?status=NEW", strong: newCount > 0 },
     { label: "이번 달 접수", value: monthCount, href: "/admin/inquiries" },
-    { label: "발행된 글", value: published, href: "/admin/posts" },
-    { label: "누적 조회수", value: views?._sum.viewCount ?? 0, href: "/admin/posts" },
+    { label: "오늘 방문", value: todayVisits, href: "/admin/stats?d=7", sub: `최근 7일 ${weekVisits.toLocaleString()}` },
+    { label: "발행된 글", value: published, href: "/admin/posts", sub: `누적 조회 ${(views?._sum.viewCount ?? 0).toLocaleString()}` },
   ];
 
   return (
@@ -72,6 +75,7 @@ export default async function Dashboard() {
             <Card className={`p-5 transition hover:border-ink-900/30 ${t.strong ? "border-brass-500 bg-brass-400/10" : ""}`}>
               <p className="text-xs text-ink-500">{t.label}</p>
               <p className="mt-2 text-3xl font-light tabular-nums">{t.value.toLocaleString()}</p>
+              {t.sub && <p className="mt-1 text-xs text-ink-500">{t.sub}</p>}
             </Card>
           </Link>
         ))}

@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Reveal } from "@/components/layout/Reveal";
 import { Dock } from "@/components/layout/Dock";
 import { HideOnAdmin } from "@/components/layout/HideOnAdmin";
+import { Tracker } from "@/components/layout/Tracker";
 import { SITE } from "@/config/site";
 import { COMPANY, ADDRESS_LINE } from "@/config/company";
 import { RSS_ALTERNATE } from "@/lib/seo";
@@ -150,6 +151,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
         />
         <Reveal />
+        <Tracker />
         <HideOnAdmin>
           <a href="#main-content" className="skip-link">본문으로 바로가기</a>
           <Header />

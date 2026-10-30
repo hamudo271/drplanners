@@ -5,6 +5,7 @@ import { prisma } from "@/lib/cms/db";
 import { updateInquiry, deleteInquiry } from "@/app/admin/actions";
 import { INQUIRY_STATUS } from "@/lib/cms/validators";
 import { Card, PageTitle, Pill, fmt } from "@/components/admin/ui";
+import { getVisitPath } from "@/lib/cms/stats";
 import { ConfirmButton } from "@/components/admin/ConfirmButton";
 
 type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ saved?: string }> };
@@ -15,6 +16,7 @@ export default async function InquiryPage({ params, searchParams }: Props) {
   if (!Number.isInteger(id)) notFound();
   const r = await prisma.inquiry.findUnique({ where: { id } });
   if (!r) notFound();
+  const visit = await getVisitPath(r.visitId);
 
   const answers = Array.isArray(r.answers) ? (r.answers as { q: string; a: string }[]) : [];
   const rows: [string, React.ReactNode][] = [
@@ -51,6 +53,44 @@ export default async function InquiryPage({ params, searchParams }: Props) {
                 </div>
               ))}
             </dl>
+          </Card>
+
+          <Card>
+            <h2 className="border-b border-ink-900/10 px-5 py-4 text-sm font-medium">유입 경로</h2>
+            {visit ? (
+              <div className="px-5 py-4 text-sm">
+                <p>
+                  <span className="font-medium">{visit.channel}</span>
+                  <span className="text-ink-500"> ({visit.grp})</span>
+                  {visit.keyword && <span className="text-ink-500"> · 검색어 “{visit.keyword}”</span>}
+                  {visit.campaign && <span className="text-ink-500"> · 캠페인 {visit.campaign}</span>}
+                </p>
+                <p className="mt-1 text-xs text-ink-500">
+                  {visit.device} · {visit.browser} · {visit.earlierVisits > 0 ? `이전 방문 ${visit.earlierVisits}회` : "첫 방문"} · 이번 방문 {visit.pages}페이지
+                  {visit.refUrl && (
+                    <>
+                      {" · "}
+                      <a href={visit.refUrl} target="_blank" rel="noreferrer" className="underline underline-offset-2">
+                        들어온 주소
+                      </a>
+                    </>
+                  )}
+                </p>
+                {visit.pageTitles.length > 0 && (
+                  <ol className="mt-3 flex flex-wrap gap-1.5">
+                    {visit.pageTitles.map((p, i) => (
+                      <li key={i} className="rounded-full bg-cream-200 px-2.5 py-0.5 text-xs">
+                        {p.title}
+                      </li>
+                    ))}
+                  </ol>
+                )}
+              </div>
+            ) : (
+              <p className="px-5 py-4 text-sm text-ink-500">
+                방문 기록이 없습니다. 방문 통계를 넣기 전에 들어온 접수이거나, 브라우저가 신호를 막은 경우입니다.
+              </p>
+            )}
           </Card>
 
           {answers.length > 0 && (

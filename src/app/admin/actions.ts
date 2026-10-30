@@ -9,6 +9,7 @@ import { cleanHtml } from "@/lib/cms/sanitize";
 import { baseSlug } from "@/lib/cms/slug";
 import { STATIC_POSTS } from "@/lib/cms/posts";
 import { postInputSchema, type PostInput } from "@/lib/cms/validators";
+import { setSetting } from "@/lib/cms/settings";
 
 /** 공개 사이트 전체(메인 카드 · 인사이트 · 사이트맵 · RSS)를 새로 그리게 합니다 */
 function refreshSite() {
@@ -140,4 +141,14 @@ export async function deleteInquiry(formData: FormData) {
   await prisma.inquiry.delete({ where: { id } }).catch(() => {});
   revalidatePath("/admin", "layout");
   redirect("/admin/inquiries");
+}
+
+/** 통계에서 뺄 IP — "지금 이 IP 추가" 버튼은 add 값으로 들어옵니다 */
+export async function saveExcludedIps(formData: FormData) {
+  await requireAdmin();
+  const ips = new Set(String(formData.get("ips") ?? "").split(/[\s,]+/).filter(Boolean));
+  const add = String(formData.get("add") ?? "").trim();
+  if (add) ips.add(add);
+  await setSetting("exclude_ips", [...ips].slice(0, 50).join("\n"));
+  redirect("/admin/stats?saved=1");
 }

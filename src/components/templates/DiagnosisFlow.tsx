@@ -41,10 +41,13 @@ export function DiagnosisFlow() {
 
   useEffect(() => {
     if (state.status === "error") errorRef.current?.focus();
+    if (state.status === "success") window.drpTrack?.send("form", location.pathname);
   }, [state]);
 
   const action = (fd: FormData) => {
     fd.set("elapsed", mountedAt.current ? String(Date.now() - mountedAt.current) : "0");
+    // 방문 통계의 방문 번호 — 접수가 어느 채널에서 왔는지 관리자에서 보입니다
+    fd.set("v", window.drpTrack?.ids().sid ?? "");
     return formAction(fd);
   };
 

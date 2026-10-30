@@ -81,9 +81,62 @@ model Inquiry {
   answers    Json?
   /// 메일 발송 결과 — 실패했다면 관리자 화면에서 바로 보이게
   mailed     Boolean       @default(false)
+  /// 접수한 방문 — 어느 채널로 들어와 무엇을 보고 신청했는지
+  visitId    String?
   memo       String?
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 
   @@index([status, createdAt])
+  @@index([visitId])
+}
+
+/// 자체 방문 통계 — 한 번의 방문(30분 동안 다음 페이지가 없으면 끝). 이름 · 주소 · 쿠키 없음
+model Visit {
+  id        String   @id
+  /// 브라우저가 만든 임의 번호 — 재방문 구분용
+  visitor   String
+  startedAt DateTime @default(now())
+  lastAt    DateTime @default(now())
+  pages     Int      @default(1)
+  /// 처음 들어온 페이지
+  landing   String
+  /// 어디서 왔는지 — 주소의 호스트, 전체 주소
+  referrer  String?
+  refUrl    String?
+  /// 분류 — 검색 · 광고 · SNS … / 네이버 검색 · 인스타그램 …
+  grp       String
+  channel   String
+  source    String?
+  medium    String?
+  campaign  String?
+  keyword   String?
+  device    String
+  os        String?
+  browser   String?
+  isNew     Boolean  @default(true)
+  hits      Hit[]
+
+  @@index([startedAt])
+  @@index([visitor])
+}
+
+/// 방문 안의 행동 — 페이지 보기(pv) · 전화(tel) · 카카오(kakao) · 지도(map) · 바깥 링크(out) · 폼 제출(form)
+model Hit {
+  id      Int      @id @default(autoincrement())
+  visitId String
+  visit   Visit    @relation(fields: [visitId], references: [id], onDelete: Cascade)
+  kind    String
+  path    String
+  target  String?
+  at      DateTime @default(now())
+
+  @@index([visitId])
+  @@index([at, kind])
+}
+
+/// 관리자 설정 — 통계에서 뺄 IP 등
+model Setting {
+  key   String @id
+  value String
 }

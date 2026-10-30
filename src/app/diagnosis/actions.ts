@@ -63,6 +63,7 @@ export async function submitDiagnosis(
     name: d.name,
     phone: d.phone,
     email: d.email,
+    visitId: String(formData.get("v") ?? ""),
     // "브랜드|대략적인 방향은 있다" → { q, a }
     answers: d.answers.map((x) => {
       const [q, ...a] = x.split("|");

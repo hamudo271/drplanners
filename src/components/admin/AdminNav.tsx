@@ -8,6 +8,7 @@ const NAV = [
   { href: "/admin/inquiries", label: "문의 · 진단" },
   { href: "/admin/posts", label: "글 목록" },
   { href: "/admin/posts/new", label: "새 글 쓰기", exact: true },
+  { href: "/admin/stats", label: "방문 통계" },
 ];
 
 /** 관리자 상단 바 — 로고 · 메뉴 · 사이트 보기 · 로그아웃 */
