@@ -56,9 +56,11 @@ function MoreButton({ href, label, text = "VIEW MORE" }: { href: string; label: 
   return (
     <Link href={href} className="more-btn" aria-label={label}>
       <span>{text}</span>
-      <svg width="7" height="8" viewBox="0 0 7 8" fill="currentColor" aria-hidden="true">
-        <path d="M7 4 0 8V0z" />
-      </svg>
+      <span className="more-btn-arrow" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 12h16M14 6l6 6-6 6" />
+        </svg>
+      </span>
     </Link>
   );
 }
@@ -103,12 +105,13 @@ export function Fit() {
               className="object-cover"
             />
             <figcaption className="fit-photo-note">
+              <span className="fit-photo-en">{A.photoNoteEn}</span>
+              <span className="fit-photo-rule" aria-hidden="true" />
               <span className="fit-photo-ko">
                 {A.photoNote.map((l) => (
                   <span key={l}>{l}</span>
                 ))}
               </span>
-              <span className="fit-photo-en">{A.photoNoteEn}</span>
             </figcaption>
           </figure>
 
@@ -135,11 +138,14 @@ export function Fit() {
           <p className="exclude-label">{A.excludeLabel}</p>
           <ul className="exclude-list">
             {A.exclude.map((e) => (
-              <li key={e}>
-                <span className="exclude-mark" aria-hidden="true">
-                  ✕
+              <li key={e.cond}>
+                <svg className="exclude-mark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
+                  <path d="m6 6 12 12M18 6 6 18" />
+                </svg>
+                <span className="exclude-text">
+                  <span className="exclude-cond">{e.cond}</span>
+                  {e.why && <span className="exclude-why">{e.why}</span>}
                 </span>
-                <span className="prose-ko">{e}</span>
               </li>
             ))}
           </ul>
@@ -257,7 +263,11 @@ export function Solutions() {
                 <p className="sol-tag">{card.tag}</p>
                 <h3 className="sol-title">{card.title}</h3>
                 <p className="sol-blurb">{card.blurb}</p>
-                <p className="sol-items">{card.items.join(" · ")}</p>
+                <ul className="sol-items">
+                  {card.items.map((it) => (
+                    <li key={it}>{it}</li>
+                  ))}
+                </ul>
                 <MoreButton href={card.href} label={`${card.tag} 자세히 보기`} />
               </div>
               <div className="sol-media" data-reveal="wipe">
