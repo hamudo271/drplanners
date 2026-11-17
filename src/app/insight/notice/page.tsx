@@ -39,7 +39,6 @@ export default async function Page() {
                   <Link href={`/insight/notice/${n.slug}`} className="ins-row">
                     <span className="ins-row-head">
                       <span className="ins-no tnum">{String(notices.length - i).padStart(2, "0")}</span>
-                      <span className="ins-slash" aria-hidden="true" />
                       <span className="ins-row-title">{n.title}</span>
                     </span>
                     <span className="ins-row-meta tnum">{n.date}</span>

@@ -372,21 +372,17 @@ export function Evidence() {
           ))}
         </p>
 
-        <ul className="prm-list">
+        <ul className="prm-grid">
           {E.promises.map((p, i) => (
             <li
               key={p.v}
-              className="prm-row"
+              className="prm-cell"
               data-reveal
               style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties}
             >
-              <span className="prm-icon tnum" aria-hidden="true">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <p className="prm-title">
-                <strong>{p.v}</strong> {p.k}
-              </p>
-              <p className="prm-text">{p.d}</p>
+              <p className="prm-value tnum">{p.v}</p>
+              <p className="prm-key">{p.k}</p>
+              <p className="prm-detail">{p.d}</p>
             </li>
           ))}
         </ul>
@@ -412,24 +408,27 @@ export function Evidence() {
 
 /* ══ 인사이트 — 더가든 '컴포트 케어' 판 ═══════════════════
    왼쪽은 크림 바탕에 제목과 글 목록(흰 상자 줄), 오른쪽은 옅은 판 위에
-   포개진 카드 두 장. 가장 최근 두 편이 카드, 그다음 세 편이 목록입니다. */
-function InsightCard({ a, src, back = false }: { a: FeedPost; src: string; back?: boolean }) {
+   오른쪽 반을 채우는 사진 한 장. 가장 최근 글이 사진, 그다음 세 편이 목록입니다. */
+function InsightCard({ a, src }: { a: FeedPost; src: string }) {
   return (
-    <Link
-      href={`${a.list}/${a.slug}`}
-      className={`ins-card ${back ? "is-back" : "is-front"}`}
-      tabIndex={back ? -1 : undefined}
-      aria-hidden={back || undefined}
-    >
+    <Link href={`${a.list}/${a.slug}`} className="ins-card">
       <span className="ins-card-bg">
-        <Image src={a.thumbnail ?? src} alt="" fill sizes="(max-width: 1023px) 90vw, 36vw" className="object-cover" />
+        <Image src={a.thumbnail ?? src} alt="" fill sizes="(max-width: 1023px) 100vw, 48vw" className="object-cover" />
       </span>
       <span className="ins-card-body">
         <span className="ins-card-meta tnum">
           {a.category} · {a.date} · {a.minutes}분 읽기
         </span>
         <span className="ins-card-title">{a.title}</span>
-        {!back && <span className="ins-card-excerpt">{a.excerpt}</span>}
+        <span className="ins-card-rule" aria-hidden="true" />
+        <span className="ins-card-foot">
+          <span className="ins-card-excerpt">{a.excerpt}</span>
+          <span className="more-btn-arrow" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 12h16M14 6l6 6-6 6" />
+            </svg>
+          </span>
+        </span>
       </span>
     </Link>
   );
@@ -438,7 +437,7 @@ function InsightCard({ a, src, back = false }: { a: FeedPost; src: string; back?
 export async function Insight() {
   const I = C.INSIGHT;
   // 공지사항은 메인 카드에 올리지 않습니다 — 칼럼 · 블로그만
-  const [front, back, ...rest] = (await getFeed()).filter((a) => a.board !== "NOTICE");
+  const [front, ...rest] = (await getFeed()).filter((a) => a.board !== "NOTICE");
   const rows = rest.slice(0, 3);
 
   return (
@@ -467,7 +466,6 @@ export async function Insight() {
                 <Link href={`${a.list}/${a.slug}`} className="ins-row">
                   <span className="ins-row-head">
                     <span className="ins-no tnum">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="ins-slash" aria-hidden="true" />
                     <span className="ins-row-title">{a.title}</span>
                   </span>
                   <span className="ins-row-meta tnum">
@@ -484,10 +482,7 @@ export async function Insight() {
         </div>
 
         <div className="ins-right">
-          <div className="ins-stack" data-reveal>
-            {back && <InsightCard a={back} src={HOME.insight[1]} back />}
-            {front && <InsightCard a={front} src={HOME.insight[0]} />}
-          </div>
+          {front && <InsightCard a={front} src={HOME.insight[0]} />}
         </div>
       </div>
     </section>

@@ -73,7 +73,6 @@ export default async function Page() {
               <Link href={`${a.list}/${a.slug}`} className="ins-row">
                 <span className="ins-row-head">
                   <span className="ins-no tnum">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="ins-slash" aria-hidden="true" />
                   <span className="ins-row-title">{a.title}</span>
                 </span>
                 <span className="ins-row-meta tnum">
