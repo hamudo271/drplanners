@@ -409,28 +409,29 @@ export function Evidence() {
   );
 }
 
-/* ══ 인사이트 — 더가든 '컴포트 케어' 판 ═══════════════════
-   왼쪽은 크림 바탕에 제목과 글 목록(흰 상자 줄), 오른쪽은 옅은 판 위에
-   오른쪽 반을 채우는 사진 한 장. 가장 최근 글이 사진, 그다음 세 편이 목록입니다. */
+/* ══ 인사이트 ═════════════════════════════════════════
+   왼쪽은 크림 바탕에 제목과 글 목록, 오른쪽은 짙은 판 위에 가장 최근 글 한 편.
+   글 썸네일에는 대개 글자가 박혀 있어서 배경으로 깔지 않고, 16:9 액자로 온전히 보여줍니다. */
 function InsightCard({ a, src }: { a: FeedPost; src: string }) {
   return (
     <Link href={`${a.list}/${a.slug}`} className="ins-card">
-      <span className="ins-card-bg">
-        <Image src={a.thumbnail ?? src} alt="" fill sizes="(max-width: 1023px) 100vw, 48vw" className="object-cover" />
-      </span>
-      <span className="ins-card-body">
+      <span className="ins-card-head">
+        <span className="ins-card-kicker">( Latest )</span>
         <span className="ins-card-meta tnum">
           {a.category} · {a.date} · {a.minutes}분 읽기
         </span>
-        <span className="ins-card-title">{a.title}</span>
-        <span className="ins-card-rule" aria-hidden="true" />
-        <span className="ins-card-foot">
-          <span className="ins-card-excerpt">{a.excerpt}</span>
-          <span className="more-btn-arrow" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 12h16M14 6l6 6-6 6" />
-            </svg>
-          </span>
+      </span>
+      <span className="ins-card-plate">
+        <Image src={a.thumbnail ?? src} alt="" fill sizes="(max-width: 1023px) 100vw, 44vw" className="object-cover" />
+      </span>
+      <span className="ins-card-title">{a.title}</span>
+      <span className="ins-card-excerpt">{a.excerpt}</span>
+      <span className="ins-card-foot">
+        <span className="ins-card-cta">읽어보기</span>
+        <span className="more-btn-arrow" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 12h16M14 6l6 6-6 6" />
+          </svg>
         </span>
       </span>
     </Link>
