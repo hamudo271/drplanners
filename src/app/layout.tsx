@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Jost, Cormorant_Garamond, Noto_Sans_KR } from "next/font/google";
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
