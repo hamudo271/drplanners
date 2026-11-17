@@ -135,13 +135,16 @@ export function Fit() {
 
         {/* 거르는 장치 — "월 4곳만"이 진짜가 되려면 안 받는 경우도 밝혀야 합니다 */}
         <div className="exclude-block" data-reveal>
+          <Image src="/brand/mark-light.png" alt="" width={161} height={340} className="exclude-deco" aria-hidden="true" />
           <p className="exclude-label">{A.excludeLabel}</p>
           <ul className="exclude-list">
             {A.exclude.map((e) => (
               <li key={e.cond}>
-                <svg className="exclude-mark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
-                  <path d="m6 6 12 12M18 6 6 18" />
-                </svg>
+                <span className="exclude-mark" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                    <path d="m6 6 12 12M18 6 6 18" />
+                  </svg>
+                </span>
                 <span className="exclude-text">
                   <span className="exclude-cond">{e.cond}</span>
                   {e.why && <span className="exclude-why">{e.why}</span>}

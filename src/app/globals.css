@@ -417,19 +417,29 @@ details[open] summary .label:last-child { transform: rotate(45deg); }
 
 /* ── 02 대상 확인 안의 "맞지 않는 경우" ─────────────────
    맞는 조건 바로 아래에 붙여, 읽는 사람이 스스로 걸러내게 합니다. */
-.exclude-block { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; margin-top: 56px; padding-top: 34px; border-top: 1px solid var(--color-ink-900); }
-.exclude-label { font-size: clamp(1.5rem, 2.3vw, 2.125rem); font-weight: 500; line-height: 1.32; letter-spacing: -.035em; word-break: keep-all; color: var(--color-ink-900); }
-.exclude-list > li { display: flex; gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--hair); }
-.exclude-list > li:first-child { padding-top: 6px; }
-.exclude-mark { flex-shrink: 0; margin-top: 4px; color: var(--color-brass-600); }
-.exclude-text { display: flex; flex-direction: column; gap: 5px; word-break: keep-all; }
-.exclude-cond { font-size: 1.125rem; font-weight: 400; line-height: 1.5; letter-spacing: -.03em; color: var(--color-ink-900); }
-.exclude-why { font-size: 14.5px; line-height: 1.65; letter-spacing: -.02em; color: var(--color-ink-500); }
+/* 맞는 조건(크림) 바로 아래, 맞지 않는 조건은 짙은 판으로 뒤집어 한 번에 갈리게 합니다 */
+.exclude-block { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; margin-top: 56px; padding: clamp(40px, 5.2vw, 80px); background: var(--color-forest-800); color: #fff; }
+.exclude-deco { position: absolute; z-index: -1; left: clamp(40px, 5.2vw, 80px); bottom: -64px; width: auto; height: 300px; opacity: .06; pointer-events: none; }
+.exclude-label { font-size: clamp(1.5rem, 2.3vw, 2.125rem); font-weight: 500; line-height: 1.36; letter-spacing: -.035em; word-break: keep-all; text-wrap: balance; color: #fff; }
+.exclude-label::after { content: ""; display: block; width: 44px; height: 1px; margin-top: 26px; background: var(--color-brass-400); }
+.exclude-list > li { display: flex; gap: 18px; padding: 24px 0; border-bottom: 1px solid rgb(255 255 255 / 12%); }
+.exclude-list > li:first-child { padding-top: 4px; }
+.exclude-list > li:last-child { padding-bottom: 0; border-bottom: 0; }
+.exclude-mark { flex-shrink: 0; display: grid; place-items: center; width: 30px; height: 30px; margin-top: -1px; border: 1px solid rgb(201 185 157 / 55%); border-radius: 50%; color: var(--color-brass-400); }
+.exclude-text { display: flex; flex-direction: column; gap: 6px; word-break: keep-all; }
+.exclude-cond { font-size: 1.125rem; font-weight: 400; line-height: 1.55; letter-spacing: -.03em; color: #fff; }
+.exclude-why { font-size: 15px; line-height: 1.7; letter-spacing: -.02em; color: rgb(255 255 255 / 66%); }
 @media (max-width: 1023px) {
-  .exclude-block { grid-template-columns: 1fr; gap: 24px; margin-top: 40px; padding-top: 26px; }
-  .exclude-list > li { padding: 18px 0; }
+  .exclude-block { grid-template-columns: 1fr; gap: 32px; margin-top: 40px; }
+  .exclude-deco { left: auto; right: 24px; bottom: -40px; height: 200px; }
+  .exclude-list > li { gap: 14px; padding: 20px 0; }
   .exclude-cond { font-size: 1rem; }
   .exclude-why { font-size: 14px; }
+}
+@media (max-width: 767px) {
+  .exclude-block { padding: 34px 22px 36px; }
+  .exclude-label::after { margin-top: 20px; }
+  .exclude-mark { width: 26px; height: 26px; }
 }
 
 /* ═══════════════════════════════════════════════════════════
